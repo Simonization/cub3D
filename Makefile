@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+         #
+#    By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/04/10 18:59:40 by agoldber         ###   ########.fr        #
+#    Updated: 2025/04/10 23:45:28 by agoldber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ COLOR_END		=	\033[0m
 
 #SOURCES
 
-FILES			=	main draw_ray move hooks init
+FILES			=	main draw_ray draw_ray_utils move hooks init
 FILES_BONUS		=	main_bonus draw_ray_bonus move_bonus hooks_bonus init_bonus minimap_bonus
 
 SRCS			=	${addprefix ${SRCS_DIR}, ${addsuffix .c, ${FILES}}}

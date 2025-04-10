@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/10 18:53:57 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/10 22:32:32 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define P_SIZE 10
 # define FOV (PI / 3)
 # define PROJECTION ((WIDTH / 2) / tan(FOV / 2))
+# define SPEED 10
 
 # include "libft.h"
 # include <mlx.h>

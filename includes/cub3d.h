@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:44:12 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/10 17:36:27 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/10 23:45:16 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@
 # define LEFT 65361
 # define RIGHT 65363
 # define BLOCK_SIZE 64
-# define PI 3.14159265359
+# define PI 3.14159265359f
 # define P_SIZE 10
-# define FOV (PI / 3)
-# define PROJECTION ((WIDTH / 2) / tan(FOV / 2))
+# define FOV (PI / 3.0f)
+# define PROJECTION ((WIDTH / 2) / tan(FOV / 2.0f))
+# define SPEED 5
 
 # include "libft.h"
 # include <mlx.h>
@@ -115,6 +116,8 @@ typedef struct s_data
 void	put_pixel(t_img *img, int x, int y, int color);
 void	move_player(t_player *player, t_map map);
 void	draw_ray(t_data *game);
+float	distance(t_player player, t_ray r);
+int		touch(float x, float y, t_map map);
 //INIT
 t_map	get_map(void);
 void	windows_init(t_mlx *mlx, t_data *game);
