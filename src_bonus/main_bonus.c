@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/10 17:12:35 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:54:36 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 void	put_pixel(t_img *img, int x, int y, int color)
 {
@@ -25,13 +25,13 @@ void	put_pixel(t_img *img, int x, int y, int color)
 int	draw_game(t_data *game)
 {
 	/*pour la minimap, ajouter :
-	// draw_map(game->map.map, &game->mlx.img);
-	// draw_player(game->player.co, &game->mlx.img);
 	draw_direction(&game->player, &game->mlx.img, game->map.map);*/
 	if (game->mlx.img.addr)
-		ft_bzero(game->mlx.img.addr, HEIGHT * game->mlx.img.size_line);
+	ft_bzero(game->mlx.img.addr, HEIGHT * game->mlx.img.size_line);
 	move_player(&game->player, game->map);
 	draw_ray(game);
+	draw_map(game->map.map, &game->mlx.img);
+	draw_player(game->player.co, &game->mlx.img);
 	mlx_put_image_to_window(game->mlx.mlx, game->mlx.win,
 		game->mlx.img.img, 0, 0);
 	return (0);
