@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/10 22:32:32 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:36:05 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@
 # define DOWN 65364
 # define LEFT 65361
 # define RIGHT 65363
+# define SHIFT 65505
 # define BLOCK_SIZE 64
-# define PI 3.14159265359
+# define PI 3.14159265359f
 # define P_SIZE 10
-# define FOV (PI / 3)
-# define PROJECTION ((WIDTH / 2) / tan(FOV / 2))
-# define SPEED 10
+# define FOV (PI / 3.0f)
+# define PROJECTION ((WIDTH / 2) / tan(FOV / 2.0f))
 
 # include "libft.h"
 # include <mlx.h>
@@ -91,6 +91,7 @@ typedef	struct s_player
 	bool	left;
 	bool	rotate_left;
 	bool	rotate_right;
+	bool	run;
 }	t_player;
 
 typedef struct s_map
@@ -116,6 +117,8 @@ typedef struct s_data
 void	put_pixel(t_img *img, int x, int y, int color);
 void	move_player(t_player *player, t_map map);
 void	draw_ray(t_data *game);
+float	distance(t_player player, t_ray r);
+int		touch(float x, float y, t_map map);
 //INIT
 t_map	get_map(void);
 void	windows_init(t_mlx *mlx, t_data *game);

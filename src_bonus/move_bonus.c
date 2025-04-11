@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:49:19 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/10 18:43:23 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:32:17 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,48 +25,62 @@ int	is_wall(float x, float y, t_map map)
 	return (map.map[y_map][x_map] == '1');
 }
 
-void	move_direction(t_player *player, t_map map, int speed, float angle)
+void	move_direction(t_player *player, t_map map, float dx, float dy)
 {
-	float	cos_a;
-	float	sin_a;
+	float	len;
 	float	new_x;
 	float	new_y;
-
-	cos_a = cos(angle);
-	sin_a = sin(angle);
-	new_x = (player->co.x + cos_a * (speed + P_SIZE));
-	new_y = (player->co.y - sin_a * (speed + P_SIZE));
-	if (!is_wall(new_x, player->co.y, map))
-		player->co.x = player->co.x + cos_a * (speed + P_SIZE - 2);
-	if (!is_wall(player->co.x, new_y, map))
-		player->co.y = player->co.y - sin_a * (speed + P_SIZE - 2);
-}
-
-void	move_player(t_player *player, t_map map)
-{
 	int		speed;
-	float	rotation_speed;
 
 	speed = 5;
-	rotation_speed = 0.1;
-	if (player->rotate_left)
-		player->angle += rotation_speed;
-	if (player->rotate_right)
-		player->angle -= rotation_speed;
-	if (player->angle > 2 * PI)
-		player->angle = 0;
-	if (player->angle < 0)
-		player->angle = 2 * PI;
-	// if (player->up && player->down)
-		// return ;
-	// if (player->left && player->right)
-		// 	return ;
-	if (player->up)
-		move_direction(player, map, speed, player->angle);
-	if (player->down)
-		move_direction(player, map, speed, player->angle - PI);
-	if (player->right)
-		move_direction(player, map, speed, player->angle - PI / 2);
-	if (player->left)
-		move_direction(player, map, speed, player->angle + PI / 2);
+	if (player->run)
+		speed = 10;
+	len = sqrt(dx * dx + dy * dy);
+	if (len > 0.001f)
+	{
+		dx = dx / len * speed;
+		dy = dy / len * speed;
+	}
+	else
+		return ;
+	new_x = player->co.x + dx;
+	new_y = player->co.y + dy;
+	if (!is_wall(new_x, player->co.y, map))
+		player->co.x = new_x;
+	if (!is_wall(player->co.x, new_y, map))
+		player->co.y = new_y;
+}
+
+void	change_d(float *dx, float *dy, float cos_a, float sin_a)
+{
+	*dx += cos_a;
+	*dy -= sin_a;
+}
+
+void	move_player(t_player *p, t_map map)
+{
+	float	rotation_speed;
+	float	dx;
+	float	dy;
+
+	rotation_speed = 0.1f;
+	if (p->rotate_left)
+		p->angle += rotation_speed;
+	if (p->rotate_right)
+		p->angle -= rotation_speed;
+	if (p->angle > 2.0f * PI)
+		p->angle = 0.0f;
+	if (p->angle < 0.0f)
+		p->angle = 2.0f * PI;
+	dx = 0.0f;
+	dy = 0.0f;
+	if (p->up)
+		change_d(&dx, &dy, cosf(p->angle), sinf(p->angle));
+	if (p->down)
+		change_d(&dx, &dy, -(cosf(p->angle)), -(sinf(p->angle)));
+	if (p->right)
+		change_d(&dx, &dy, cosf(p->angle - PI / 2), sinf(p->angle - PI / 2));
+	if (p->left)
+		change_d(&dx, &dy, cosf(p->angle + PI / 2), sinf(p->angle + PI / 2));
+	move_direction(p, map, dx, dy);
 }

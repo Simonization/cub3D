@@ -6,7 +6,7 @@
 #    By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/04/10 23:45:28 by agoldber         ###   ########.fr        #
+#    Updated: 2025/04/11 16:20:23 by agoldber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ COLOR_END		=	\033[0m
 #SOURCES
 
 FILES			=	main draw_ray draw_ray_utils move hooks init
-FILES_BONUS		=	main_bonus draw_ray_bonus move_bonus hooks_bonus init_bonus minimap_bonus
+FILES_BONUS		=	main_bonus draw_ray_bonus draw_ray_utils_bonus move_bonus hooks_bonus init_bonus minimap_bonus
 
 SRCS			=	${addprefix ${SRCS_DIR}, ${addsuffix .c, ${FILES}}}
 SRCS_BONUS		=	${addprefix ${SRCS_BONUS_DIR}, ${addsuffix .c, ${FILES_BONUS}}}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:50:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/10 18:43:31 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:31:51 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int	pressed_key(int keycode, t_data *game)
 		game->player.rotate_left = true;
 	else if (keycode == RIGHT)
 		game->player.rotate_right = true;
+	else if (keycode == SHIFT)
+		game->player.run = true;
 	return (0);
 }
 
@@ -74,5 +76,7 @@ int	released_key(int keycode, t_data *game)
 		game->player.rotate_left = false;
 	else if (keycode == RIGHT)
 		game->player.rotate_right = false;
+	else if (keycode == SHIFT)
+		game->player.run = false;
 	return (0);
 }
