@@ -6,7 +6,7 @@
 #    By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/04/11 16:20:23 by agoldber         ###   ########.fr        #
+#    Updated: 2025/04/11 16:50:06 by agoldber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -121,4 +121,6 @@ ${OBJS_BONUS_DIR}%.o : ${SRCS_BONUS_DIR}%.c | ${OBJSF_BONUS}
 ${OBJSF_BONUS}:
 			@mkdir -p ${OBJS_BONUS_DIR}
 
-.PHONY:	all clean fclean re check bonus
+re_bonus : fclean bonus
+
+.PHONY:	all clean fclean re check bonus re_bonus

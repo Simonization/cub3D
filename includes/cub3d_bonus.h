@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/11 16:36:05 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/11 20:35:55 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # define P_SIZE 10
 # define FOV (PI / 3.0f)
 # define PROJECTION ((WIDTH / 2) / tan(FOV / 2.0f))
+# define X_CENTER WIDTH / 2
+# define Y_CENTER HEIGHT / 2
 
 # include "libft.h"
 # include <mlx.h>
@@ -106,10 +108,18 @@ typedef struct s_map
 	char	*ea_path;
 }	t_map;
 
+typedef struct s_flag
+{
+	int		head_offset;
+	bool	head_up;
+	bool	head_down;
+}	t_flag;
+
 typedef struct s_data
 {
 	t_mlx		mlx;
 	t_player	player;
+	t_flag		flag;
 	t_ray		ray;
 	t_map		map;
 }	t_data;
@@ -123,6 +133,7 @@ int		touch(float x, float y, t_map map);
 t_map	get_map(void);
 void	windows_init(t_mlx *mlx, t_data *game);
 void	player_init(t_player *player);
+void	init_flag(t_flag *flag);
 //HOOKS
 int		released_key(int keycode, t_data *game);
 int		pressed_key(int keycode, t_data *game);

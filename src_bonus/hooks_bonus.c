@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:50:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/11 16:31:51 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/11 18:08:45 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ int	pressed_key(int keycode, t_data *game)
 		game->player.rotate_right = true;
 	else if (keycode == SHIFT)
 		game->player.run = true;
+	else if (keycode == UP)
+		game->flag.head_up = true;
+	else if (keycode == DOWN)
+		game->flag.head_down = true;
 	return (0);
 }
 
@@ -78,5 +82,9 @@ int	released_key(int keycode, t_data *game)
 		game->player.rotate_right = false;
 	else if (keycode == SHIFT)
 		game->player.run = false;
+	else if (keycode == UP)
+		game->flag.head_up = false;
+	else if (keycode == DOWN)
+		game->flag.head_down = false;
 	return (0);
 }

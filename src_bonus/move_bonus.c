@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:49:19 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/11 16:32:17 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/11 18:23:09 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ void	move_player(t_player *p, t_map map)
 	float	dx;
 	float	dy;
 
-	rotation_speed = 0.1f;
+	rotation_speed = 0.05f;
+	if (p->run)
+		rotation_speed += 0.02f;
 	if (p->rotate_left)
 		p->angle += rotation_speed;
 	if (p->rotate_right)

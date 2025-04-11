@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:53:03 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/11 16:36:00 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:59:20 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,11 @@ void	player_init(t_player *player)
 	player->rotate_left = false;
 	player->rotate_right = false;
 	player->run = false;
+}
+
+void	init_flag(t_flag *flag)
+{
+	flag->head_offset = 0;
+	flag->head_up = false;
+	flag->head_down = false;
 }
