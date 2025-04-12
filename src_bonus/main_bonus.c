@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/12 19:32:00 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 00:11:40 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,12 @@ void	head_offset(t_flag *f, t_player *player)
 
 int	draw_game(t_data *game)
 {
-	/*pour la minimap, ajouter :
-	draw_direction(&game->player, &game->mlx.img, game->map.map);*/
 	if (game->mlx.img.addr)
 		ft_bzero(game->mlx.img.addr, HEIGHT * game->mlx.img.size_line);
 	move_player(&game->player, game->map);
 	head_offset(&game->flag, &game->player);
 	draw_ray(game);
 	draw_minimap(game);
-	// draw_player(game->player.co, &game->mlx.img);
 	mlx_put_image_to_window(game->mlx.mlx, game->mlx.win,
 		game->mlx.img.img, 0, 0);
 	return (0);

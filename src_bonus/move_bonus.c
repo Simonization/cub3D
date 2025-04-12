@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:49:19 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/11 18:23:09 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 00:08:33 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,16 @@ void	change_d(float *dx, float *dy, float cos_a, float sin_a)
 
 void	move_player(t_player *p, t_map map)
 {
-	float	rotation_speed;
 	float	dx;
 	float	dy;
 
-	rotation_speed = 0.05f;
+	dx = 0.05f;
 	if (p->run)
-		rotation_speed += 0.02f;
+		dx += 0.03f;
 	if (p->rotate_left)
-		p->angle += rotation_speed;
+		p->angle += dx;
 	if (p->rotate_right)
-		p->angle -= rotation_speed;
+		p->angle -= dx;
 	if (p->angle > 2.0f * PI)
 		p->angle = 0.0f;
 	if (p->angle < 0.0f)
