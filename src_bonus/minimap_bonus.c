@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:09:40 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/10 19:00:24 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/12 23:58:06 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,64 +40,58 @@ void	draw_square(t_coord co, int size, bool full, t_img *img)
 	}
 }
 
-void	draw_player(t_coord co, t_img *img)
+void	draw_player(t_coord co, t_data *game)
 {
-	co.x -= P_SIZE / 2;
-	co.y -= P_SIZE / 2;
-	draw_square(co, P_SIZE, true, img);
+	(void)co;
+	t_coord	new_co;
+
+	new_co.x = MINIMAP_CENTER;
+	new_co.y = new_co.x;
+	new_co.color = 0x00000000;
+	draw_square(new_co, TILES_SIZE, true, &game->mlx.img);
 }
 
-void	draw_map(char **map, t_img *img)
+void	draw_map(char **map, t_data *game, t_coord limit)
 {
 	t_coord	co;
 	t_coord	co2;
 
-	co2.color = 0x00FA00FA;
 	co.y = 0;
+	co2.color = 0x00AAAADD;
 	while (map[co.y])
 	{
 		co.x = 0;
-		co2.y = co.y * 10;
-		while (map[co.y][co.x])
+		co2.y = ((co.y - (game->player.co.y / BLOCK_SIZE))
+			* TILES_SIZE) + MINIMAP_CENTER;
+		if (co2.y >= limit.x && co2.y < limit.y)
 		{
-			co2.x = co.x * 10;
-			if (map[co.y][co.x] == '1')
-				draw_square(co2, 10, false, img);
-			co.x++;
+			while (map[co.y][co.x])
+			{
+				co2.x = ((co.x - (game->player.co.x / BLOCK_SIZE))
+					* TILES_SIZE) + MINIMAP_CENTER;
+				if (co2.x >= limit.x && co2.x < limit.y
+						&& map[co.y][co.x] == '1')
+				draw_square(co2, TILES_SIZE, true, &game->mlx.img);
+				co.x++;
+			}
 		}
 		co.y++;
 	}
 }
 
-// void	draw_direction(t_player *player, t_img *img, char **map)
-// {
-// 	int i = 0;
-// 	int max_len = 100;
-// 	int x;
-// 	int	y;
+void	draw_minimap(t_data *game)
+{
+	t_coord	co;
 
-// 	(void)map;
-// 	while (i < max_len)
-// 	{
-// 		x = (player->co.x + 5) + cos(player->angle) * i;
-// 		y = (player->co.y + 5) - sin(player->angle) * i;
-// 		put_pixel(img, x, y, 0x00FF0000);
-// 		i++;
-// 	}
-// 	i = 0;
-// 	while (i < max_len)
-// 	{
-// 		x = (player->co.x + 5) + cos(player->angle - PI / 2) * i;
-// 		y = (player->co.y + 5) - sin(player->angle - PI / 2) * i;
-// 		put_pixel(img, x, y, 0x000000FF);
-// 		i++;
-// 	}
-// 	i = 0;
-// 	while (i < max_len)
-// 	{
-// 		x = (player->co.x + 5) + cos(player->angle + PI / 2) * i;
-// 		y = (player->co.y + 5) - sin(player->angle + PI / 2) * i;
-// 		put_pixel(img, x, y, 0x0000FF00);
-// 		i++;
-// 	}
-// }
+	co.x = 10;
+	co.y = 10;
+	co.color = 0x00000000;
+	draw_square(co, MINIMAP_SIZE, true, &game->mlx.img);
+	co.x += 10;
+	co.y += 10;
+	co.color = 0x00FFFFFF;
+	draw_square(co, MINIMAP_SIZE - 20, true, &game->mlx.img);
+	co.y += (MINIMAP_SIZE - 30);
+	draw_map(game->map.map, game, co);
+	draw_player(co, game);
+}

@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/11 20:35:55 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/12 23:57:18 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@
 # define PROJECTION ((WIDTH / 2) / tan(FOV / 2.0f))
 # define X_CENTER WIDTH / 2
 # define Y_CENTER HEIGHT / 2
+# define MINIMAP_SIZE 160
+# define TILES_SIZE 15
+# define MINIMAP_RADIUS (MINIMAP_SIZE / (2 * TILES_SIZE))
+# define MINIMAP_CENTER (MINIMAP_SIZE + (TILES_SIZE / 2)) / 2
 
 # include "libft.h"
 # include <mlx.h>
@@ -139,6 +143,7 @@ int		released_key(int keycode, t_data *game);
 int		pressed_key(int keycode, t_data *game);
 int		ft_close(t_data *game);
 //MINIMAP
-void	draw_map(char **map, t_img *img);
-void	draw_player(t_coord co, t_img *img);
+// void	draw_map(char **map, t_img *img);
+// void	draw_player(t_coord co, t_img *img);
+void	draw_minimap(t_data *game);
 #endif
