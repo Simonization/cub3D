@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 04:31:38 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 16:22:44 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ typedef struct s_flag
 	int		head_offset;
 	bool	head_up;
 	bool	head_down;
+	float	bobbing;
+	float	bob_steps;
 	float	jump_offset;
 	float	jump_time;
 	bool	jump;
@@ -130,6 +132,10 @@ typedef struct s_trigo
 {
 	float	cos_a;
 	float	sin_a;
+	float	cos_r;
+	float	sin_r;
+	float	cos_l;
+	float	sin_l;
 }	t_trigo;
 
 typedef struct s_data
@@ -142,8 +148,7 @@ typedef struct s_data
 	t_map		map;
 }	t_data;
 
-void	put_pixel(t_img *img, int x, int y, int color);
-void	move_player(t_data *g);
+//DRAW RAY
 void	draw_ray(t_data *game);
 float	distance(t_player player, t_ray r);
 int		touch(float x, float y, t_map map);
@@ -156,9 +161,17 @@ void	init_utils(t_data *game);
 int		released_key(int keycode, t_data *game);
 int		pressed_key(int keycode, t_data *game);
 int		ft_close(t_data *game);
+int		mouse(int x, int y, t_data *game);
+//MOVEMENT
+void	move_player(t_data *g);
+void	delta(float *dx, float *dy, float cos_a, float sin_a);
+void	offset(t_flag *f, t_player *player);
+void	bobbing(t_data *game);
 //MINIMAP
 void	draw_minimap(t_data *game);
 void	draw_square(t_coord co, int size, bool full, t_img *img);
 void	part_triangle(int x, int y, t_img *img);
 void	draw_triangle_side(t_trigo a, t_trigo perp, t_img *img);
+//UTILS
+void	put_pixel(t_img *img, int x, int y, int color);
 #endif

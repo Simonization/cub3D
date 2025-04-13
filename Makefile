@@ -6,7 +6,7 @@
 #    By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/04/13 02:54:03 by agoldber         ###   ########.fr        #
+#    Updated: 2025/04/13 16:28:43 by agoldber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ INCLUDES		=	includes
 MLX_DIR			=	includes/minilibx-linux
 SRCS_DIR 		=	src/
 DRAW_RAY_DIR	=	draw_ray/
+MOVE_DIR		=	movement/
 MINIMAP_DIR		=	minimap/
 SRCS_BONUS_DIR	=	src_bonus/
 OBJS_DIR		=	obj/
@@ -48,13 +49,15 @@ COLOR_END		=	\033[0m
 DRAW_RAY_FILES	=	draw_ray draw_ray_utils
 RAY_BONUS_FILES	=	draw_ray_bonus draw_ray_utils_bonus
 MINIMAP_FILES	=	minimap_bonus minimap_shape_bonus
+MOVE_FILES		=	move_bonus vision_bonus
 
 DRAW_RAY		=	${addprefix ${DRAW_RAY_DIR}, ${DRAW_RAY_FILES}}
 DRAW_RAY_BONUS	=	${addprefix ${DRAW_RAY_DIR}, ${RAY_BONUS_FILES}}
 MINIMAP			=	${addprefix ${MINIMAP_DIR}, ${MINIMAP_FILES}}
+MOVE			=	${addprefix ${MOVE_DIR}, ${MOVE_FILES}}
 
 FILES			=	main move hooks init ${DRAW_RAY}
-FILES_BONUS		=	main_bonus move_bonus hooks_bonus init_bonus ${DRAW_RAY_BONUS} ${MINIMAP}
+FILES_BONUS		=	main_bonus hooks_bonus init_bonus utils_bonus ${DRAW_RAY_BONUS} ${MOVE} ${MINIMAP}
 
 SRCS			=	${addprefix ${SRCS_DIR}, ${addsuffix .c, ${FILES}}}
 SRCS_BONUS		=	${addprefix ${SRCS_BONUS_DIR}, ${addsuffix .c, ${FILES_BONUS}}}

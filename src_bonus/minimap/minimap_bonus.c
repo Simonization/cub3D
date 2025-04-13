@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:09:40 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 03:34:31 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 16:26:45 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void	draw_player(t_data *game)
 {
 	t_trigo	perp;
 
-	perp.cos_a = cosf(game->p.angle - PI / 2);
-	perp.sin_a = sinf(game->p.angle - PI / 2);
+	perp.cos_a = game->trigo.cos_l;
+	perp.sin_a = game->trigo.sin_l;
 	draw_triangle_side(game->trigo, perp, &game->mlx.img);
-	perp.cos_a = cosf(game->p.angle + PI / 2);
-	perp.sin_a = sinf(game->p.angle + PI / 2);
+	perp.cos_a = game->trigo.cos_r;
+	perp.sin_a = game->trigo.sin_r;
 	draw_triangle_side(game->trigo, perp, &game->mlx.img);
 }
 
@@ -85,7 +85,6 @@ void	draw_circle(t_img *img, int c, int r, int color)
 	}
 }
 
-
 void	draw_minimap(t_data *game)
 {
 	t_coord	co;
@@ -96,14 +95,16 @@ void	draw_minimap(t_data *game)
 	if (game->flag.map == 1)
 		draw_square(co, MINIMAP_SIZE, true, &game->mlx.img);
 	else
-		draw_circle(&game->mlx.img, MINIMAP_CENTER + 5, MINIMAP_RADIUS + 5, co.color);
+		draw_circle(&game->mlx.img, MINIMAP_CENTER + 5,
+			MINIMAP_RADIUS + 5, co.color);
 	co.x += 10;
 	co.y += 10;
 	co.color = 0x00FFFFFF;
 	if (game->flag.map == 1)
 		draw_square(co, MINIMAP_SIZE - 20, true, &game->mlx.img);
 	else
-		draw_circle(&game->mlx.img, MINIMAP_CENTER + 5, MINIMAP_RADIUS - 5, co.color);
+		draw_circle(&game->mlx.img, MINIMAP_CENTER + 5,
+			MINIMAP_RADIUS - 5, co.color);
 	co.y += (MINIMAP_SIZE - 30);
 	draw_map(game->map.map, game, co);
 	draw_player(game);

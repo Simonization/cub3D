@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:46:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 04:16:36 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 16:26:09 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	draw_walls(t_data *g, float wall_distance)
 	g->ray.wall_height = (BLOCK_SIZE / wall_distance) * PROJECTION;
 	if (g->ray.wall_height > HEIGHT * 5)
 		g->ray.wall_height = HEIGHT * 5;
-	start = HEIGHT - g->ray.wall_height / (2 + g->flag.jump_offset) - (360 - g->flag.head_offset);
+	start = HEIGHT - g->ray.wall_height / (2 + g->flag.jump_offset)
+		- (360 - g->flag.head_offset);
 	end = start + g->ray.wall_height;
 	while (i++ <= start)
 		put_pixel(&g->mlx.img, g->ray.column, i, g->map.ceiling_color);

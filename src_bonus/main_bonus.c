@@ -6,80 +6,24 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 04:29:17 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 16:21:41 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
-
-void	put_pixel(t_img *img, int x, int y, int color)
-{
-	char	*dst;
-
-	if (x > WIDTH || y > HEIGHT || x < 0 || y < 0)
-		return ;
-	dst = img->addr + (y * img->size_line + x * (img->bpp / 8));
-	*(unsigned int *)dst = color;
-}
-
-void	head_offset(t_flag *f, t_player *player)
-{
-	if (f->head_up && !player->run)
-		f->head_offset += 10;
-	if (f->head_up && player->run)
-		f->head_offset += 15;
-	if (f->head_down && !player->run)
-		f->head_offset -= 10;
-	if (f->head_down && player->run)
-		f->head_offset -= 15;
-	if (f->head_offset > 360)
-		f->head_offset = 360;
-	if (f->head_offset < -360)
-		f->head_offset = -360;
-	if (f->jump)
-	{
-		f->jump_time += 0.1f;
-		f->jump_offset = sinf(f->jump_time) * 5.0f;
-		if (f->jump_time >= PI)
-		{
-			f->jump_offset = 0.0f;
-			f->jump_time = 0.0f;
-			f->jump = false;
-		}
-	}
-}
 
 int	draw_game(t_data *game)
 {
 	if (game->mlx.img.addr)
 		ft_bzero(game->mlx.img.addr, HEIGHT * game->mlx.img.size_line);
 	move_player(game);
-	head_offset(&game->flag, &game->p);
+	offset(&game->flag, &game->p);
+	bobbing(game);
 	draw_ray(game);
 	if (game->flag.map != 0)
 		draw_minimap(game);
 	mlx_put_image_to_window(game->mlx.mlx, game->mlx.win,
 		game->mlx.img.img, 0, 0);
-	return (0);
-}
-
-int	mouse(int x, int y, t_data *game)
-{
-	int	delta_x;
-	int	delta_y;
-
-	delta_x = x - X_CENTER;
-	if (delta_x != 0)
-	{
-		game->p.angle -= delta_x * 0.002f;
-		mlx_mouse_move(game->mlx.mlx, game->mlx.win, X_CENTER, Y_CENTER);
-	}
-	delta_y = y - Y_CENTER;
-	if (delta_y != 0)
-	{
-		game->flag.head_offset -= delta_y;
-		mlx_mouse_move(game->mlx.mlx, game->mlx.win, X_CENTER, Y_CENTER);
-	}
 	return (0);
 }
 

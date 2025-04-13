@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:49:19 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 02:34:06 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 16:18:36 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,41 +20,53 @@ int	is_wall(float x, float y, t_map *map)
 	x_map = x / BLOCK_SIZE;
 	y_map = y / BLOCK_SIZE;
 	if (y_map < 0 || !map->map[y_map] || x_map < 0
-		|| x_map > map->line_len[y_map] || !map->map[y_map][x_map])
+		|| x_map >= map->line_len[y_map] || !map->map[y_map][x_map])
 		return (1);
 	return (map->map[y_map][x_map] == '1');
+}
+
+void	move_buffer(t_player *p, t_map *map, float dx, float dy)
+{
+	int	buffer;
+	int	new_x;
+	int	new_y;
+
+	new_x = p->co.x + dx;
+	new_y = p->co.y + dy;
+	if (dx != 0.0f)
+	{
+		if (dx > 0)
+			buffer = 2;
+		else
+			buffer = -2;
+		if (!is_wall(new_x + buffer, p->co.y, map))
+			p->co.x = new_x;
+	}
+	if (dy != 0.0f)
+	{
+		if (dy > 0)
+			buffer = 2;
+		else
+			buffer = -2;
+		if (!is_wall(p->co.x, new_y + buffer, map))
+			p->co.y = new_y;
+	}
 }
 
 void	move_direction(t_player *player, t_map *map, float dx, float dy)
 {
 	float	len;
-	float	new_x;
-	float	new_y;
 	int		speed;
 
 	speed = 5;
 	if (player->run)
 		speed = 10;
 	len = sqrt(dx * dx + dy * dy);
-	if (len > 0.001f)
-	{
-		dx = dx / len * speed;
-		dy = dy / len * speed;
-	}
-	else
+	if (len < 0.001f)
 		return ;
-	new_x = player->co.x + dx;
-	new_y = player->co.y + dy;
-	if (!is_wall(new_x, player->co.y, map))
-		player->co.x = new_x;
-	if (!is_wall(player->co.x, new_y, map))
-		player->co.y = new_y;
-}
-
-void	delta(float *dx, float *dy, float cos_a, float sin_a)
-{
-	*dx += cos_a;
-	*dy -= sin_a;
+	dx = dx / len * speed;
+	dy = dy / len * speed;
+	move_buffer(player, map, dx, dy);
 }
 
 void	rotation(t_data *g)
@@ -74,6 +86,10 @@ void	rotation(t_data *g)
 		g->p.angle = 2.0f * PI;
 	g->trigo.cos_a = cosf(g->p.angle);
 	g->trigo.sin_a = sinf(g->p.angle);
+	g->trigo.cos_r = cosf(g->p.angle + PI / 2);
+	g->trigo.sin_r = sinf(g->p.angle + PI / 2);
+	g->trigo.cos_l = cosf(g->p.angle - PI / 2);
+	g->trigo.sin_l = sinf(g->p.angle - PI / 2);
 }
 
 void	move_player(t_data *g)
@@ -89,8 +105,8 @@ void	move_player(t_data *g)
 	if (g->p.down)
 		delta(&dx, &dy, -g->trigo.cos_a, -(g->trigo.sin_a));
 	if (g->p.right)
-		delta(&dx, &dy, cosf(g->p.angle - PI / 2), sinf(g->p.angle - PI / 2));
+		delta(&dx, &dy, g->trigo.cos_l, g->trigo.sin_l);
 	if (g->p.left)
-		delta(&dx, &dy, cosf(g->p.angle + PI / 2), sinf(g->p.angle + PI / 2));
+		delta(&dx, &dy, g->trigo.cos_r, g->trigo.sin_r);
 	move_direction(&g->p, &g->map, dx, dy);
 }
