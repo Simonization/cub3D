@@ -6,52 +6,50 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:46:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 16:26:09 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/14 01:51:35 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-int	get_texture(int y, t_img texture, int top, t_ray ray)
+int	get_texture(t_img texture, int t_height, t_ray ray)
 {
 	int		t_x;
-	float	t_y_ratio;
 	int		t_y;
 	char	*px;
 
 	if (ray.v_hit)
-		t_x = ((int)ray.x % BLOCK_SIZE) * texture.width / BLOCK_SIZE;
+		t_x = ((int)ray.x % BLOCK_SIZE) * texture.steps;
 	else
-		t_x = ((int)ray.y % BLOCK_SIZE) * texture.width / BLOCK_SIZE;
+		t_x = ((int)ray.y % BLOCK_SIZE) * texture.steps;
 	if (t_x < 0)
 		t_x = 0;
 	else if (t_x >= texture.width)
 		t_x = texture.width - 1;
-	t_y_ratio = (y - top) / (float)ray.wall_height;
-	t_y = t_y_ratio * texture.height;
+	t_y = t_height / (int)ray.wall_height;
 	if (t_y < 0)
 		t_y = 0;
 	else if (t_y >= texture.height)
 		t_y = texture.height - 1;
-	px = texture.addr + (t_y * texture.size_line + t_x * (texture.bpp / 8));
+	px = texture.addr + (t_y * texture.size_line + t_x * texture.bpp_8);
 	return (*(unsigned int *)px);
 }
 
-int	orientation(t_data *g, int y, int top)
+int	orientation(t_data *g, int height)
 {
 	if (g->ray.v_hit)
 	{
 		if (g->ray.sin_a > 0.0f)
-			return (get_texture(y, g->mlx.no, top, g->ray));
+			return (get_texture(g->mlx.no, height * g->mlx.no.height, g->ray));
 		else
-			return (get_texture(y, g->mlx.so, top, g->ray));
+			return (get_texture(g->mlx.so, height * g->mlx.so.height, g->ray));
 	}
 	else
 	{
 		if (g->ray.cos_a > 0.0f)
-			return (get_texture(y, g->mlx.ea, top, g->ray));
+			return (get_texture(g->mlx.ea, height * g->mlx.ea.height, g->ray));
 		else
-			return (get_texture(y, g->mlx.we, top, g->ray));
+			return (get_texture(g->mlx.we, height * g->mlx.we.height, g->ray));
 	}
 }
 
@@ -72,15 +70,18 @@ void	draw_walls(t_data *g, float wall_distance)
 		put_pixel(&g->mlx.img, g->ray.column, i, g->map.ceiling_color);
 	i = start;
 	while (start++ < end)
-		put_pixel(&g->mlx.img, g->ray.column, start, orientation(g, start, i));
+		put_pixel(&g->mlx.img, g->ray.column, start, orientation(g, start - i));
 	while (start++ < HEIGHT)
 		put_pixel(&g->mlx.img, g->ray.column, start, g->map.floor_color);
 }
 
 void	slice_of_wall(t_data *g, int i)
 {
+	float	disto;
+
 	g->ray.cos_a = cosf(g->ray.a);
 	g->ray.sin_a = sinf(g->ray.a);
+	disto = cosf(g->ray.a - g->p.angle);
 	g->ray.x = g->p.co.x;
 	g->ray.y = g->p.co.y;
 	while (1)
@@ -95,21 +96,21 @@ void	slice_of_wall(t_data *g, int i)
 			if (touch(g->ray.old_x, g->ray.y, g->map)
 				&& !touch(g->ray.x, g->ray.old_y, g->map))
 				g->ray.v_hit = true;
-			draw_walls(g, distance(g->p, g->ray));
+			draw_walls(g, distance(g->p, g->ray, disto));
 			return ;
 		}
-		i++;
+		i += 2;
 	}
 }
 
 void	draw_ray(t_data *g)
 {
-	g->ray.a = g->p.angle + (FOV / 2.0f);
+	g->ray.a = g->p.angle + FOV_2;
 	g->ray.column = 0;
-	while (g->ray.a >= g->p.angle - (FOV / 2.0f))
+	while (g->ray.a >= g->p.angle - FOV_2)
 	{
 		slice_of_wall(g, 0);
-		g->ray.a -= (FOV / (WIDTH - 10));
+		g->ray.a -= RAY_STEPS;
 		g->ray.column++;
 	}
 }

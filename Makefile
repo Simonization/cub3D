@@ -6,7 +6,7 @@
 #    By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/04/13 16:28:43 by agoldber         ###   ########.fr        #
+#    Updated: 2025/04/14 01:39:38 by agoldber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRCS_BONUS_DIR	=	src_bonus/
 OBJS_DIR		=	obj/
 OBJS_BONUS_DIR	=	obj_bonus/
 CC				=	cc
-C_FLAGS			=	-g -Ofast -Wall -Werror -Wextra -I${INCLUDES} -I${MLX_DIR}
+C_FLAGS			=	-Wall -Werror -Wextra -I${INCLUDES} -I${MLX_DIR}
 LIBFT			=	libft.a
 MLX_LIB			=	-lmlx_Linux -L${MLX_DIR} -I${MLX_DIR} -lXext -lX11 -lm -lz
 RM				=	rm -rf

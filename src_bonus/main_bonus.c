@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 16:21:41 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/14 01:52:16 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,27 @@ int	draw_game(t_data *game)
 		draw_minimap(game);
 	mlx_put_image_to_window(game->mlx.mlx, game->mlx.win,
 		game->mlx.img.img, 0, 0);
+//nombre d'fps
+	struct timeval now;
+	gettimeofday(&now, NULL);
+	
+	float delta = (now.tv_sec - game->last_time.tv_sec)
+		+ (now.tv_usec - game->last_time.tv_usec) / 1000000.0f;
+	
+	if (delta > 0.0f)
+		game->fps = 1.0f / delta;
+	
+	game->last_time = now;
+	
+	float since_last_print = (now.tv_sec - game->last_fps_print.tv_sec)
+		+ (now.tv_usec - game->last_fps_print.tv_usec) / 1000000.0f;
+	
+	if (since_last_print >= 0.2f)
+	{
+		printf("FPS: %.2f\n", game->fps);
+		game->last_fps_print = now;
+	}		
+
 	return (0);
 }
 

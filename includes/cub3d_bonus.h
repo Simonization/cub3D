@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 16:22:44 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/14 00:38:02 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # define PI 3.14159265359f
 # define P_SIZE 10
 # define FOV (PI / 3.0f)
+# define FOV_2 (FOV / 2.0f)
+# define RAY_STEPS (FOV / WIDTH)
 # define PROJECTION ((WIDTH / 2) / tan(FOV / 2.0f))
 # define X_CENTER WIDTH / 2
 # define Y_CENTER HEIGHT / 2
@@ -47,14 +49,17 @@
 # include <stdio.h>
 # include <math.h>
 # include <stdbool.h>
+# include <sys/time.h>
 
 typedef struct s_img {
 	void	*img;
 	char	*addr;
 	int		bpp;
+	int		bpp_8;
 	int		size_line;
 	int		endian;
 	int		width;
+	float	steps;
 	int		height;
 }	t_img;
 
@@ -146,11 +151,14 @@ typedef struct s_data
 	t_flag		flag;
 	t_ray		ray;
 	t_map		map;
+	struct timeval last_time;
+	struct timeval last_fps_print;
+	float fps;
 }	t_data;
 
 //DRAW RAY
 void	draw_ray(t_data *game);
-float	distance(t_player player, t_ray r);
+float	distance(t_player player, t_ray r, float disto);
 int		touch(float x, float y, t_map map);
 //INIT
 t_map	get_map(void);
