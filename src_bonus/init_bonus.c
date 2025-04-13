@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:53:03 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 03:17:13 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 04:32:02 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ void	init_utils(t_data *game)
 	game->flag.head_offset = 0;
 	game->flag.head_up = false;
 	game->flag.head_down = false;
+	game->flag.jump_offset = 0.0f;
+	game->flag.jump = false;
 	game->flag.map = 1;
 	game->trigo.cos_a = cosf(game->p.angle);
 	game->trigo.sin_a = sinf(game->p.angle);

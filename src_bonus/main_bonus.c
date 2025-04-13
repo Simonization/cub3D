@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 03:17:38 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 04:29:17 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,17 @@ void	head_offset(t_flag *f, t_player *player)
 		f->head_offset = 360;
 	if (f->head_offset < -360)
 		f->head_offset = -360;
+	if (f->jump)
+	{
+		f->jump_time += 0.1f;
+		f->jump_offset = sinf(f->jump_time) * 5.0f;
+		if (f->jump_time >= PI)
+		{
+			f->jump_offset = 0.0f;
+			f->jump_time = 0.0f;
+			f->jump = false;
+		}
+	}
 }
 
 int	draw_game(t_data *game)

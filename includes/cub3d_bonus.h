@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 03:18:44 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 04:31:38 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define S 115
 # define D 100
 # define P 112
+# define SPACE 32
 # define UP 65362
 # define DOWN 65364
 # define LEFT 65361
@@ -119,6 +120,9 @@ typedef struct s_flag
 	int		head_offset;
 	bool	head_up;
 	bool	head_down;
+	float	jump_offset;
+	float	jump_time;
+	bool	jump;
 	int		map;
 }	t_flag;
 

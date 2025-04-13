@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:50:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 03:19:38 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 04:27:45 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ int	pressed_key(int keycode, t_data *game)
 		game->flag.map++;
 		if (game->flag.map > 2)
 			game->flag.map = 0;
+	}
+	if (keycode == SPACE && !game->flag.jump && game->flag.jump_offset == 0.0f)
+	{
+		game->flag.jump = true;
+		game->flag.jump_time = 0.0f;
 	}
 	return (0);
 }
