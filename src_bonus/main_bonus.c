@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 02:28:31 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 03:17:38 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	draw_game(t_data *game)
 	move_player(game);
 	head_offset(&game->flag, &game->p);
 	draw_ray(game);
-	draw_minimap(game);
+	if (game->flag.map != 0)
+		draw_minimap(game);
 	mlx_put_image_to_window(game->mlx.mlx, game->mlx.win,
 		game->mlx.img.img, 0, 0);
 	return (0);

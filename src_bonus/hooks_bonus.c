@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:50:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 02:20:28 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 03:19:38 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,12 @@ int	pressed_key(int keycode, t_data *game)
 		game->flag.head_up = true;
 	else if (keycode == DOWN)
 		game->flag.head_down = true;
+	else if (keycode == P)
+	{
+		game->flag.map++;
+		if (game->flag.map > 2)
+			game->flag.map = 0;
+	}
 	return (0);
 }
 

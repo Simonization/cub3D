@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 02:47:29 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 03:18:44 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define A 97
 # define S 115
 # define D 100
+# define P 112
 # define UP 65362
 # define DOWN 65364
 # define LEFT 65361
@@ -34,7 +35,7 @@
 # define Y_CENTER HEIGHT / 2
 # define MINIMAP_SIZE 160
 # define TILES_SIZE 15
-# define MINIMAP_RADIUS (MINIMAP_SIZE / (2 * TILES_SIZE))
+# define MINIMAP_RADIUS ((MINIMAP_SIZE + 10) / 2) - 1
 # define MINIMAP_CENTER (MINIMAP_SIZE + (TILES_SIZE / 2)) / 2
 # define MINIMAP_PLAYER MINIMAP_CENTER + (TILES_SIZE / 2)
 
@@ -118,6 +119,7 @@ typedef struct s_flag
 	int		head_offset;
 	bool	head_up;
 	bool	head_down;
+	int		map;
 }	t_flag;
 
 typedef struct s_trigo
