@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/12 23:57:18 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 02:47:29 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define TILES_SIZE 15
 # define MINIMAP_RADIUS (MINIMAP_SIZE / (2 * TILES_SIZE))
 # define MINIMAP_CENTER (MINIMAP_SIZE + (TILES_SIZE / 2)) / 2
+# define MINIMAP_PLAYER MINIMAP_CENTER + (TILES_SIZE / 2)
 
 # include "libft.h"
 # include <mlx.h>
@@ -119,17 +120,24 @@ typedef struct s_flag
 	bool	head_down;
 }	t_flag;
 
+typedef struct s_trigo
+{
+	float	cos_a;
+	float	sin_a;
+}	t_trigo;
+
 typedef struct s_data
 {
 	t_mlx		mlx;
-	t_player	player;
+	t_player	p;
+	t_trigo		trigo;
 	t_flag		flag;
 	t_ray		ray;
 	t_map		map;
 }	t_data;
 
 void	put_pixel(t_img *img, int x, int y, int color);
-void	move_player(t_player *player, t_map map);
+void	move_player(t_data *g);
 void	draw_ray(t_data *game);
 float	distance(t_player player, t_ray r);
 int		touch(float x, float y, t_map map);
@@ -137,13 +145,14 @@ int		touch(float x, float y, t_map map);
 t_map	get_map(void);
 void	windows_init(t_mlx *mlx, t_data *game);
 void	player_init(t_player *player);
-void	init_flag(t_flag *flag);
+void	init_utils(t_data *game);
 //HOOKS
 int		released_key(int keycode, t_data *game);
 int		pressed_key(int keycode, t_data *game);
 int		ft_close(t_data *game);
 //MINIMAP
-// void	draw_map(char **map, t_img *img);
-// void	draw_player(t_coord co, t_img *img);
 void	draw_minimap(t_data *game);
+void	draw_square(t_coord co, int size, bool full, t_img *img);
+void	part_triangle(int x, int y, t_img *img);
+void	draw_triangle_side(t_trigo a, t_trigo perp, t_img *img);
 #endif

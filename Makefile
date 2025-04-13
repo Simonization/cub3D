@@ -6,7 +6,7 @@
 #    By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/04/11 16:50:06 by agoldber         ###   ########.fr        #
+#    Updated: 2025/04/13 02:54:03 by agoldber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ NAME_BONUS		=	cub3d_bonus
 INCLUDES		=	includes
 MLX_DIR			=	includes/minilibx-linux
 SRCS_DIR 		=	src/
+DRAW_RAY_DIR	=	draw_ray/
+MINIMAP_DIR		=	minimap/
 SRCS_BONUS_DIR	=	src_bonus/
 OBJS_DIR		=	obj/
 OBJS_BONUS_DIR	=	obj_bonus/
@@ -43,9 +45,16 @@ PASTEL_BLUE		=	\033[38;5;111m
 COLOR_END		=	\033[0m
 
 #SOURCES
+DRAW_RAY_FILES	=	draw_ray draw_ray_utils
+RAY_BONUS_FILES	=	draw_ray_bonus draw_ray_utils_bonus
+MINIMAP_FILES	=	minimap_bonus minimap_shape_bonus
 
-FILES			=	main draw_ray draw_ray_utils move hooks init
-FILES_BONUS		=	main_bonus draw_ray_bonus draw_ray_utils_bonus move_bonus hooks_bonus init_bonus minimap_bonus
+DRAW_RAY		=	${addprefix ${DRAW_RAY_DIR}, ${DRAW_RAY_FILES}}
+DRAW_RAY_BONUS	=	${addprefix ${DRAW_RAY_DIR}, ${RAY_BONUS_FILES}}
+MINIMAP			=	${addprefix ${MINIMAP_DIR}, ${MINIMAP_FILES}}
+
+FILES			=	main move hooks init ${DRAW_RAY}
+FILES_BONUS		=	main_bonus move_bonus hooks_bonus init_bonus ${DRAW_RAY_BONUS} ${MINIMAP}
 
 SRCS			=	${addprefix ${SRCS_DIR}, ${addsuffix .c, ${FILES}}}
 SRCS_BONUS		=	${addprefix ${SRCS_BONUS_DIR}, ${addsuffix .c, ${FILES_BONUS}}}

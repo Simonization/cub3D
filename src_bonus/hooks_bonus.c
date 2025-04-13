@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:50:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/11 18:08:45 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 02:20:28 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,19 @@ int	pressed_key(int keycode, t_data *game)
 	if (keycode == ESC)
 		ft_close(game);
 	else if (keycode == A)
-		game->player.left = true;
+		game->p.left = true;
 	else if (keycode == W)
-		game->player.up = true;
+		game->p.up = true;
 	else if (keycode == S)
-		game->player.down = true;
+		game->p.down = true;
 	else if (keycode == D)
-		game->player.right = true;
+		game->p.right = true;
 	else if (keycode == LEFT)
-		game->player.rotate_left = true;
+		game->p.rotate_left = true;
 	else if (keycode == RIGHT)
-		game->player.rotate_right = true;
+		game->p.rotate_right = true;
 	else if (keycode == SHIFT)
-		game->player.run = true;
+		game->p.run = true;
 	else if (keycode == UP)
 		game->flag.head_up = true;
 	else if (keycode == DOWN)
@@ -69,19 +69,19 @@ int	pressed_key(int keycode, t_data *game)
 int	released_key(int keycode, t_data *game)
 {
 	if (keycode == A)
-		game->player.left = false;
+		game->p.left = false;
 	else if (keycode == W)
-		game->player.up = false;
+		game->p.up = false;
 	else if (keycode == S)
-		game->player.down = false;
+		game->p.down = false;
 	else if (keycode == D)
-		game->player.right = false;
+		game->p.right = false;
 	else if (keycode == LEFT)
-		game->player.rotate_left = false;
+		game->p.rotate_left = false;
 	else if (keycode == RIGHT)
-		game->player.rotate_right = false;
+		game->p.rotate_right = false;
 	else if (keycode == SHIFT)
-		game->player.run = false;
+		game->p.run = false;
 	else if (keycode == UP)
 		game->flag.head_up = false;
 	else if (keycode == DOWN)

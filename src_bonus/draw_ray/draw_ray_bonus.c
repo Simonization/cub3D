@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:46:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/11 20:40:54 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 02:20:50 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,21 +80,21 @@ void	slice_of_wall(t_data *g, int i)
 {
 	g->ray.cos_a = cosf(g->ray.a);
 	g->ray.sin_a = sinf(g->ray.a);
-	g->ray.x = g->player.co.x;
-	g->ray.y = g->player.co.y;
+	g->ray.x = g->p.co.x;
+	g->ray.y = g->p.co.y;
 	while (1)
 	{
 		g->ray.v_hit = false;
 		g->ray.old_x = g->ray.x;
 		g->ray.old_y = g->ray.y;
-		g->ray.x = (g->player.co.x) + g->ray.cos_a * i;
-		g->ray.y = (g->player.co.y) - g->ray.sin_a * i;
+		g->ray.x = (g->p.co.x) + g->ray.cos_a * i;
+		g->ray.y = (g->p.co.y) - g->ray.sin_a * i;
 		if (touch(g->ray.x, g->ray.y, g->map))
 		{
 			if (touch(g->ray.old_x, g->ray.y, g->map)
 				&& !touch(g->ray.x, g->ray.old_y, g->map))
 				g->ray.v_hit = true;
-			draw_walls(g, distance(g->player, g->ray));
+			draw_walls(g, distance(g->p, g->ray));
 			return ;
 		}
 		i++;
@@ -103,9 +103,9 @@ void	slice_of_wall(t_data *g, int i)
 
 void	draw_ray(t_data *g)
 {
-	g->ray.a = g->player.angle + (FOV / 2.0f);
+	g->ray.a = g->p.angle + (FOV / 2.0f);
 	g->ray.column = 0;
-	while (g->ray.a >= g->player.angle - (FOV / 2.0f))
+	while (g->ray.a >= g->p.angle - (FOV / 2.0f))
 	{
 		slice_of_wall(g, 0);
 		g->ray.a -= (FOV / (WIDTH - 10));

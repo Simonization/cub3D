@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 00:11:40 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 02:28:31 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int	draw_game(t_data *game)
 {
 	if (game->mlx.img.addr)
 		ft_bzero(game->mlx.img.addr, HEIGHT * game->mlx.img.size_line);
-	move_player(&game->player, game->map);
-	head_offset(&game->flag, &game->player);
+	move_player(game);
+	head_offset(&game->flag, &game->p);
 	draw_ray(game);
 	draw_minimap(game);
 	mlx_put_image_to_window(game->mlx.mlx, game->mlx.win,
@@ -59,7 +59,7 @@ int	mouse(int x, int y, t_data *game)
 	delta_x = x - X_CENTER;
 	if (delta_x != 0)
 	{
-		game->player.angle -= delta_x * 0.002f;
+		game->p.angle -= delta_x * 0.002f;
 		mlx_mouse_move(game->mlx.mlx, game->mlx.win, X_CENTER, Y_CENTER);
 	}
 	delta_y = y - Y_CENTER;
@@ -77,8 +77,8 @@ int	main(void)
 
 	game.map = get_map();
 	windows_init(&game.mlx, &game);
-	player_init(&game.player);
-	init_flag(&game.flag);
+	player_init(&game.p);
+	init_utils(&game);
 	mlx_hook(game.mlx.win, 2, 1L << 0, pressed_key, &game);
 	mlx_hook(game.mlx.win, 3, 1L << 1, released_key, &game);
 	mlx_hook(game.mlx.win, 17, 0, ft_close, &game);

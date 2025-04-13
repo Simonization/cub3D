@@ -6,48 +6,22 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:09:40 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 00:11:48 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 02:55:36 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-void	draw_square(t_coord co, int size, bool full, t_img *img)
-{
-	int	size_y;
-	int	size_x;
-	int	x_origin;
-	int	y_origin;
-
-	x_origin = co.x;
-	y_origin = co.y;
-	size_y = size;
-	while (size_y)
-	{
-		co.x = x_origin;
-		size_x = size;
-		while (size_x)
-		{
-			if (full
-				|| co.x == x_origin || co.x == x_origin + size - 1
-				|| co.y == y_origin || co.y == y_origin + size - 1)
-				put_pixel(img, co.x, co.y, co.color);
-			co.x++;
-			size_x--;
-		}
-		co.y++;
-		size_y--;
-	}
-}
-
 void	draw_player(t_data *game)
 {
-	t_coord	new_co;
+	t_trigo	perp;
 
-	new_co.x = MINIMAP_CENTER;
-	new_co.y = new_co.x;
-	new_co.color = 0x00000000;
-	draw_square(new_co, TILES_SIZE, true, &game->mlx.img);
+	perp.cos_a = cosf(game->p.angle - PI / 2);
+	perp.sin_a = sinf(game->p.angle - PI / 2);
+	draw_triangle_side(game->trigo, perp, &game->mlx.img);
+	perp.cos_a = cosf(game->p.angle + PI / 2);
+	perp.sin_a = sinf(game->p.angle + PI / 2);
+	draw_triangle_side(game->trigo, perp, &game->mlx.img);
 }
 
 void	draw_map(char **map, t_data *game, t_coord limit)
@@ -60,13 +34,13 @@ void	draw_map(char **map, t_data *game, t_coord limit)
 	while (map[co.y])
 	{
 		co.x = 0;
-		co2.y = ((co.y - (game->player.co.y / BLOCK_SIZE))
+		co2.y = ((co.y - (game->p.co.y / BLOCK_SIZE))
 				* TILES_SIZE) + MINIMAP_CENTER;
 		if (co2.y >= limit.x && co2.y < limit.y)
 		{
 			while (map[co.y][co.x])
 			{
-				co2.x = ((co.x - (game->player.co.x / BLOCK_SIZE))
+				co2.x = ((co.x - (game->p.co.x / BLOCK_SIZE))
 						* TILES_SIZE) + MINIMAP_CENTER;
 				if (co2.x >= limit.x && co2.x < limit.y
 					&& map[co.y][co.x] == '1')

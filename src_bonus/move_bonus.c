@@ -6,26 +6,26 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:49:19 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 00:08:33 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/13 02:34:06 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-int	is_wall(float x, float y, t_map map)
+int	is_wall(float x, float y, t_map *map)
 {
 	int	x_map;
 	int	y_map;
 
 	x_map = x / BLOCK_SIZE;
 	y_map = y / BLOCK_SIZE;
-	if (y_map < 0 || !map.map[y_map] || x_map < 0
-		|| x_map > (int)ft_strlen(map.map[y_map]) || !map.map[y_map][x_map])
+	if (y_map < 0 || !map->map[y_map] || x_map < 0
+		|| x_map > map->line_len[y_map] || !map->map[y_map][x_map])
 		return (1);
-	return (map.map[y_map][x_map] == '1');
+	return (map->map[y_map][x_map] == '1');
 }
 
-void	move_direction(t_player *player, t_map map, float dx, float dy)
+void	move_direction(t_player *player, t_map *map, float dx, float dy)
 {
 	float	len;
 	float	new_x;
@@ -51,37 +51,46 @@ void	move_direction(t_player *player, t_map map, float dx, float dy)
 		player->co.y = new_y;
 }
 
-void	change_d(float *dx, float *dy, float cos_a, float sin_a)
+void	delta(float *dx, float *dy, float cos_a, float sin_a)
 {
 	*dx += cos_a;
 	*dy -= sin_a;
 }
 
-void	move_player(t_player *p, t_map map)
+void	rotation(t_data *g)
+{
+	float	rotation_speed;
+
+	rotation_speed = 0.05f;
+	if (g->p.run)
+		rotation_speed += 0.03f;
+	if (g->p.rotate_left)
+		g->p.angle += rotation_speed;
+	if (g->p.rotate_right)
+		g->p.angle -= rotation_speed;
+	if (g->p.angle > 2.0f * PI)
+		g->p.angle = 0.0f;
+	if (g->p.angle < 0.0f)
+		g->p.angle = 2.0f * PI;
+	g->trigo.cos_a = cosf(g->p.angle);
+	g->trigo.sin_a = sinf(g->p.angle);
+}
+
+void	move_player(t_data *g)
 {
 	float	dx;
 	float	dy;
 
-	dx = 0.05f;
-	if (p->run)
-		dx += 0.03f;
-	if (p->rotate_left)
-		p->angle += dx;
-	if (p->rotate_right)
-		p->angle -= dx;
-	if (p->angle > 2.0f * PI)
-		p->angle = 0.0f;
-	if (p->angle < 0.0f)
-		p->angle = 2.0f * PI;
+	rotation(g);
 	dx = 0.0f;
 	dy = 0.0f;
-	if (p->up)
-		change_d(&dx, &dy, cosf(p->angle), sinf(p->angle));
-	if (p->down)
-		change_d(&dx, &dy, -(cosf(p->angle)), -(sinf(p->angle)));
-	if (p->right)
-		change_d(&dx, &dy, cosf(p->angle - PI / 2), sinf(p->angle - PI / 2));
-	if (p->left)
-		change_d(&dx, &dy, cosf(p->angle + PI / 2), sinf(p->angle + PI / 2));
-	move_direction(p, map, dx, dy);
+	if (g->p.up)
+		delta(&dx, &dy, g->trigo.cos_a, g->trigo.sin_a);
+	if (g->p.down)
+		delta(&dx, &dy, -g->trigo.cos_a, -(g->trigo.sin_a));
+	if (g->p.right)
+		delta(&dx, &dy, cosf(g->p.angle - PI / 2), sinf(g->p.angle - PI / 2));
+	if (g->p.left)
+		delta(&dx, &dy, cosf(g->p.angle + PI / 2), sinf(g->p.angle + PI / 2));
+	move_direction(&g->p, &g->map, dx, dy);
 }
