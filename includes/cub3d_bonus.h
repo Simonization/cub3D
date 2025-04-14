@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
+/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/14 00:38:02 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/14 16:49:23 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@
 # define MINIMAP_RADIUS ((MINIMAP_SIZE + 10) / 2) - 1
 # define MINIMAP_CENTER (MINIMAP_SIZE + (TILES_SIZE / 2)) / 2
 # define MINIMAP_PLAYER MINIMAP_CENTER + (TILES_SIZE / 2)
+# define VERTICAL 0
+# define HORIZONTAL 1
 
 # include "libft.h"
 # include <mlx.h>

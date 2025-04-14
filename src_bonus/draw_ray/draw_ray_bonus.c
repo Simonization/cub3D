@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_ray_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
+/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:46:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/14 01:51:35 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:08:28 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,89 @@ void	slice_of_wall(t_data *g, int i)
 			draw_walls(g, distance(g->p, g->ray, disto));
 			return ;
 		}
-		i += 2;
+		i += 1;
 	}
 }
+
+// void	dda(t_data *g)
+// {
+// 	float	ray_x;
+// 	float	ray_y;
+// 	float	ray_a;
+
+// 	float	map_x;
+// 	float	map_y;
+
+// 	float	delta_x;
+// 	float	delta_y;
+
+// 	int		step_x;
+// 	int		step_y;
+
+// 	float	side_dist_x;
+// 	float	side_dist_y;
+
+// 	bool	side; //0 = VERTICAL | 1 = HORIZONTAL
+// 	bool	hit;
+
+// 	float	distance;
+
+// 	ray_x = g->p.co.x;
+// 	ray_y = g->p.co.y;
+// 	ray_a = g->p.angle;
+
+// 	map_x = ray_x / BLOCK_SIZE;
+// 	map_y = ray_y / BLOCK_SIZE;
+
+// 	delta_x = fabsf(BLOCK_SIZE / cosf(ray_a));
+// 	delta_y = fabsf(BLOCK_SIZE / -sinf(ray_a));
+
+// 	if (ray_x < 0)
+// 	{
+// 		step_x = -1;
+// 		side_dist_x = (g->p.co.x - map_x * BLOCK_SIZE) * delta_x;
+// 	}
+// 	else
+// 	{
+// 		step_x = 1;
+// 		side_dist_x = ((map_x + 1) * BLOCK_SIZE - g->p.co.x) * delta_x;
+// 	}
+
+// 	if (ray_y < 0)
+// 	{
+// 		step_y = -1;
+// 		side_dist_y = (g->p.co.y - map_y * BLOCK_SIZE) * delta_y;
+// 	}
+// 	else
+// 	{
+// 		step_y = 1;
+// 		side_dist_y = ((map_y + 1) * BLOCK_SIZE - g->p.co.y) * delta_y;
+// 	}
+
+// 	hit = false;
+// 	while (!hit)
+// 	{
+// 		if (side_dist_x < side_dist_y)
+// 		{
+// 			side_dist_x += delta_x;
+// 			map_x += step_x;
+// 			side = VERTICAL;
+// 		}
+// 		else
+// 		{
+// 			side_dist_y += delta_y;
+// 			map_y += step_y;
+// 			side = HORIZONTAL;
+// 		}
+// 		if (touch(map_x, map_y, g->map))
+// 			hit = true;
+// 	}
+// 	if (side == VERTICAL)
+// 		distance = (side_dist_x - delta_x) * cosf(ray_a - g->p.angle);
+// 	else
+// 		distance = (side_dist_y - delta_y) * cosf(ray_a - g->p.angle);
+// 	draw_walls(g, distance);
+// }
 
 void	draw_ray(t_data *g)
 {
@@ -110,6 +190,7 @@ void	draw_ray(t_data *g)
 	while (g->ray.a >= g->p.angle - FOV_2)
 	{
 		slice_of_wall(g, 0);
+		// dda(g);
 		g->ray.a -= RAY_STEPS;
 		g->ray.column++;
 	}
