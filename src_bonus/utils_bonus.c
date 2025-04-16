@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:14:34 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 16:27:19 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/16 20:06:11 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	delta(float *dx, float *dy, float cos_a, float sin_a)
 {
 	*dx += cos_a;
-	*dy -= sin_a;
+	*dy += sin_a;
 }
 
 void	put_pixel(t_img *img, int x, int y, int color)

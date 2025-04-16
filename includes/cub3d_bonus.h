@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/16 16:16:06 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/17 01:03:06 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,18 @@ typedef struct s_trigo
 	float	sin_l;
 }	t_trigo;
 
+typedef struct s_weapon
+{
+	t_img	weapon[7];
+	int		current_img;
+	double	anim_timer;
+	bool	is_firing;
+	bool	is_anim;
+	float	bob_x;
+	float	bob_y;
+	float	bob_steps;
+}	t_weapon;
+
 typedef struct s_data
 {
 	t_mlx		mlx;
@@ -153,9 +165,11 @@ typedef struct s_data
 	t_flag		flag;
 	t_ray		ray;
 	t_map		map;
+	t_weapon	weapon;
 	struct timeval last_time;
 	struct timeval last_fps_print;
-	float fps;
+	float	fps;
+	float	delta_time;
 }	t_data;
 
 //DRAW RAY
