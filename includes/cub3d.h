@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
+/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:44:12 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/10 23:45:16 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:47:00 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,16 +105,26 @@ typedef struct s_map
 	char	*ea_path;
 }	t_map;
 
+typedef struct s_trigo
+{
+	float	cos_a;
+	float	sin_a;
+	float	cos_r;
+	float	sin_r;
+	float	cos_l;
+	float	sin_l;
+}	t_trigo;
+
 typedef struct s_data
 {
 	t_mlx		mlx;
 	t_player	player;
+	t_trigo		trigo;
 	t_ray		ray;
 	t_map		map;
 }	t_data;
 
-void	put_pixel(t_img *img, int x, int y, int color);
-void	move_player(t_player *player, t_map map);
+void	move_player(t_data *g);
 void	draw_ray(t_data *game);
 float	distance(t_player player, t_ray r);
 int		touch(float x, float y, t_map map);
@@ -122,9 +132,13 @@ int		touch(float x, float y, t_map map);
 t_map	get_map(void);
 void	windows_init(t_mlx *mlx, t_data *game);
 void	player_init(t_player *player);
+void	init_trigo(t_data *game);
 //HOOKS
 int		released_key(int keycode, t_data *game);
 int		pressed_key(int keycode, t_data *game);
 int		ft_close(t_data *game);
+//UTILS
+void	delta(float *dx, float *dy, float cos_a, float sin_a);
+void	put_pixel(t_img *img, int x, int y, int color);
 
 #endif

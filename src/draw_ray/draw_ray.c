@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
+/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:46:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/10 23:47:53 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/16 16:21:43 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	get_texture(int y, t_img texture, int top, t_ray ray)
 	return (*(unsigned int *)px);
 }
 
-int	orientation(t_data *g, int y, int top)
+int	side_wall(t_data *g, int y, int top)
 {
 	if (g->ray.v_hit)
 	{
@@ -58,22 +58,23 @@ int	orientation(t_data *g, int y, int top)
 void	draw_walls(t_data *g, float wall_distance)
 {
 	int		i;
-	int		start;
+	int		s;
 	int		end;
 
 	i = 0;
 	g->ray.wall_height = (BLOCK_SIZE / wall_distance) * PROJECTION;
-	if (g->ray.wall_height > HEIGHT * 5)
-		g->ray.wall_height = HEIGHT * 5;
-	start = (HEIGHT / 2) - (g->ray.wall_height / 2);
-	end = start + g->ray.wall_height;
-	while (i++ <= start)
+	s = (HEIGHT / 2) - (g->ray.wall_height / 2);
+	end = s + g->ray.wall_height;
+	while (i++ <= s)
 		put_pixel(&g->mlx.img, g->ray.column, i, g->map.ceiling_color);
-	i = start;
-	while (start++ < end)
-		put_pixel(&g->mlx.img, g->ray.column, start, orientation(g, start, i));
-	while (start++ < HEIGHT)
-		put_pixel(&g->mlx.img, g->ray.column, start, g->map.floor_color);
+	i = s;
+	while (s++ < end)
+	{
+		if (s >= 0 && s <= HEIGHT)
+			put_pixel(&g->mlx.img, g->ray.column, s, side_wall(g, s, i));
+	}
+	while (s++ < HEIGHT)
+		put_pixel(&g->mlx.img, g->ray.column, s, g->map.floor_color);
 }
 
 void	slice_of_wall(t_data *g, int i)

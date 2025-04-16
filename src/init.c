@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
+/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:53:03 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/10 23:49:05 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/16 16:07:04 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,14 @@ void	player_init(t_player *player)
 	player->left = false;
 	player->rotate_left = false;
 	player->rotate_right = false;
+}
+
+void	init_trigo(t_data *game)
+{
+	game->trigo.cos_a = cosf(game->player.angle);
+	game->trigo.sin_a = sinf(game->player.angle);
+	game->trigo.cos_r = cosf(game->player.angle + PI / 2);
+	game->trigo.sin_r = sinf(game->player.angle + PI / 2);
+	game->trigo.cos_l = cosf(game->player.angle - PI / 2);
+	game->trigo.sin_l = sinf(game->player.angle - PI / 2);
 }
