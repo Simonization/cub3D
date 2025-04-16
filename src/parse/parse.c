@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/16 18:18:34 by slangero          #+#    #+#             */
+/*   Updated: 2025/04/16 18:18:38 by slangero         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
-int	init_parser(t_display *display)
+int init_parser(t_display *display)
 {
     display->mapboleen = 0;
     display->initsuccess = 0;
@@ -16,142 +28,159 @@ int	init_parser(t_display *display)
     return (0);
 }
 
-int	parse(int argc, char *str, t_parse *parse, t_display *display)
+int parse(int argc, char *str, t_parse *parse, t_display *display)
 {
-    int		fd;
+    int     fd;
 
     if (argc == 3)
         display->bmp = 1;
     else
         display->bmp = 0;
-    if ((display->filename = malloc(sizeof(char) * strlentoend(str) + 1)) == NULL)
-        return (showerror(display, "Unable to Malloc"));
+        
+    if (display->filename == NULL)
+    {
+        display->filename = malloc(sizeof(char) * strlentoend(str) + 1);
+        if (!display->filename)
+            return (showerror(display, "Unable to Malloc"));
+    }
+    
     if (checkcubextension(str, display) != 1)
         return (0);  // Error is handled in checkcubextension
+        
     ft_strcpy(display->filename, str);
     fd = open(str, O_RDONLY);
     if (fd == -1)
         return (showerror(display, "Unable to open file"));
+        
     display->fd = fd;
     if (checkparse(display, parse, fd) != 0)
         return (0);  // Error is handled in checkparse
+        
     return (1);
 }
 
-int	checkparse(t_display *display, t_parse *parse, int fd)
+// Moved player initialization from init_player to a helper function
+void init_player_position(t_data *game, t_display *display)
 {
-    int		u;
-    char	*line;
+    game->player.co.x = display->player_x * BLOCK_SIZE;
+    game->player.co.y = display->player_y * BLOCK_SIZE;
+    
+    // Calculate the initial angle based on direction
+    if (display->dirx == 1) // East
+        game->player.angle = 0;
+    else if (display->dirx == -1) // West
+        game->player.angle = PI;
+    else if (display->diry == 1) // South
+        game->player.angle = PI / 2;
+    else if (display->diry == -1) // North
+        game->player.angle = 3 * PI / 2;
+    
+    // Other player properties remain the same
+    game->player.co.color = 0x0000FF00;
+    game->player.up = false;
+    game->player.down = false;
+    game->player.right = false;
+    game->player.left = false;
+    game->player.rotate_left = false;
+    game->player.rotate_right = false;
+}
 
-    u = 0;
-    while (u > -1)
-    {
-        u = get_next_line(fd, &line);
-        if (u == -1)
-            return (showerror(display, "Error reading file"));
+// A simple sample map for testing - to be removed once parsing is working
+t_map get_sample_map(void)
+{
+    t_map map;
+    int i = -1;
+    
+    map.ceiling_color = 0x00451CCB;
+    map.floor_color = 0x00361997;
+    map.no_path = ft_strdup("img/among-us-yellow-shakes-booty.xpm");
+    map.so_path = ft_strdup("img/among-us-red-shakes-booty.xpm");
+    map.we_path = ft_strdup("img/among-us-purple-shakes-booty.xpm");
+    map.ea_path = ft_strdup("img/among-us-green-shakes-booty.xpm");
+    
+    map.map = malloc(sizeof(char *) * 11);
+    map.map[0] = ft_strdup("111111111111111111");
+    map.map[1] = ft_strdup("100000000000000001");
+    map.map[2] = ft_strdup("100000000000000001");
+    map.map[3] = ft_strdup("100000N00000000001");
+    map.map[4] = ft_strdup("100000000000000001");
+    map.map[5] = ft_strdup("100000000000000001");
+    map.map[6] = ft_strdup("100000000000000001");
+    map.map[7] = ft_strdup("100000000000000001");
+    map.map[8] = ft_strdup("100000000000000001");
+    map.map[9] = ft_strdup("111111111111111111");
+    map.map[10] = NULL;
+    
+    map.line_len = malloc(sizeof(int) * 11);
+    while (map.map[++i])
+        map.line_len[i] = ft_strlen(map.map[i]);
         
-        if (line[numberblank(line)] == '1' || u == 0)
-            u = -1;
-        if (parseline(line, parse, display) == -1)
-            u = -1;
-        free(line);
-    }
-    close(fd);
-    if (display->textnum < 8)
-        return (showerror(display, "Elements Missing"));
-    if (display->textnum > 8)
-        return (showerror(display, "Duplicate Element"));
-    if (display->mapboleen == 0)
-        return (showerror(display, "Missing Map"));
-    return (0);
+    return map;
 }
 
-int	parseline(char *line, t_parse *parse, t_display *display)
+// New function to load a map file
+t_map load_map(char *filename)
 {
-    int index;
-
-    index = 0 + numberblank(line);
-    if (line[index] == '\0' || line[index] == '\n')
-        return (1);
-    
-    if (line[index] == 'R')
-        return (stockresolution(line + index + 1, parse, display));
-    if (line[index] == 'N' && line[index + 1] == 'O')
-        return (stocktextures_no(line + index + 2, display));
-    if (line[index] == 'S' && line[index + 1] == 'O')
-        return (stocktextures_so(line + index + 2, display));
-    if (line[index] == 'W' && line[index + 1] == 'E')
-        return (stocktextures_we(line + index + 2, display));
-    if (line[index] == 'E' && line[index + 1] == 'A')
-        return (stocktextures_ea(line + index + 2, display));
-    if (line[index] == 'S' && line[index + 1] == ' ')
-        return (stocktextures_s(line + index + 1, display));
-    if (line[index] == 'F' && line[index + 1] == ' ')
-        return (stockcolorf(line + index + 1, display));
-    if (line[index] == 'C' && line[index + 1] == ' ')
-        return (stockcolorc(line + index + 1, display));
-    if (line[index] == '1' || line[index] == '2' || line[index] == '0')
-        return (stockmap(parse, display));
-    
-    return (showerror(display, "One or more elements in .cub are not correct"));
-}
-
-int	checkcubextension(char *str, t_display *display)
-{
+    t_display display;
+    t_parse parse;
+    t_map map;
     int i;
-
-    i = 0;
-    while (str[i] != '\0')
-        i++;
-    if (i < 5) // Need at least ".cub"
-        return (showerror(display, "Invalid filename"));
     
-    if (str[i - 1] == 'b' && str[i - 2] == 'u'
-    && str[i - 3] == 'c' && str[i - 4] == '.')
+    // Initialize the display structure
+    init_parser(&display);
+    
+    // Parse the map file
+    if (!parse(1, filename, &parse, &display))
     {
-        if ((i = open(str, O_RDONLY)) == -1)
-            return (showerror(display, "File Name is not correct"));
-        close(i);
-        return (1);
+        printf("Error: Failed to parse the map file\n");
+        // Return a sample map if parsing fails (for testing)
+        return get_sample_map();
     }
-    return (showerror(display, "Files without .cub extension are not accepted"));
-}
-
-int	strlentoend(char *str)
-{
-    int i;
-
+    
+    // Process the map after parsing
+    if (stockmap(&parse, &display) <= 0)
+    {
+        printf("Error: Invalid map format\n");
+        return get_sample_map();
+    }
+    
+    // Convert the parsed data to t_map structure
+    map.map = display.map;
+    map.line_len = malloc(sizeof(int) * display.mapy);
+    if (!map.line_len)
+    {
+        printf("Error: Memory allocation failed\n");
+        return get_sample_map();
+    }
+    
     i = 0;
-    while (str[i] && str[i] != '\0')
+    while (i < display.mapy)
+    {
+        map.line_len[i] = ft_strlen(display.map[i]);
         i++;
-    return (i);
-}
-
-int	isend(char *line)
-{
-    if (*line == '\n' || *line == '\0' || *line == ' ')
-        return (1);
-    return (0);
-}
-
-int	numberblank(char *str)
-{
-    int i;
-
-    i = 0;
-    while (str[i] == ' ' || str[i] == '\t')
-        i++;
-    return (i);
-}
-
-int	searchcomma(char *line)
-{
-    int i;
-
-    i = 0;
-    while (line[i] && line[i] != ',')
-        i++;
-    if (line[i] == ',')
-        return (i);
-    return (-1);
+    }
+    
+    // Set colors and texture paths
+    map.ceiling_color = (display.rgbceiling[0] << 16) | 
+                        (display.rgbceiling[1] << 8) | 
+                        display.rgbceiling[2];
+                        
+    map.floor_color = (display.rgbfloor[0] << 16) | 
+                      (display.rgbfloor[1] << 8) | 
+                      display.rgbfloor[2];
+                      
+    map.no_path = display.north ? ft_strdup(display.north) : ft_strdup("img/default_north.xpm");
+    map.so_path = display.south ? ft_strdup(display.south) : ft_strdup("img/default_south.xpm");
+    map.we_path = display.west ? ft_strdup(display.west) : ft_strdup("img/default_west.xpm");
+    map.ea_path = display.east ? ft_strdup(display.east) : ft_strdup("img/default_east.xpm");
+    
+    // Free the display structure resources
+    if (display.north) free(display.north);
+    if (display.south) free(display.south);
+    if (display.west) free(display.west);
+    if (display.east) free(display.east);
+    if (display.spritepwd) free(display.spritepwd);
+    if (display.filename) free(display.filename);
+    
+    return map;
 }
