@@ -6,7 +6,7 @@
 #    By: slangero <slangero@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/04/17 00:45:26 by slangero         ###   ########.fr        #
+#    Updated: 2025/04/17 01:28:36 by slangero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ MLX_DIR			=	../minilibx-linux
 //MLX_DIR			=	includes/minilibx-linux
 SRCS_DIR 		=	src/
 DRAW_RAY_DIR	=	draw_ray/
+PARSE_DIR		=	parse/
 MOVE_DIR		=	movement/
 MINIMAP_DIR		=	minimap/
 SRCS_BONUS_DIR	=	src_bonus/
@@ -48,16 +49,18 @@ COLOR_END		=	\033[0m
 
 #SOURCES
 DRAW_RAY_FILES	=	draw_ray draw_ray_utils
+PARSE_FILES	    =	floodandfillmap open_map parse texture_colour_map utils_parse
 RAY_BONUS_FILES	=	draw_ray_bonus draw_ray_utils_bonus
 MINIMAP_FILES	=	minimap_bonus minimap_shape_bonus
 MOVE_FILES		=	move_bonus vision_bonus
 
 DRAW_RAY		=	${addprefix ${DRAW_RAY_DIR}, ${DRAW_RAY_FILES}}
+PARSE			=	${addprefix ${PARSE_DIR}, ${PARSE_FILES}}
 DRAW_RAY_BONUS	=	${addprefix ${DRAW_RAY_DIR}, ${RAY_BONUS_FILES}}
 MINIMAP			=	${addprefix ${MINIMAP_DIR}, ${MINIMAP_FILES}}
 MOVE			=	${addprefix ${MOVE_DIR}, ${MOVE_FILES}}
 
-FILES			=	main move hooks init utils ${DRAW_RAY}
+FILES			=	main move hooks init utils ${DRAW_RAY} ${PARSE}
 FILES_BONUS		=	main_bonus hooks_bonus init_bonus utils_bonus ${DRAW_RAY_BONUS} ${MOVE} ${MINIMAP}
 
 SRCS			=	${addprefix ${SRCS_DIR}, ${addsuffix .c, ${FILES}}}

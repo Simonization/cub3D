@@ -6,11 +6,11 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:19:09 by slangero          #+#    #+#             */
-/*   Updated: 2025/04/16 18:19:11 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/17 01:30:11 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "cub3d.h"
 
 int stockcolorf(char *line, t_display *display)
 {

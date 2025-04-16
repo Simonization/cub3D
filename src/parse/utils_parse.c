@@ -6,11 +6,11 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:19:20 by slangero          #+#    #+#             */
-/*   Updated: 2025/04/17 00:30:23 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/17 01:32:45 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "cub3d.h"
 
 int showerror(t_display *display, char *str)
 {
@@ -53,35 +53,6 @@ int freemap(t_display *display)
         
     return (1);
 }
-
-// int ft_strlen(char *str)
-// {
-//     int i;
-
-//     i = 0;
-//     if (!str)
-//         return (0);
-        
-//     while (str[i])
-//         i++;
-        
-//     return (i);
-// }
-
-// char *ft_strcpy(char *dest, char *src)
-// {
-//     int i;
-
-//     i = 0;
-//     while (src[i])
-//     {
-//         dest[i] = src[i];
-//         i++;
-//     }
-//     dest[i] = '\0';
-    
-//     return (dest);
-// }
 
 int cmp(char *s1, char *s2, size_t n)
 {

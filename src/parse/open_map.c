@@ -6,11 +6,11 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:18:46 by slangero          #+#    #+#             */
-/*   Updated: 2025/04/16 18:18:48 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/17 01:34:36 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "cub3d.h"
 
 void getxymap(t_parse *parse, char *filename)
 {
@@ -25,16 +25,16 @@ void getxymap(t_parse *parse, char *filename)
     if (fd == -1)
         return;
         
-    b = get_next_line(fd, &line);
+    b = get_next_line(fd);
     free(line);
-    b = get_next_line(fd, &line);
+    b = get_next_line(fd);
     
     while (line[numberblank(line)] != '1' && line[numberblank(line)] != '2'
     && line[numberblank(line)] != '0')
     {
         if (b != -1)
             free(line);
-        b = get_next_line(fd, &line);
+        b = get_next_line(fd);
         if (b == -1)
         {
             free(line);
@@ -51,10 +51,10 @@ void getxy2(t_parse *parse, int b, char *line, int fd)
 {
     while (b > -1 && line[0] != '\n' && line[0] != '\t' && line[0] != '\0')
     {
-        if (ft_strlenght(line) > parse->sizemap.x)
-            parse->sizemap.x = ft_strlenght(line);
+        if (ft_strlen(line) > parse->sizemap.x)
+            parse->sizemap.x = ft_strlen(line);
         free(line);
-        b = get_next_line(fd, &line);
+        b = get_next_line(fd);
         b = (b == 0 ? -1 : b);
         parse->sizemap.y++;
     }
@@ -95,13 +95,13 @@ int gotomap(t_display *display, t_parse *parse, int len, int fd)
     char    *line;
     int     b;
 
-    b = get_next_line(fd, &line);
+    b = get_next_line(fd);
     while (line[numberblank(line)] != '1'
     && line[numberblank(line)] != '2' && line[numberblank(line)] != '0')
     {
         if (b != -1)
             free(line);
-        b = get_next_line(fd, &line);
+        b = get_next_line(fd);
         if (b == -1)
         {
             free(line);
@@ -115,7 +115,7 @@ int gotomap(t_display *display, t_parse *parse, int len, int fd)
         if (b > -1)
             free(line);
         len++;
-        b = get_next_line(fd, &line);
+        b = get_next_line(fd);
         if (b == -1)
             break;
     }
@@ -125,8 +125,8 @@ int gotomap(t_display *display, t_parse *parse, int len, int fd)
 
 char initposplayer(char pos, int x, int y, t_display *display)
 {
-    display->player.x = (double)y + 0.5;
-    display->player.y = (double)x + 0.5;
+    display->player_x = (double)y + 0.5;
+    display->player_y = (double)x + 0.5;
     
     display->dirx = pos == 'E' ? 1 : 0;
     display->dirx = pos == 'W' ? -1 : display->dirx;

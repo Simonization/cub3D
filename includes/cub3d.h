@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:44:12 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/17 00:35:38 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/17 01:20:10 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,9 +198,9 @@ void	delta(float *dx, float *dy, float cos_a, float sin_a);
 void	put_pixel(t_img *img, int x, int y, int color);
 
 // Parser functions
+t_map	load_map(char *filename);
 int		init_parser(t_display *display);
 int		parse_map(int argc, char *str, t_parse *parse, t_display *display);
-t_map	load_map(char *filename);
 int		checkparse(t_display *display, t_parse *parse, int fd);
 int		parseline(char *line, t_parse *parse, t_display *display);
 int		stockmap(t_parse *parse, t_display *display);

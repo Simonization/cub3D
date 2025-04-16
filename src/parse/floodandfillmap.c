@@ -6,11 +6,11 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:18:54 by slangero          #+#    #+#             */
-/*   Updated: 2025/04/16 18:18:57 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/17 01:30:03 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "cub3d.h"
 
 int floodandfill(t_display *display, int mapy, int mapx)
 {
@@ -72,8 +72,8 @@ int checkthewall(t_display *display)
     int mapx;
     int mapy;
 
-    mapy = (int)display->player.x;
-    mapx = (int)display->player.y;
+    mapy = (int)display->player_x;
+    mapx = (int)display->player_y;
     
     if (display->numberofplayer == 0)
         return (showerror(display, "Missing player on the map"));
