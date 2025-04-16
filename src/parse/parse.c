@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:18:34 by slangero          #+#    #+#             */
-/*   Updated: 2025/04/16 18:18:38 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/17 00:27:03 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int init_parser(t_display *display)
     return (0);
 }
 
-int parse(int argc, char *str, t_parse *parse, t_display *display)
+int parse_map(int argc, char *str, t_parse *parse, t_display *display)
 {
     int     fd;
 

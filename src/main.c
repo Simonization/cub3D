@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/17 00:07:30 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/17 00:35:30 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	error_exit(char *message)
 	exit(1);
 }
 
-t_map	convert_to_map(t_display *display, t_parse *parse)
+t_map	convert_to_map(t_display *display)
 {
 	t_map	map;
 	int	i;
@@ -62,7 +62,7 @@ t_map	convert_to_map(t_display *display, t_parse *parse)
 	return map;
 }
 
-t_map	parse_map(char *filename)
+t_map	load_map(char *filename)
 {
     t_display	display;
     t_parse	parse;
@@ -72,11 +72,11 @@ t_map	parse_map(char *filename)
     display.filename = ft_strdup(filename);
     if (!display.filename)
         error_exit("Memory allocation failed");
-    if (!parse(1, filename, &parse, &display))
+    if (!parse_map(1, filename, &parse, &display))
         error_exit("Failed to parse map file");
     if (display.mapboleen == 0)
         error_exit("No valid map found in file");
-    return convert_to_map(&display, &parse);
+    return convert_to_map(&display);
 }
 
 int	main(int argc, char **argv)
@@ -86,7 +86,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 	error_exit("Usage: ./cub3D <map_file.cub>");
 
-	game.map = parse_map(argv[1]);
+	game.map = load_map(argv[1]);
 	windows_init(&game.mlx, &game);
 	player_init(&game.player);
 	init_trigo(&game);
