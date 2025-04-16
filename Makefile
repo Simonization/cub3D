@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+         #
+#    By: slangero <slangero@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/04/16 15:47:22 by agoldber         ###   ########.fr        #
+#    Updated: 2025/04/17 00:17:15 by slangero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@
 NAME			=	cub3d
 NAME_BONUS		=	cub3d_bonus
 INCLUDES		=	includes
-MLX_DIR			=	includes/minilibx-linux
+MLX_DIR			=	../minilibx-linux
+//MLX_DIR			=	includes/minilibx-linux
 SRCS_DIR 		=	src/
 DRAW_RAY_DIR	=	draw_ray/
 MOVE_DIR		=	movement/

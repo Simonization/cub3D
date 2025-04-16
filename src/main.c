@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
+/*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/16 19:37:10 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/17 00:07:30 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_map	parse_map(char *filename)
     return convert_to_map(&display, &parse);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_data	game;
 
