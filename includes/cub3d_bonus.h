@@ -6,7 +6,7 @@
 /*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/14 16:49:23 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/16 16:16:06 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ typedef struct s_ray
 	float	cos_a;
 	float	sin_a;
 	bool	v_hit;
-	int		column;
+	int		col;
 	float	wall_height;
 }	t_ray;
 
