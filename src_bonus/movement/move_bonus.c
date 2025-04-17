@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:49:19 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 16:18:36 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/17 01:08:14 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,11 @@ void	move_direction(t_player *player, t_map *map, float dx, float dy)
 	len = sqrt(dx * dx + dy * dy);
 	if (len < 0.001f)
 		return ;
-	dx = dx / len * speed;
-	dy = dy / len * speed;
+	// printf("angle du joueur : %f\n", player->angle);
+	// printf("avant len\ndx : %f\ndy : %f\n", dx, dy);
+	dx = dx * speed;
+	dy = dy * speed;
+	// printf("apres len\ndx : %f\ndy : %f\n", dx, dy);
 	move_buffer(player, map, dx, dy);
 }
 
@@ -80,16 +83,16 @@ void	rotation(t_data *g)
 		g->p.angle += rotation_speed;
 	if (g->p.rotate_right)
 		g->p.angle -= rotation_speed;
-	if (g->p.angle > 2.0f * PI)
-		g->p.angle = 0.0f;
-	if (g->p.angle < 0.0f)
-		g->p.angle = 2.0f * PI;
+	if (g->p.angle >= 2.0f * PI)
+		g->p.angle -= 2.0f * PI;
+	else if (g->p.angle < 0.0f)
+		g->p.angle += 2.0f * PI;
 	g->trigo.cos_a = cosf(g->p.angle);
-	g->trigo.sin_a = sinf(g->p.angle);
+	g->trigo.sin_a = -sinf(g->p.angle);
 	g->trigo.cos_r = cosf(g->p.angle + PI / 2);
-	g->trigo.sin_r = sinf(g->p.angle + PI / 2);
+	g->trigo.sin_r = -sinf(g->p.angle + PI / 2);
 	g->trigo.cos_l = cosf(g->p.angle - PI / 2);
-	g->trigo.sin_l = sinf(g->p.angle - PI / 2);
+	g->trigo.sin_l = -sinf(g->p.angle - PI / 2);
 }
 
 void	move_player(t_data *g)
