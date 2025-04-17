@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:18:46 by slangero          #+#    #+#             */
-/*   Updated: 2025/04/17 01:34:36 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/17 01:42:07 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,58 +15,58 @@
 void getxymap(t_parse *parse, char *filename)
 {
     int     fd;
-    int     b;
     char    *line;
 
-    b = 1;
     parse->sizemap.x = 1;
     parse->sizemap.y = 0;
     fd = open(filename, O_RDONLY);
     if (fd == -1)
         return;
         
-    b = get_next_line(fd);
-    free(line);
-    b = get_next_line(fd);
+    line = get_next_line(fd);
+    if (line)
+        free(line);
+    line = get_next_line(fd);
     
-    while (line[numberblank(line)] != '1' && line[numberblank(line)] != '2'
-    && line[numberblank(line)] != '0')
+    while (line)
     {
-        if (b != -1)
-            free(line);
-        b = get_next_line(fd);
-        if (b == -1)
+        if (line[numberblank(line)] == '1' || line[numberblank(line)] == '2'
+            || line[numberblank(line)] == '0')
+            break;
+        free(line);
+        line = get_next_line(fd);
+        if (!line)
         {
-            free(line);
             close(fd);
             return;
         }
     }
     
-    getxy2(parse, b, line, fd);
+    getxy2(parse, line, fd);
     close(fd);
 }
 
-void getxy2(t_parse *parse, int b, char *line, int fd)
+void getxy2(t_parse *parse, char *line, int fd)
 {
-    while (b > -1 && line[0] != '\n' && line[0] != '\t' && line[0] != '\0')
+    size_t line_len;
+
+    while (line && line[0] != '\n' && line[0] != '\t' && line[0] != '\0')
     {
-        if (ft_strlen(line) > parse->sizemap.x)
-            parse->sizemap.x = ft_strlen(line);
+        line_len = ft_strlen(line);
+        if (line_len > (size_t)parse->sizemap.x)
+            parse->sizemap.x = (int)line_len;
         free(line);
-        b = get_next_line(fd);
-        b = (b == 0 ? -1 : b);
+        line = get_next_line(fd);
         parse->sizemap.y++;
     }
-    free(line);
+    if (line)
+        free(line);
 }
 
 int stockmap(t_parse *parse, t_display *display)
 {
-    int     len;
     int     fd;
 
-    len = 0;
     display->numberofplayer = 0;
     display->mapboleen = 1;
     if (display->textnum != 8)
@@ -81,7 +81,7 @@ int stockmap(t_parse *parse, t_display *display)
     if (fd == -1)
         return (showerror(display, "Unable to open file for map reading"));
         
-    gotomap(display, parse, len, fd);
+    gotomap(display, parse, 0, fd);
     close(fd);
     
     if (checkthewall(display) != 0)
@@ -93,33 +93,30 @@ int stockmap(t_parse *parse, t_display *display)
 int gotomap(t_display *display, t_parse *parse, int len, int fd)
 {
     char    *line;
-    int     b;
-
-    b = get_next_line(fd);
-    while (line[numberblank(line)] != '1'
-    && line[numberblank(line)] != '2' && line[numberblank(line)] != '0')
+    
+    line = get_next_line(fd);
+    while (line)
     {
-        if (b != -1)
-            free(line);
-        b = get_next_line(fd);
-        if (b == -1)
-        {
-            free(line);
+        if (line[numberblank(line)] == '1' || line[numberblank(line)] == '2' 
+            || line[numberblank(line)] == '0')
+            break;
+        free(line);
+        line = get_next_line(fd);
+        if (!line)
             return (showerror(display, "Error reading map"));
-        }
     }
     
-    while (line[0])
+    while (line && line[0])
     {
         sortmap(parse, line, len, display);
-        if (b > -1)
-            free(line);
+        free(line);
         len++;
-        b = get_next_line(fd);
-        if (b == -1)
+        line = get_next_line(fd);
+        if (!line)
             break;
     }
-    free(line);
+    if (line)
+        free(line);
     return (0);
 }
 
@@ -211,4 +208,3 @@ int replacecharinmap(t_display *display, char *line, int i, int len)
     }
     return (0);
 }
-

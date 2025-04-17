@@ -6,7 +6,7 @@
 #    By: slangero <slangero@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/04/17 01:28:36 by slangero         ###   ########.fr        #
+#    Updated: 2025/04/17 02:19:00 by slangero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ COLOR_END		=	\033[0m
 
 #SOURCES
 DRAW_RAY_FILES	=	draw_ray draw_ray_utils
-PARSE_FILES	    =	floodandfillmap open_map parse texture_colour_map utils_parse
+PARSE_FILES	    =	floodandfillmap open_map parse parse2 texture_colour_map utils_parse utils_parse2
 RAY_BONUS_FILES	=	draw_ray_bonus draw_ray_utils_bonus
 MINIMAP_FILES	=	minimap_bonus minimap_shape_bonus
 MOVE_FILES		=	move_bonus vision_bonus

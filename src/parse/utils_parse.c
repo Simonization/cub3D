@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:19:20 by slangero          #+#    #+#             */
-/*   Updated: 2025/04/17 01:32:45 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/17 02:16:41 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,12 @@ int freeandexit(t_display *display)
         printf("\033[0;32m[ Successfully exited ]\n");
     exit(0);
     return (0);
+}
+
+void	error_exit(char *message)
+{
+	ft_putstr_fd("Error\n", 2);
+	ft_putstr_fd(message, 2);
+	ft_putstr_fd("\n", 2);
+	exit(1);
 }

@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:44:12 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/17 01:20:10 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/17 02:18:37 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,40 +197,52 @@ int		ft_close(t_data *game);
 void	delta(float *dx, float *dy, float cos_a, float sin_a);
 void	put_pixel(t_img *img, int x, int y, int color);
 
-// Parser functions
+//PARSE UTILITY FUNCTIONS
+int     numberblank(char *str);
+int     strlentoend(char *str);
+int     checkcubextension(char *str, t_display *display);
+int     checkparse(t_display *display, t_parse *parse, int fd);
+int     searchcomma(char *line);
+int     isend(char *line);
+int     showerror(t_display *display, char *str);
+int     freemap(t_display *display);
+int     freeandexit(t_display *display);
+void	error_exit(char *message);
+int     cmp(char *s1, char *s2, size_t n);
+
+//PARSE MAIN FUNCTIONS
+int     init_parser(t_display *display);
+int     parse_map(int argc, char *str, t_parse *parse, t_display *display);
+int     parseline(char *line, t_parse *parse, t_display *display);
+
+//MAP FUNCTIONS
+void    getxymap(t_parse *parse, char *filename);
+void    getxy2(t_parse *parse, char *line, int fd);
 t_map	load_map(char *filename);
-int		init_parser(t_display *display);
-int		parse_map(int argc, char *str, t_parse *parse, t_display *display);
-int		checkparse(t_display *display, t_parse *parse, int fd);
-int		parseline(char *line, t_parse *parse, t_display *display);
-int		stockmap(t_parse *parse, t_display *display);
-int		floodandfill(t_display *display, int mapy, int mapx);
-int		checkthewall(t_display *display);
-int		checkaround(int mapx, int mapy, t_display *display);
-int		checkifgood(char c);
-int		checkifgood2(char c);
-int		stockcolorf(char *line, t_display *display);
-int		stockcolorc(char *line, t_display *display);
-int		stockresolution(char *line, t_parse *parse, t_display *display);
-int		stocktextures_no(char *line, t_display *display);
-int		stocktextures_so(char *line, t_display *display);
-int		stocktextures_we(char *line, t_display *display);
-int		stocktextures_ea(char *line, t_display *display);
-int		stocktextures_s(char *line, t_display *display);
-int		showerror(t_display *display, char *str);
-int		freemap(t_display *display);
+int     stockmap(t_parse *parse, t_display *display);
+int     gotomap(t_display *display, t_parse *parse, int len, int fd);
+char    initposplayer(char pos, int x, int y, t_display *display);
+int     sortmap(t_parse *parse, char *line, int len, t_display *display);
+int     mallocmap(t_parse *parse, t_display *display);
+int     replacecharinmap(t_display *display, char *line, int i, int len);
+
+//MAP VALIDATION FUNCTIONS
+int     floodandfill(t_display *display, int mapy, int mapx);
+int     checkifgood(char c);
+int     checkifgood2(char c);
+int     checkaround(int mapx, int mapy, t_display *display);
+int     checkthewall(t_display *display);
+int     preprocess_map(t_display *display);
+
+//TEXTURE AND COLOR FUNCTIONS
+int     stockcolorf(char *line, t_display *display);
+int     stockcolorc(char *line, t_display *display);
+int     stockresolution(char *line, t_parse *parse, t_display *display);
+int     stocktextures_no(char *line, t_display *display);
+int     stocktextures_so(char *line, t_display *display);
+int     stocktextures_we(char *line, t_display *display);
+int     stocktextures_ea(char *line, t_display *display);
+int     stocktextures_s(char *line, t_display *display);
 unsigned int colortoint(unsigned int r, unsigned int g, unsigned int b);
-int		cmp(char *s1, char *s2, size_t n);
-int		checkcubextension(char *str, t_display *display);
-int		strlentoend(char *str);
-int		isend(char *line);
-int		numberblank(char *str);
-int		searchcomma(char *line);
-int		gotomap(t_display *display, t_parse *parse, int len, int fd);
-void	getxy2(t_parse *parse, int b, char *line, int fd);
-void	getxymap(t_parse *parse, char *filename);
-int		sortmap(t_parse *parse, char *line, int len, t_display *display);
-int		mallocmap(t_parse *parse, t_display *display);
-char	initposplayer(char pos, int x, int y, t_display *display);
 
 #endif
