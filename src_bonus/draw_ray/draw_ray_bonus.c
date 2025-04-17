@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_ray_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:46:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/16 16:19:33 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/17 22:38:49 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,14 @@ int	side_wall(t_data *g, int height)
 
 void	draw_walls(t_data *g, float wall_distance)
 {
-	int		i;
-	int		start;
-	int		end;
+	int	i;
+	int	start;
+	int	end;
+	int	color;
 
 	i = 0;
-	g->ray.wall_height = (BLOCK_SIZE / wall_distance) * PROJECTION;
+	color = 0;
+	g->ray.wall_height = (BLOCK_SIZE / wall_distance) * g->projection;
 	start = HEIGHT - g->ray.wall_height / (2 + g->flag.jump_offset)
 		- (360 - g->flag.head_offset);
 	end = start + g->ray.wall_height;
@@ -70,7 +72,10 @@ void	draw_walls(t_data *g, float wall_distance)
 	while (start++ < end)
 	{
 		if (start >= 0 && start <= HEIGHT)
-			put_pixel(&g->mlx.img, g->ray.col, start, side_wall(g, start - i));
+		{
+			color = get_light(side_wall(g, start - i), wall_distance);
+			put_pixel(&g->mlx.img, g->ray.col, start, color);
+		}
 		start++;
 	}
 	while (start++ < HEIGHT)
@@ -107,12 +112,12 @@ void	slice_of_wall(t_data *g, int i)
 
 void	draw_ray(t_data *g)
 {
-	g->ray.a = g->p.angle + FOV_2;
+	g->ray.a = g->p.angle + g->fov_2;
 	g->ray.col = 0;
-	while (g->ray.a >= g->p.angle - FOV_2)
+	while (g->ray.a >= g->p.angle - g->fov_2)
 	{
 		slice_of_wall(g, 0);
-		g->ray.a -= RAY_STEPS;
+		g->ray.a -= g->ray_steps;
 		g->ray.col++;
 	}
 }

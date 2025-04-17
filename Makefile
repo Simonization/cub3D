@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+         #
+#    By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/04/16 15:47:22 by agoldber         ###   ########.fr        #
+#    Updated: 2025/04/17 22:36:17 by agoldber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ MINIMAP			=	${addprefix ${MINIMAP_DIR}, ${MINIMAP_FILES}}
 MOVE			=	${addprefix ${MOVE_DIR}, ${MOVE_FILES}}
 
 FILES			=	main move hooks init utils ${DRAW_RAY}
-FILES_BONUS		=	main_bonus hooks_bonus init_bonus utils_bonus ${DRAW_RAY_BONUS} ${MOVE} ${MINIMAP}
+FILES_BONUS		=	main_bonus hooks_bonus init_bonus utils_bonus weapon_bonus draw_xpm ${DRAW_RAY_BONUS} ${MOVE} ${MINIMAP}
 
 SRCS			=	${addprefix ${SRCS_DIR}, ${addsuffix .c, ${FILES}}}
 SRCS_BONUS		=	${addprefix ${SRCS_BONUS_DIR}, ${addsuffix .c, ${FILES_BONUS}}}

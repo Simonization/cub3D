@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:53:03 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 23:58:29 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/17 22:34:12 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ t_map	get_map(void)
 	int		i;
 
 	i = -1;
-	map.ceiling_color = 0x00451CCB;
-	map.floor_color = 0x00361997;
+	map.ceiling_color = 0x00303030;
+	map.floor_color = 0x00303030;
 	map.no_path = ft_strdup("img/among-us-yellow-shakes-booty.xpm");
 	if (!map.no_path)
 		return (printf("no path\n"), map);
@@ -32,19 +32,72 @@ t_map	get_map(void)
 	map.ea_path = ft_strdup("img/among-us-green-shakes-booty.xpm");
 	if (!map.ea_path)
 		return (printf("ea path\n"), map);
-	map.map = malloc(sizeof(char *) * 11);
-	map.map[0] = ft_strdup("111111111111111111");
-	map.map[1] = ft_strdup("101000000000000001");
-	map.map[2] = ft_strdup("101000000000011111");
-	map.map[3] = ft_strdup("1000000010000000011111111");
-	map.map[4] = ft_strdup("10000000000000000000000001");
-	map.map[5] = ft_strdup("10000000000000000000000001");
-	map.map[6] = ft_strdup("1111100100000000011111111");
-	map.map[7] = ft_strdup("100000110000000001");
-	map.map[8] = ft_strdup("100000100000000001");
-	map.map[9] = ft_strdup("111111111111111111");
-	map.map[10] = NULL;
-	map.line_len = malloc(sizeof(int) * 11);
+	map.map = malloc(sizeof(char *) * 54);
+	// map.map[0] = ft_strdup("      1111111111111111111");
+	// map.map[1] = ft_strdup(" 11111101000000000000001");
+	// map.map[2] = ft_strdup("101000000000011111");
+	// map.map[3] = ft_strdup("1000000010000000011111111");
+	// map.map[4] = ft_strdup("10000000000000000000000001");
+	// map.map[5] = ft_strdup("10000000000000000000000001");
+	// map.map[6] = ft_strdup("1111100100000000011111111");
+	// map.map[7] = ft_strdup("100000110000000001");
+	// map.map[8] = ft_strdup("100000100000000001");
+	// map.map[9] = ft_strdup("111111111111111111");
+	map.map[0] = ft_strdup("                             1111111111111");
+	map.map[1] = ft_strdup("     111111                  1000000000001");
+	map.map[2] = ft_strdup("     100001      11111111111110000000000011111");
+	map.map[3] = ft_strdup("     100001      10000000000010000000000010001");
+	map.map[4] = ft_strdup("     1000001     10000000000000000000000000001");
+	map.map[5] = ft_strdup("     1000001     10001111111110000000000010001");
+	map.map[6] = ft_strdup("     11111111111010001       10000000000011111");
+	map.map[7] = ft_strdup("     1000000000101000111      111110111111");
+	map.map[8] = ft_strdup("     1000000000111000001         10001");
+	map.map[9] = ft_strdup("     1000000000100000001         10001");
+	map.map[10] = ft_strdup("     1000000000000000001         10001");
+	map.map[11] = ft_strdup("     1000000000111111111         10001");
+	map.map[12] = ft_strdup("     10000000001            111111000111");
+	map.map[13] = ft_strdup("1111110000000001            100000000001");
+	map.map[14] = ft_strdup("100011111101111             100111000111");
+	map.map[15] = ft_strdup("1000110010001               1001110001");
+	map.map[16] = ft_strdup("1000100010001               1001110001");
+	map.map[17] = ft_strdup("1101100010001               1111110001");
+	map.map[18] = ft_strdup("1000111110001                    10001");
+	map.map[19] = ft_strdup("1000111010001                    11011                11111111");
+	map.map[20] = ft_strdup("1000011011011111           111111000001111111         10000001");
+	map.map[21] = ft_strdup("1000011000000001           100000000000000011         10000001");
+	map.map[22] = ft_strdup("1000000000000001           10000000000000001111111111110000001");
+	map.map[23] = ft_strdup("1000001000000001           10000000000000000100000000010000001");
+	map.map[24] = ft_strdup("1000011000000001           10000000000000000000000000000000001");
+	map.map[25] = ft_strdup("1000011000000001           10000000000000000100000000010000001");
+	map.map[26] = ft_strdup("1000011000000001           10000000000000001111000011110000001");
+	map.map[27] = ft_strdup("10000111111011111          100000000000000011111001   10000001");
+	map.map[28] = ft_strdup("10000111110001             11111100000111111   1001   10000001");
+	map.map[29] = ft_strdup("10000111110001                  111011         1001   11111111");
+	map.map[30] = ft_strdup("10000100010001                   10001         1001");
+	map.map[31] = ft_strdup("10000000010001                   10001         1001");
+	map.map[32] = ft_strdup("10000100010001                   10001         100111111111111");
+	map.map[33] = ft_strdup("10000111110001                   10001         100010000000001");
+	map.map[34] = ft_strdup("10000111110001111111111111       10001         100000000000001");
+	map.map[35] = ft_strdup("1000000000000000001000000111     10001         100010000000001");
+	map.map[36] = ft_strdup("1000000000000000000000000101     10001         111111111111111");
+	map.map[37] = ft_strdup("1000000000000000001000000111     10001");
+	map.map[38] = ft_strdup("11111111111111111111111111       10001");
+	map.map[39] = ft_strdup("           11001001001      111111101111111");
+	map.map[40] = ft_strdup("          11000100101       100001000100001");
+	map.map[41] = ft_strdup("           110000011        100000000000001");
+	map.map[42] = ft_strdup("            111111          100001000100001");
+	map.map[43] = ft_strdup("            1001            100001000100001");
+	map.map[44] = ft_strdup("            1001            111111000111111");
+	map.map[45] = ft_strdup("            1111            1P0001000100001");
+	map.map[46] = ft_strdup("                            100000000000001");
+	map.map[47] = ft_strdup("                            100001000100001");
+	map.map[48] = ft_strdup("                            111111000111111");
+	map.map[49] = ft_strdup("                            100000000000001");
+	map.map[50] = ft_strdup("                            100000000000001");
+	map.map[51] = ft_strdup("                            100000000000001");
+	map.map[52] = ft_strdup("                            111111111111111");
+	map.map[53] = NULL;
+	map.line_len = malloc(sizeof(int) * 54);
 	while (map.map[++i])
 		map.line_len[i] = ft_strlen(map.map[i]);
 	return (map);
@@ -85,10 +138,29 @@ void	windows_init(t_mlx *mlx, t_data *game)
 	mlx->ea.steps = mlx->ea.width / BLOCK_SIZE;
 }
 
-void	player_init(t_player *player)
+t_coord	get_player_pos(t_map map)
 {
-	player->co.x = WIDTH / 2;
-	player->co.y = HEIGHT / 2;
+	t_coord	pos;
+
+	pos.y = 0;
+	while (map.map[pos.y])
+	{
+		pos.x = 0;
+		while (map.map[pos.y][pos.x])
+		{
+			if (map.map[pos.y][pos.x] == 'P')
+				return (pos);
+			pos.x++;
+		}
+		pos.y++;
+	}
+	return (pos);
+}
+
+void	player_init(t_player *player, t_coord pos)
+{
+	player->co.x = (pos.x + 0.5f) * BLOCK_SIZE;
+	player->co.y = (pos.y + 0.5f) * BLOCK_SIZE;
 	player->co.color = 0x0000FF00;
 	player->angle = PI / 2;
 	player->up = false;
@@ -109,6 +181,7 @@ void	init_utils(t_data *game)
 	game->flag.bob_steps = 0.0f;
 	game->flag.jump_offset = 0.0f;
 	game->flag.jump = false;
+	game->flag.crouch = false;
 	game->flag.map = 1;
 	game->trigo.cos_a = cosf(game->p.angle);
 	game->trigo.sin_a = sinf(game->p.angle);
@@ -119,4 +192,41 @@ void	init_utils(t_data *game)
 	gettimeofday(&game->last_time, NULL);
 	gettimeofday(&game->last_fps_print, NULL);
 	game->fps = 0.0f;
+	game->fov = PI / 3.0f;
+	game->fov_2 = game->fov / 2.0f;
+	game->ray_steps = game->fov / WIDTH;
+	game->projection = ((WIDTH / 2.0f) / tan(game->fov_2));
+	game->target_fov = PI / 3.5f;
+}
+
+void	weapon_init(t_data *game)
+{
+	int	i;
+	char	*path;
+	char	*name;
+	char	*extension;
+	char	*all;
+
+	i = 0;
+	path = ft_strdup("img/w");
+	extension = ft_strdup(".xpm");
+	game->weapon.current_img = 0;
+	game->weapon.is_firing = false;
+	game->weapon.is_anim = false;
+	game->weapon.anim_timer = 0.0;
+	while (i <= 6)
+	{
+		name = ft_itoa(i + 1);
+		all = ft_strjoin(path, name);
+		free(name);
+		name = ft_strjoin(all, extension);
+		free(all);
+		game->weapon.weapon[i].img = mlx_xpm_file_to_image(game->mlx.mlx, name, &game->weapon.weapon[i].width, &game->weapon.weapon[i].height);
+		game->weapon.weapon[i].addr = mlx_get_data_addr(game->weapon.weapon[i].img, &game->weapon.weapon[i].bpp, &game->weapon.weapon[i].size_line, &game->weapon.weapon[i].endian);
+		game->weapon.weapon[i].bpp_8 = game->weapon.weapon[i].bpp / 8;
+		free(name);
+		i++;
+	}
+	free(path);
+	free(extension);
 }

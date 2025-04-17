@@ -6,15 +6,15 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/17 01:03:06 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/17 22:28:48 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_BONUS_H
 # define CUB3D_BONUS_H
 
-# define WIDTH 1280
-# define HEIGHT 720
+# define WIDTH 1600
+# define HEIGHT 900
 # define ESC 65307
 # define W 119
 # define A 97
@@ -43,6 +43,7 @@
 # define MINIMAP_PLAYER MINIMAP_CENTER + (TILES_SIZE / 2)
 # define VERTICAL 0
 # define HORIZONTAL 1
+# define CROUCH 102
 
 # include "libft.h"
 # include <mlx.h>
@@ -133,6 +134,9 @@ typedef struct s_flag
 	float	jump_time;
 	bool	jump;
 	int		map;
+	float	crouch_offset;
+	float	crouch_time;
+	bool	crouch;
 }	t_flag;
 
 typedef struct s_trigo
@@ -159,28 +163,36 @@ typedef struct s_weapon
 
 typedef struct s_data
 {
-	t_mlx		mlx;
-	t_player	p;
-	t_trigo		trigo;
-	t_flag		flag;
-	t_ray		ray;
-	t_map		map;
-	t_weapon	weapon;
-	struct timeval last_time;
-	struct timeval last_fps_print;
-	float	fps;
-	float	delta_time;
+	t_mlx			mlx;
+	t_player		p;
+	t_trigo			trigo;
+	t_flag			flag;
+	t_ray			ray;
+	t_map			map;
+	t_weapon		weapon;
+	struct timeval	last_time;
+	struct timeval	last_fps_print;
+	float			fps;
+	float			delta_time;
+	float			fov;
+	float			fov_2;
+	float			ray_steps;
+	float			projection;
+	float			target_fov;
 }	t_data;
 
 //DRAW RAY
 void	draw_ray(t_data *game);
 float	distance(t_player player, t_ray r, float disto);
 int		touch(float x, float y, t_map map);
+int		get_light(int color, float wall_distance);
 //INIT
 t_map	get_map(void);
 void	windows_init(t_mlx *mlx, t_data *game);
-void	player_init(t_player *player);
+t_coord	get_player_pos(t_map map);
+void	player_init(t_player *player, t_coord pos);
 void	init_utils(t_data *game);
+void	weapon_init(t_data *game);
 //HOOKS
 int		released_key(int keycode, t_data *game);
 int		pressed_key(int keycode, t_data *game);
@@ -196,6 +208,12 @@ void	draw_minimap(t_data *game);
 void	draw_square(t_coord co, int size, bool full, t_img *img);
 void	part_triangle(int x, int y, t_img *img);
 void	draw_triangle_side(t_trigo a, t_trigo perp, t_img *img);
+//WEAPON
+int		fire(int button, int x, int y, t_data *g);
+void	weapon_anim(t_data *game);
 //UTILS
 void	put_pixel(t_img *img, int x, int y, int color);
+void	put_fps(t_data *game);
+void	change_fov(t_data *g);
+void	draw_xpm(t_data *g, t_img *i, t_coord dst, int scale);
 #endif

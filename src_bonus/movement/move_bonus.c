@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:49:19 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/17 01:08:14 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/17 21:54:51 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,22 @@ void	move_buffer(t_player *p, t_map *map, float dx, float dy)
 	}
 }
 
-void	move_direction(t_player *player, t_map *map, float dx, float dy)
+void	move_direction(t_data *g, float dx, float dy)
 {
 	float	len;
 	int		speed;
 
 	speed = 5;
-	if (player->run)
+	if (g->p.run && !g->flag.crouch)
 		speed = 10;
+	if (g->flag.crouch)
+		speed = 2;
 	len = sqrt(dx * dx + dy * dy);
 	if (len < 0.001f)
 		return ;
-	// printf("angle du joueur : %f\n", player->angle);
-	// printf("avant len\ndx : %f\ndy : %f\n", dx, dy);
 	dx = dx * speed;
 	dy = dy * speed;
-	// printf("apres len\ndx : %f\ndy : %f\n", dx, dy);
-	move_buffer(player, map, dx, dy);
+	move_buffer(&g->p, &g->map, dx, dy);
 }
 
 void	rotation(t_data *g)
@@ -77,7 +76,7 @@ void	rotation(t_data *g)
 	float	rotation_speed;
 
 	rotation_speed = 0.05f;
-	if (g->p.run)
+	if (g->p.run && !g->flag.crouch)
 		rotation_speed += 0.03f;
 	if (g->p.rotate_left)
 		g->p.angle += rotation_speed;
@@ -88,11 +87,11 @@ void	rotation(t_data *g)
 	else if (g->p.angle < 0.0f)
 		g->p.angle += 2.0f * PI;
 	g->trigo.cos_a = cosf(g->p.angle);
-	g->trigo.sin_a = -sinf(g->p.angle);
+	g->trigo.sin_a = sinf(g->p.angle);
 	g->trigo.cos_r = cosf(g->p.angle + PI / 2);
-	g->trigo.sin_r = -sinf(g->p.angle + PI / 2);
+	g->trigo.sin_r = sinf(g->p.angle + PI / 2);
 	g->trigo.cos_l = cosf(g->p.angle - PI / 2);
-	g->trigo.sin_l = -sinf(g->p.angle - PI / 2);
+	g->trigo.sin_l = sinf(g->p.angle - PI / 2);
 }
 
 void	move_player(t_data *g)
@@ -111,5 +110,5 @@ void	move_player(t_data *g)
 		delta(&dx, &dy, g->trigo.cos_l, g->trigo.sin_l);
 	if (g->p.left)
 		delta(&dx, &dy, g->trigo.cos_r, g->trigo.sin_r);
-	move_direction(&g->p, &g->map, dx, dy);
+	move_direction(g, dx, dy);
 }
