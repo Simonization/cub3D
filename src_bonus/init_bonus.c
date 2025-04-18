@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:53:03 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/17 22:34:12 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/18 02:07:03 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_map	get_map(void)
 	map.map[21] = ft_strdup("1000011000000001           100000000000000011         10000001");
 	map.map[22] = ft_strdup("1000000000000001           10000000000000001111111111110000001");
 	map.map[23] = ft_strdup("1000001000000001           10000000000000000100000000010000001");
-	map.map[24] = ft_strdup("1000011000000001           10000000000000000000000000000000001");
+	map.map[24] = ft_strdup("1000011000000001           10000000P00000000000000000000000001");
 	map.map[25] = ft_strdup("1000011000000001           10000000000000000100000000010000001");
 	map.map[26] = ft_strdup("1000011000000001           10000000000000001111000011110000001");
 	map.map[27] = ft_strdup("10000111111011111          100000000000000011111001   10000001");
@@ -88,7 +88,7 @@ t_map	get_map(void)
 	map.map[42] = ft_strdup("            111111          100001000100001");
 	map.map[43] = ft_strdup("            1001            100001000100001");
 	map.map[44] = ft_strdup("            1001            111111000111111");
-	map.map[45] = ft_strdup("            1111            1P0001000100001");
+	map.map[45] = ft_strdup("            1111            100001000100001");
 	map.map[46] = ft_strdup("                            100000000000001");
 	map.map[47] = ft_strdup("                            100001000100001");
 	map.map[48] = ft_strdup("                            111111000111111");
@@ -163,6 +163,10 @@ void	player_init(t_player *player, t_coord pos)
 	player->co.y = (pos.y + 0.5f) * BLOCK_SIZE;
 	player->co.color = 0x0000FF00;
 	player->angle = PI / 2;
+	player->dir_x = 0.0f;
+	player->dir_y = -1.0f;
+	player->plane_x = 0.66f;
+	player->plane_y = 0.0f;
 	player->up = false;
 	player->down = false;
 	player->right = false;

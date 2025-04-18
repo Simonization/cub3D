@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:49:19 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/17 21:54:51 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/18 03:43:18 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	is_wall(float x, float y, t_map *map)
 	int	x_map;
 	int	y_map;
 
-	x_map = x / BLOCK_SIZE;
-	y_map = y / BLOCK_SIZE;
+	x_map = (int)(x / BLOCK_SIZE);
+	y_map = (int)(y / BLOCK_SIZE);
 	if (y_map < 0 || !map->map[y_map] || x_map < 0
 		|| x_map >= map->line_len[y_map] || !map->map[y_map][x_map])
 		return (1);
