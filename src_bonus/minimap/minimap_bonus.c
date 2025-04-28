@@ -6,13 +6,13 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:09:40 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/17 14:55:01 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/28 15:42:09 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-void	draw_player(t_data *game)
+static void	draw_player(t_data *game)
 {
 	t_trigo	perp;
 
@@ -24,7 +24,7 @@ void	draw_player(t_data *game)
 	draw_triangle_side(game->trigo, perp, &game->mlx.img);
 }
 
-int	check_limit(t_data *game, t_coord co, t_coord limit)
+static int	check_limit(t_data *game, t_coord co, t_coord limit)
 {
 	if (game->flag.map == 1)
 	{
@@ -42,7 +42,7 @@ int	check_limit(t_data *game, t_coord co, t_coord limit)
 	return (0);
 }
 
-void	draw_map(char **map, t_data *game, t_coord limit)
+static void	draw_map(char **map, t_data *game, t_coord limit)
 {
 	t_coord	co;
 	t_coord	co2;
@@ -52,13 +52,13 @@ void	draw_map(char **map, t_data *game, t_coord limit)
 	while (map[co.y])
 	{
 		co.x = 0;
-		co2.y = ((co.y - (game->p.co.y / BLOCK_SIZE))
-				* TILES_SIZE) + MINIMAP_CENTER;
+		co2.y = ((co.y - (game->p.pos_y / BLOCK_SIZE))
+				* TILES_SIZE) + MINIMAP_CENTER + 7.5f;
 		while (map[co.y][co.x])
 		{
-			co2.x = ((co.x - (game->p.co.x / BLOCK_SIZE))
-					* TILES_SIZE) + MINIMAP_CENTER;
-			if (check_limit(game, co2, limit) && map[co.y][co.x] == '1')
+			co2.x = ((co.x - (game->p.pos_x / BLOCK_SIZE))
+					* TILES_SIZE) + MINIMAP_CENTER + 7.5f;
+			if (map[co.y][co.x] == '1' && check_limit(game, co2, limit))
 				draw_square(co2, TILES_SIZE, true, &game->mlx.img);
 			co.x++;
 		}
@@ -66,7 +66,7 @@ void	draw_map(char **map, t_data *game, t_coord limit)
 	}
 }
 
-void	draw_circle(t_img *img, int c, int r, int color)
+static void	draw_circle(t_img *img, int c, int r, int color)
 {
 	int	x;
 	int	y;

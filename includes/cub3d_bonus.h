@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/18 03:42:53 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/28 15:56:19 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,6 @@
 # define SHIFT 65505
 # define BLOCK_SIZE 64
 # define PI 3.14159265359f
-# define P_SIZE 10
-# define FOV (PI / 3.0f)
-# define FOV_2 (FOV / 2.0f)
 # define RAY_STEPS (FOV / WIDTH)
 # define PROJECTION ((WIDTH / 2) / tan(FOV / 2.0f))
 # define X_CENTER WIDTH / 2
@@ -41,8 +38,6 @@
 # define MINIMAP_RADIUS ((MINIMAP_SIZE + 10) / 2) - 1
 # define MINIMAP_CENTER (MINIMAP_SIZE + (TILES_SIZE / 2)) / 2
 # define MINIMAP_PLAYER MINIMAP_CENTER + (TILES_SIZE / 2)
-# define VERTICAL 0
-# define HORIZONTAL 1
 # define CROUCH 102
 
 # include "libft.h"
@@ -86,16 +81,27 @@ typedef struct s_coordinates
 
 typedef struct s_ray
 {
-	float	x;
-	float	y;
-	float	old_x;
-	float	old_y;
-	float	a;
-	float	cos_a;
-	float	sin_a;
-	bool	v_hit;
 	int		col;
 	float	wall_height;
+	float	pos_x;
+	float	pos_y;
+	float	dir_x;
+	float	dir_y;
+	float	camera_x;
+	int		map_x;
+	int		map_y;
+	float	side_dist_x;
+	float	side_dist_y;
+	int		step_x;
+	int		step_y;
+	float	delta_x;
+	float	delta_y;
+	bool	side;
+	bool	hit;
+	float	wall_dist;
+	float	hit_x;
+	float	hit_y;
+	float	wall_x;
 }	t_ray;
 
 typedef	struct s_player
@@ -109,6 +115,14 @@ typedef	struct s_player
 	bool	rotate_left;
 	bool	rotate_right;
 	bool	run;
+	float	pos_x;
+	float	pos_y;
+	float	dir_x;
+	float	dir_y;
+	float	plane_x;
+	float	plane_y;
+	int		move_x;
+	int		move_y;
 }	t_player;
 
 typedef struct s_map
@@ -183,9 +197,7 @@ typedef struct s_data
 
 //DRAW RAY
 void	draw_ray(t_data *game);
-float	distance(t_player player, t_ray r, float disto);
-int		touch(float x, float y, t_map map);
-int		get_light(int color, float wall_distance);
+void	draw_walls(t_data *g, float wall_distance);
 //INIT
 t_map	get_map(void);
 void	windows_init(t_mlx *mlx, t_data *game);
@@ -203,10 +215,14 @@ void	move_player(t_data *g);
 void	delta(float *dx, float *dy, float cos_a, float sin_a);
 void	offset(t_flag *f, t_player *player);
 void	bobbing(t_data *game);
+void	move_player_forward(t_data *g, float speed);
+void	move_player_backward(t_data *g, float speed);
+void	move_player_left(t_data *g, float speed);
+void	move_player_right(t_data *g, float speed);
+void	validate_move(t_data *g, float new_x, float new_y);
 //MINIMAP
 void	draw_minimap(t_data *game);
 void	draw_square(t_coord co, int size, bool full, t_img *img);
-void	part_triangle(int x, int y, t_img *img);
 void	draw_triangle_side(t_trigo a, t_trigo perp, t_img *img);
 //WEAPON
 int		fire(int button, int x, int y, t_data *g);

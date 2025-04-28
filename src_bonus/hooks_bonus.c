@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:50:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/17 20:29:29 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/28 15:56:02 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,27 +56,37 @@ void	pressed_key2(int keycode, t_data *game)
 		game->flag.jump_time = 0.0f;
 	}
 	else if (keycode == CROUCH && !game->flag.jump)
-	{
 		game->flag.crouch = !game->flag.crouch;
-	}
 }
 
 int	pressed_key(int keycode, t_data *game)
 {
 	if (keycode == ESC)
 		ft_close(game);
-	else if (keycode == A)
-		game->p.left = true;
-	else if (keycode == W)
-		game->p.up = true;
-	else if (keycode == S)
-		game->p.down = true;
-	else if (keycode == D)
-		game->p.right = true;
 	else if (keycode == LEFT)
 		game->p.rotate_left = true;
 	else if (keycode == RIGHT)
 		game->p.rotate_right = true;
+	if (keycode == W)
+	{
+		game->p.up = true;
+		game->p.move_y += 1;
+	}
+	if (keycode == A)
+	{
+		game->p.left = true;
+		game->p.move_x -= 1;
+	}
+	if (keycode == S)
+	{
+		game->p.down = true;
+		game->p.move_y -= 1;
+	}
+	if (keycode == D)
+	{
+		game->p.right = true;
+		game->p.move_x += 1;
+	}
 	else if (keycode == SHIFT)
 		game->p.run = true;
 	else if (keycode == UP)
@@ -89,17 +99,29 @@ int	pressed_key(int keycode, t_data *game)
 
 int	released_key(int keycode, t_data *game)
 {
-	if (keycode == A)
-		game->p.left = false;
-	else if (keycode == W)
+	if (keycode == W && game->p.move_y == 1)
+	{
 		game->p.up = false;
-	else if (keycode == S)
+		game->p.move_y = 0;
+	}
+	if (keycode == S && game->p.move_y == -1)
+	{
 		game->p.down = false;
-	else if (keycode == D)
+		game->p.move_y = 0;
+	}
+	if (keycode == A && game->p.move_x == -1)
+	{
+		game->p.left = false;
+		game->p.move_x += 1;
+	}
+	if (keycode == D && game->p.move_x == 1)
+	{
 		game->p.right = false;
-	else if (keycode == LEFT)
+		game->p.move_x -= 1;
+	}
+	if (keycode == LEFT)
 		game->p.rotate_left = false;
-	else if (keycode == RIGHT)
+	if (keycode == RIGHT)
 		game->p.rotate_right = false;
 	else if (keycode == SHIFT)
 		game->p.run = false;
@@ -119,6 +141,10 @@ int	mouse(int x, int y, t_data *game)
 	if (delta_x != 0)
 	{
 		game->p.angle -= delta_x * 0.002f;
+		game->p.dir_x = cosf(game->p.angle);
+		game->p.dir_y = -sinf(game->p.angle);
+		game->p.plane_x = -game->p.dir_y * tan(game->fov / 2);
+		game->p.plane_y = game->p.dir_x * tan(game->fov / 2);
 		mlx_mouse_move(game->mlx.mlx, game->mlx.win, X_CENTER, Y_CENTER);
 	}
 	delta_y = y - Y_CENTER;

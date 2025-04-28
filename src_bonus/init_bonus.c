@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:53:03 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/18 02:07:03 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/28 15:55:40 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,6 @@ t_map	get_map(void)
 	if (!map.ea_path)
 		return (printf("ea path\n"), map);
 	map.map = malloc(sizeof(char *) * 54);
-	// map.map[0] = ft_strdup("      1111111111111111111");
-	// map.map[1] = ft_strdup(" 11111101000000000000001");
-	// map.map[2] = ft_strdup("101000000000011111");
-	// map.map[3] = ft_strdup("1000000010000000011111111");
-	// map.map[4] = ft_strdup("10000000000000000000000001");
-	// map.map[5] = ft_strdup("10000000000000000000000001");
-	// map.map[6] = ft_strdup("1111100100000000011111111");
-	// map.map[7] = ft_strdup("100000110000000001");
-	// map.map[8] = ft_strdup("100000100000000001");
-	// map.map[9] = ft_strdup("111111111111111111");
 	map.map[0] = ft_strdup("                             1111111111111");
 	map.map[1] = ft_strdup("     111111                  1000000000001");
 	map.map[2] = ft_strdup("     100001      11111111111110000000000011111");
@@ -159,14 +149,17 @@ t_coord	get_player_pos(t_map map)
 
 void	player_init(t_player *player, t_coord pos)
 {
-	player->co.x = (pos.x + 0.5f) * BLOCK_SIZE;
-	player->co.y = (pos.y + 0.5f) * BLOCK_SIZE;
+	player->pos_x = (pos.x + 0.5f) * BLOCK_SIZE;
+	player->pos_y = (pos.y + 0.5f) * BLOCK_SIZE;
 	player->co.color = 0x0000FF00;
 	player->angle = PI / 2;
-	player->dir_x = 0.0f;
-	player->dir_y = -1.0f;
-	player->plane_x = 0.66f;
-	player->plane_y = 0.0f;
+	player->dir_x = 0;
+	player->dir_y = -1;
+	player->plane_x = 0.66;
+	player->plane_y = 0;
+	player->move_y = 0;
+	player->move_x = 0;
+	player->angle = atan2(-player->dir_y, player->dir_x);
 	player->up = false;
 	player->down = false;
 	player->right = false;

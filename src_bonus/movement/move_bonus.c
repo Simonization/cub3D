@@ -6,13 +6,13 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:49:19 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/18 03:43:18 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:00:25 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-int	is_wall(float x, float y, t_map *map)
+static int	is_wall(float x, float y, t_map *map)
 {
 	int	x_map;
 	int	y_map;
@@ -25,90 +25,67 @@ int	is_wall(float x, float y, t_map *map)
 	return (map->map[y_map][x_map] == '1');
 }
 
-void	move_buffer(t_player *p, t_map *map, float dx, float dy)
+inline static int	is_free(t_map *m, float x, float y)
 {
-	int	buffer;
-	int	new_x;
-	int	new_y;
+	float	r;
 
-	new_x = p->co.x + dx;
-	new_y = p->co.y + dy;
-	if (dx != 0.0f)
-	{
-		if (dx > 0)
-			buffer = 2;
-		else
-			buffer = -2;
-		if (!is_wall(new_x + buffer, p->co.y, map))
-			p->co.x = new_x;
-	}
-	if (dy != 0.0f)
-	{
-		if (dy > 0)
-			buffer = 2;
-		else
-			buffer = -2;
-		if (!is_wall(p->co.x, new_y + buffer, map))
-			p->co.y = new_y;
-	}
+	r = 10.0f;
+	return (!is_wall(x + r, y + r, m) && !is_wall(x - r, y + r, m)
+		&& !is_wall(x + r, y - r, m) && !is_wall(x - r, y - r, m));
 }
 
-void	move_direction(t_data *g, float dx, float dy)
+void	validate_move(t_data *g, float new_x, float new_y)
 {
-	float	len;
-	int		speed;
-
-	speed = 5;
-	if (g->p.run && !g->flag.crouch)
-		speed = 10;
-	if (g->flag.crouch)
-		speed = 2;
-	len = sqrt(dx * dx + dy * dy);
-	if (len < 0.001f)
-		return ;
-	dx = dx * speed;
-	dy = dy * speed;
-	move_buffer(&g->p, &g->map, dx, dy);
+	if (is_free(&g->map, new_x, g->p.pos_y))
+		g->p.pos_x = new_x;
+	if (is_free(&g->map, g->p.pos_x, new_y))
+		g->p.pos_y = new_y;
 }
 
-void	rotation(t_data *g)
+static void	rotate_player(t_data *g)
 {
 	float	rotation_speed;
 
 	rotation_speed = 0.05f;
-	if (g->p.run && !g->flag.crouch)
+	if (g->p.run)
 		rotation_speed += 0.03f;
 	if (g->p.rotate_left)
 		g->p.angle += rotation_speed;
 	if (g->p.rotate_right)
 		g->p.angle -= rotation_speed;
-	if (g->p.angle >= 2.0f * PI)
-		g->p.angle -= 2.0f * PI;
-	else if (g->p.angle < 0.0f)
-		g->p.angle += 2.0f * PI;
-	g->trigo.cos_a = cosf(g->p.angle);
-	g->trigo.sin_a = sinf(g->p.angle);
-	g->trigo.cos_r = cosf(g->p.angle + PI / 2);
-	g->trigo.sin_r = sinf(g->p.angle + PI / 2);
-	g->trigo.cos_l = cosf(g->p.angle - PI / 2);
-	g->trigo.sin_l = sinf(g->p.angle - PI / 2);
+	if (g->p.angle > 2.0f * PI)
+		g->p.angle = 0.0f;
+	if (g->p.angle < 0.0f)
+		g->p.angle = 2.0f * PI;
+	g->p.dir_x = cosf(g->p.angle);
+	g->p.dir_y = -sinf(g->p.angle);
+	g->p.plane_x = -g->p.dir_y * tan(g->fov / 2);
+	g->p.plane_y = g->p.dir_x * tan(g->fov / 2);
 }
 
 void	move_player(t_data *g)
 {
-	float	dx;
-	float	dy;
+	float	speed;
 
-	rotation(g);
-	dx = 0.0f;
-	dy = 0.0f;
-	if (g->p.up)
-		delta(&dx, &dy, g->trigo.cos_a, g->trigo.sin_a);
-	if (g->p.down)
-		delta(&dx, &dy, -g->trigo.cos_a, -(g->trigo.sin_a));
-	if (g->p.right)
-		delta(&dx, &dy, g->trigo.cos_l, g->trigo.sin_l);
-	if (g->p.left)
-		delta(&dx, &dy, g->trigo.cos_r, g->trigo.sin_r);
-	move_direction(g, dx, dy);
+	speed = 5.0f;
+	if (g->p.run && !g->flag.crouch)
+		speed = 10.0f;
+	else if (g->flag.crouch)
+		speed = 3.0f;
+	if (g->p.move_y == 1)
+		move_player_forward(g, speed);
+	if (g->p.move_y == -1)
+		move_player_backward(g, speed);
+	if (g->p.move_x == -1)
+		move_player_left(g, speed);
+	if (g->p.move_x == 1)
+		move_player_right(g, speed);
+	if (g->p.rotate_left || g->p.rotate_right)
+		rotate_player(g);
+	g->trigo.cos_a = g->p.dir_x;
+	g->trigo.sin_a = -g->p.dir_y;
+	g->trigo.cos_r = cosf(g->p.angle + PI / 2);
+	g->trigo.sin_r = sinf(g->p.angle + PI / 2);
+	g->trigo.cos_l = cosf(g->p.angle - PI / 2);
+	g->trigo.sin_l = sinf(g->p.angle - PI / 2);
 }

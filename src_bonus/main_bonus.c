@@ -6,15 +6,14 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/17 22:35:45 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:07:47 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-int	draw_game(t_data *game)
+static int	draw_game(t_data *game)
 {
-	change_fov(game);
 	if (game->mlx.img.addr)
 		ft_bzero(game->mlx.img.addr, HEIGHT * game->mlx.img.size_line);
 	move_player(game);
@@ -23,10 +22,10 @@ int	draw_game(t_data *game)
 	draw_ray(game);
 	if (game->flag.map != 0)
 		draw_minimap(game);
-	mlx_put_image_to_window(game->mlx.mlx, game->mlx.win,
-		game->mlx.img.img, 0, 0);
 	put_fps(game);
 	weapon_anim(game);
+	mlx_put_image_to_window(game->mlx.mlx, game->mlx.win,
+		game->mlx.img.img, 0, 0);
 	return (0);
 }
 

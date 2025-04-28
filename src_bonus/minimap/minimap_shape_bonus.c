@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 02:46:38 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/13 02:55:14 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/28 15:42:22 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	draw_square(t_coord co, int size, bool full, t_img *img)
 	}
 }
 
-void	part_triangle(int x, int y, t_img *img)
+static void	part_triangle(int x, int y, t_img *img)
 {
 	int	dx;
 	int	dy;

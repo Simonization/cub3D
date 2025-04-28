@@ -6,52 +6,25 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 23:44:45 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/17 22:40:32 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:06:39 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-int	touch(float x, float y, t_map map)
-{
-	int		x_ray;
-	int		y_ray;
-	char	tile;
-
-	x_ray = (int)(x / BLOCK_SIZE);
-	y_ray = (int)(y / BLOCK_SIZE);
-	if (x_ray < 0 || y_ray < 0 || !map.map[y_ray]
-		|| x_ray >= map.line_len[y_ray])
-		return (1);
-	tile = map.map[y_ray][x_ray];
-	return (tile == '1');
-}
-
-float	distance(t_player player, t_ray r, float disto)
-{
-	float	delta_x;
-	float	delta_y;
-	float	distortion;
-
-	delta_x = (player.co.x - r.x) * (player.co.x - r.x);
-	delta_y = (player.co.y - r.y) * (player.co.y - r.y);
-	distortion = sqrt(delta_x + delta_y);
-	return (distortion * disto);
-}
-
-int	get_light(int color, float wall_distance)
+static int	get_light(int color, float wall_distance)
 {
 	float	intensity;
 	int		r;
 	int		g;
 	int		b;
 
-	intensity = 1.0f / (0.1f + wall_distance * 0.005f);
+	intensity = 1.0f / (wall_distance * 0.5f);
 	if (intensity > 1.0f)
 		intensity = 1.0f;
-	r = ((int)((color >> 16)) & 0xFF) * intensity;
-	g = ((int)((color >> 8)) & 0xFF) * intensity;
-	b = ((int)(color & 0xFF)) * intensity;
+	r = (int)(((color >> 16) & 0xFF) * intensity);
+	g = (int)(((color >> 8) & 0xFF) * intensity);
+	b = (int)((color & 0xFF) * intensity);
 	if (r > 255)
 		r = 255;
 	if (g > 255)
@@ -59,4 +32,72 @@ int	get_light(int color, float wall_distance)
 	if (b > 255)
 		b = 255;
 	return ((r << 16) | (g << 8) | b);
+}
+
+static int	get_texture(t_img tex, int height, t_ray ray)
+{
+	int		tex_x;
+	int		tex_y;
+	char	*pixel;
+	int		color;
+	float	step;
+
+	tex_x = (int)(ray.wall_x * tex.width);
+	if ((ray.side == 0 && ray.dir_x > 0) || (ray.side == 1 && ray.dir_y < 0))
+		tex_x = tex.width - tex_x - 1;
+	step = (float)tex.height / ray.wall_height;
+	tex_y = (int)(height * step);
+	if (tex_y < 0)
+		tex_y = 0;
+	if (tex_y >= tex.height)
+		tex_y = tex.height - 1;
+	pixel = tex.addr + (tex_y * tex.size_line + tex_x * (tex.bpp_8));
+	color = *(int *)pixel;
+	return (color);
+}
+
+static int	side_wall(t_data *g, int height)
+{
+	if (g->ray.side == 0)
+	{
+		if (g->ray.dir_x > 0.0f)
+			return (get_texture(g->mlx.ea, height, g->ray));
+		else
+			return (get_texture(g->mlx.we, height, g->ray));
+	}
+	else
+	{
+		if (g->ray.dir_y > 0.0f)
+			return (get_texture(g->mlx.so, height, g->ray));
+		else
+			return (get_texture(g->mlx.no, height, g->ray));
+	}
+}
+
+void	draw_walls(t_data *g, float wall_distance)
+{
+	int	i;
+	int	start;
+	int	end;
+	int	color;
+
+	i = 0;
+	color = 0;
+	g->ray.wall_height = g->projection / wall_distance;
+	start = HEIGHT - g->ray.wall_height / (2 + g->flag.jump_offset)
+		- (360 - g->flag.head_offset);
+	end = start + g->ray.wall_height;
+	while (i++ <= start)
+		put_pixel(&g->mlx.img, g->ray.col, i, g->map.ceiling_color);
+	i = start;
+	while (start++ < end)
+	{
+		if (start >= 0 && start <= HEIGHT)
+		{
+			color = get_light(side_wall(g, start - i), wall_distance);
+			put_pixel(&g->mlx.img, g->ray.col, start, color);
+		}
+	}
+	while (start++ < HEIGHT)
+		put_pixel(&g->mlx.img, g->ray.col, start, g->map.floor_color);
 }

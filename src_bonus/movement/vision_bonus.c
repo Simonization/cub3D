@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:21:21 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/18 03:36:53 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/28 15:15:33 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,29 +74,4 @@ void	bobbing(t_data *game)
 		game->flag.bobbing = 0.0f;
 		game->flag.bob_steps = 0.0f;
 	}
-}
-
-void	change_fov(t_data *g)
-{
-	float	speed;
-
-	speed = 0.009f;
-	if (g->flag.crouch)
-		g->target_fov = PI / 3.5f;
-	else if (g->p.run)
-	{
-		g->target_fov = PI / 2.8f;
-		speed = 0.015;
-	}
-	else
-		g->target_fov = PI / 3.0f;
-	if (g->fov < g->target_fov)
-		g->fov += speed;
-	else if (g->fov > g->target_fov)
-		g->fov -= speed;
-	if (fabsf(g->fov - g->target_fov) < speed)
-		g->fov = g->target_fov;
-	g->fov_2 = g->fov / 2.0f;
-	g->ray_steps = g->fov / WIDTH;
-	g->projection = ((WIDTH / 2.0f) / tanf(g->fov_2));
 }

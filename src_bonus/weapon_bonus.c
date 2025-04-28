@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 21:58:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/17 22:37:01 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/28 15:44:28 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	fire(int button, int x, int y, t_data *g)
 	return (0);
 }
 
-void	get_weapon_bob(t_data *g)
+static void	get_weapon_bob(t_data *g)
 {
 	if (g->p.up || g->p.down || g->p.left || g->p.right)
 	{

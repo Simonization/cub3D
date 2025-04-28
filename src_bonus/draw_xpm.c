@@ -6,13 +6,13 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 22:35:48 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/17 22:37:24 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/28 15:43:54 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-t_coord	s_xpm(t_coord dst, t_coord incr, unsigned int color)
+static t_coord	s_xpm(t_coord dst, t_coord incr, unsigned int color)
 {
 	t_coord	co;
 
