@@ -6,33 +6,76 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 23:44:45 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/10 23:45:07 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:42:07 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
-int	touch(float x, float y, t_map map)
+static int	get_texture(t_img tex, int height, t_ray ray)
 {
-	int	x_ray;
-	int	y_ray;
+	int		tex_x;
+	int		tex_y;
+	char	*pixel;
+	int		color;
+	float	step;
 
-	x_ray = x / BLOCK_SIZE;
-	y_ray = y / BLOCK_SIZE;
-	if (!map.map[y_ray] || x_ray < 0
-		|| x_ray > map.line_len[y_ray] || !map.map[y_ray][x_ray])
-		return (1);
-	return (map.map[y_ray][x_ray] == '1');
+	tex_x = (int)(ray.wall_x * tex.width);
+	if ((ray.side == 0 && ray.dir_x > 0) || (ray.side == 1 && ray.dir_y < 0))
+		tex_x = tex.width - tex_x - 1;
+	step = (float)tex.height / ray.wall_height;
+	tex_y = (int)(height * step);
+	if (tex_y < 0)
+		tex_y = 0;
+	if (tex_y >= tex.height)
+		tex_y = tex.height - 1;
+	pixel = tex.addr + (tex_y * tex.size_line + tex_x * (tex.bpp_8));
+	color = *(int *)pixel;
+	return (color);
 }
 
-float	distance(t_player player, t_ray r)
+static int	side_wall(t_data *g, int height)
 {
-	float	delta_x;
-	float	delta_y;
-	float	distortion;
+	if (g->ray.side == 0)
+	{
+		if (g->ray.dir_x > 0.0f)
+			return (get_texture(g->mlx.ea, height, g->ray));
+		else
+			return (get_texture(g->mlx.we, height, g->ray));
+	}
+	else
+	{
+		if (g->ray.dir_y > 0.0f)
+			return (get_texture(g->mlx.so, height, g->ray));
+		else
+			return (get_texture(g->mlx.no, height, g->ray));
+	}
+}
 
-	delta_x = (player.co.x - r.x) * (player.co.x - r.x);
-	delta_y = (player.co.y - r.y) * (player.co.y - r.y);
-	distortion = sqrt(delta_x + delta_y);
-	return (distortion * cos(r.a - player.angle));
+void	draw_walls(t_data *g, float wall_distance)
+{
+	int	i;
+	int	start;
+	int	end;
+	int	color;
+
+	i = 0;
+	color = 0;
+	g->ray.wall_height = g->projection / wall_distance;
+	start = HEIGHT - g->ray.wall_height / 2
+		- 360;
+	end = start + g->ray.wall_height;
+	while (i++ <= start)
+		put_pixel(&g->mlx.img, g->ray.col, i, g->map.ceiling_color);
+	i = start;
+	while (start++ < end)
+	{
+		if (start >= 0 && start <= HEIGHT)
+		{
+			color = side_wall(g, start - i);
+			put_pixel(&g->mlx.img, g->ray.col, start, color);
+		}
+	}
+	while (start++ < HEIGHT)
+		put_pixel(&g->mlx.img, g->ray.col, start, g->map.floor_color);
 }

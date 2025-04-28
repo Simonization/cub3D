@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:50:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/10 17:16:44 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:52:25 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 int	ft_close(t_data *game)
 {
@@ -45,34 +45,34 @@ int	pressed_key(int keycode, t_data *game)
 {
 	if (keycode == ESC)
 		ft_close(game);
-	else if (keycode == A)
-		game->player.left = true;
-	else if (keycode == W)
-		game->player.up = true;
-	else if (keycode == S)
-		game->player.down = true;
-	else if (keycode == D)
-		game->player.right = true;
 	else if (keycode == LEFT)
-		game->player.rotate_left = true;
+		game->p.rotate_left = true;
 	else if (keycode == RIGHT)
-		game->player.rotate_right = true;
+		game->p.rotate_right = true;
+	if (keycode == W)
+		game->p.up = true;
+	if (keycode == A)
+		game->p.left = true;
+	if (keycode == S)
+		game->p.down = true;
+	if (keycode == D)
+		game->p.right = true;
 	return (0);
 }
 
 int	released_key(int keycode, t_data *game)
 {
+	if (keycode == W)
+		game->p.up = false;
+	if (keycode == S)
+		game->p.down = false;
 	if (keycode == A)
-		game->player.left = false;
-	else if (keycode == W)
-		game->player.up = false;
-	else if (keycode == S)
-		game->player.down = false;
-	else if (keycode == D)
-		game->player.right = false;
-	else if (keycode == LEFT)
-		game->player.rotate_left = false;
-	else if (keycode == RIGHT)
-		game->player.rotate_right = false;
+		game->p.left = false;
+	if (keycode == D)
+		game->p.right = false;
+	if (keycode == LEFT)
+		game->p.rotate_left = false;
+	if (keycode == RIGHT)
+		game->p.rotate_right = false;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/28 16:07:47 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:19:19 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	draw_game(t_data *game)
 {
 	if (game->mlx.img.addr)
-		ft_bzero(game->mlx.img.addr, HEIGHT * game->mlx.img.size_line);
+		ft_bzero(game->mlx.img.addr, game->img_size);
 	move_player(game);
 	offset(&game->flag, &game->p);
 	bobbing(game);

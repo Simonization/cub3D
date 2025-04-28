@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:50:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/28 15:56:02 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:56:35 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,25 +68,13 @@ int	pressed_key(int keycode, t_data *game)
 	else if (keycode == RIGHT)
 		game->p.rotate_right = true;
 	if (keycode == W)
-	{
 		game->p.up = true;
-		game->p.move_y += 1;
-	}
 	if (keycode == A)
-	{
 		game->p.left = true;
-		game->p.move_x -= 1;
-	}
 	if (keycode == S)
-	{
 		game->p.down = true;
-		game->p.move_y -= 1;
-	}
 	if (keycode == D)
-	{
 		game->p.right = true;
-		game->p.move_x += 1;
-	}
 	else if (keycode == SHIFT)
 		game->p.run = true;
 	else if (keycode == UP)
@@ -99,26 +87,14 @@ int	pressed_key(int keycode, t_data *game)
 
 int	released_key(int keycode, t_data *game)
 {
-	if (keycode == W && game->p.move_y == 1)
-	{
+	if (keycode == W)
 		game->p.up = false;
-		game->p.move_y = 0;
-	}
-	if (keycode == S && game->p.move_y == -1)
-	{
+	if (keycode == S)
 		game->p.down = false;
-		game->p.move_y = 0;
-	}
-	if (keycode == A && game->p.move_x == -1)
-	{
+	if (keycode == A)
 		game->p.left = false;
-		game->p.move_x += 1;
-	}
-	if (keycode == D && game->p.move_x == 1)
-	{
+	if (keycode == D)
 		game->p.right = false;
-		game->p.move_x -= 1;
-	}
 	if (keycode == LEFT)
 		game->p.rotate_left = false;
 	if (keycode == RIGHT)

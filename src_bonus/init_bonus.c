@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:53:03 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/28 15:55:40 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:55:19 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	windows_init(t_mlx *mlx, t_data *game)
 		ft_close(game);
 	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp,
 		&mlx->img.size_line, &mlx->img.endian);
+	game->img_size = HEIGHT * game->mlx.img.size_line;
 	mlx->no.img = mlx_xpm_file_to_image(mlx->mlx, game->map.no_path, &mlx->no.width, &mlx->no.height);
 	if (!mlx->no.img)
 		ft_close(game);
@@ -147,26 +148,24 @@ t_coord	get_player_pos(t_map map)
 	return (pos);
 }
 
-void	player_init(t_player *player, t_coord pos)
+void	player_init(t_player *p, t_coord pos)
 {
-	player->pos_x = (pos.x + 0.5f) * BLOCK_SIZE;
-	player->pos_y = (pos.y + 0.5f) * BLOCK_SIZE;
-	player->co.color = 0x0000FF00;
-	player->angle = PI / 2;
-	player->dir_x = 0;
-	player->dir_y = -1;
-	player->plane_x = 0.66;
-	player->plane_y = 0;
-	player->move_y = 0;
-	player->move_x = 0;
-	player->angle = atan2(-player->dir_y, player->dir_x);
-	player->up = false;
-	player->down = false;
-	player->right = false;
-	player->left = false;
-	player->rotate_left = false;
-	player->rotate_right = false;
-	player->run = false;
+	p->pos_x = (pos.x + 0.5f) * BLOCK_SIZE;
+	p->pos_y = (pos.y + 0.5f) * BLOCK_SIZE;
+	p->co.color = 0x0000FF00;
+	p->angle = PI / 2;
+	p->dir_x = cosf(p->angle);
+	p->dir_y = -sinf(p->angle);
+	p->plane_x = 0.66;
+	p->plane_y = 0;
+	p->angle = atan2(-p->dir_y, p->dir_x);
+	p->up = false;
+	p->down = false;
+	p->right = false;
+	p->left = false;
+	p->rotate_left = false;
+	p->rotate_right = false;
+	p->run = false;
 }
 
 void	init_utils(t_data *game)

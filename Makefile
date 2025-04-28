@@ -6,7 +6,7 @@
 #    By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/04/28 15:35:51 by agoldber         ###   ########.fr        #
+#    Updated: 2025/04/28 16:37:37 by agoldber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,17 +47,19 @@ COLOR_END		=	\033[0m
 
 #SOURCES
 DRAW_RAY_FILES	=	draw_ray draw_ray_utils
+MOVE_FILES		=	direction move
 RAY_BONUS_FILES	=	draw_ray_bonus draw_ray_utils_bonus
 MINIMAP_FILES	=	minimap_bonus minimap_shape_bonus
-MOVE_FILES		=	move_bonus vision_bonus direction_bonus
+MOVE_BONUS_FILES		=	move_bonus vision_bonus direction_bonus
 
 DRAW_RAY		=	${addprefix ${DRAW_RAY_DIR}, ${DRAW_RAY_FILES}}
+MOVE			=	${addprefix ${MOVE_DIR}, ${MOVE_FILES}}
 DRAW_RAY_BONUS	=	${addprefix ${DRAW_RAY_DIR}, ${RAY_BONUS_FILES}}
 MINIMAP			=	${addprefix ${MINIMAP_DIR}, ${MINIMAP_FILES}}
-MOVE			=	${addprefix ${MOVE_DIR}, ${MOVE_FILES}}
+MOVE_BONUS		=	${addprefix ${MOVE_DIR}, ${MOVE_BONUS_FILES}}
 
-FILES			=	main move hooks init utils ${DRAW_RAY}
-FILES_BONUS		=	main_bonus hooks_bonus init_bonus utils_bonus weapon_bonus draw_xpm ${DRAW_RAY_BONUS} ${MOVE} ${MINIMAP}
+FILES			=	main hooks init utils ${DRAW_RAY} ${MOVE}
+FILES_BONUS		=	main_bonus hooks_bonus init_bonus utils_bonus weapon_bonus draw_xpm ${DRAW_RAY_BONUS} ${MOVE_BONUS} ${MINIMAP}
 
 SRCS			=	${addprefix ${SRCS_DIR}, ${addsuffix .c, ${FILES}}}
 SRCS_BONUS		=	${addprefix ${SRCS_BONUS_DIR}, ${addsuffix .c, ${FILES_BONUS}}}

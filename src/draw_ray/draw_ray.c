@@ -3,113 +3,107 @@
 /*                                                        :::      ::::::::   */
 /*   draw_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:46:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/16 16:21:43 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:42:33 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
-int	get_texture(int y, t_img texture, int top, t_ray ray)
+static void	init_dda(t_data *g)
 {
-	int		t_x;
-	float	t_y_ratio;
-	int		t_y;
-	char	*px;
-
-	if (ray.v_hit)
-		t_x = ((int)ray.x % BLOCK_SIZE) * texture.width / BLOCK_SIZE;
+	g->ray.pos_x = g->p.pos_x;
+	g->ray.pos_y = g->p.pos_y;
+	g->ray.camera_x = 2.0 * g->ray.col / WIDTH - 1.0;
+	g->ray.dir_x = g->p.dir_x + g->p.plane_x * g->ray.camera_x;
+	g->ray.dir_y = g->p.dir_y + g->p.plane_y * g->ray.camera_x;
+	g->ray.map_x = (int)(g->p.pos_x / BLOCK_SIZE);
+	g->ray.map_y = (int)(g->p.pos_y / BLOCK_SIZE);
+	if (g->ray.dir_x == 0)
+		g->ray.delta_x = 1e30;
 	else
-		t_x = ((int)ray.y % BLOCK_SIZE) * texture.width / BLOCK_SIZE;
-	if (t_x < 0)
-		t_x = 0;
-	else if (t_x >= texture.width)
-		t_x = texture.width - 1;
-	t_y_ratio = (y - top) / (float)ray.wall_height;
-	t_y = t_y_ratio * texture.height;
-	if (t_y < 0)
-		t_y = 0;
-	else if (t_y >= texture.height)
-		t_y = texture.height - 1;
-	px = texture.addr + (t_y * texture.size_line + t_x * (texture.bpp / 8));
-	return (*(unsigned int *)px);
+		g->ray.delta_x = fabsf(1.0f / g->ray.dir_x);
+	if (g->ray.dir_y == 0)
+		g->ray.delta_y = 1e30;
+	else
+		g->ray.delta_y = fabsf(1.0f / g->ray.dir_y);
 }
 
-int	side_wall(t_data *g, int y, int top)
+static void	init_dir(t_data *g)
 {
-	if (g->ray.v_hit)
+	float	cell_x;
+	float	cell_y;
+
+	cell_x = g->p.pos_x / BLOCK_SIZE;
+	cell_y = g->p.pos_y / BLOCK_SIZE;
+	if (g->ray.dir_x < 0)
 	{
-		if (g->ray.sin_a > 0.0f)
-			return (get_texture(y, g->mlx.no, top, g->ray));
-		else
-			return (get_texture(y, g->mlx.so, top, g->ray));
+		g->ray.step_x = -1;
+		g->ray.side_dist_x = (cell_x - g->ray.map_x) * g->ray.delta_x;
 	}
 	else
 	{
-		if (g->ray.cos_a > 0.0f)
-			return (get_texture(y, g->mlx.ea, top, g->ray));
-		else
-			return (get_texture(y, g->mlx.we, top, g->ray));
+		g->ray.step_x = 1;
+		g->ray.side_dist_x = (g->ray.map_x + 1.0 - cell_x) * g->ray.delta_x;
+	}
+	if (g->ray.dir_y < 0)
+	{
+		g->ray.step_y = -1;
+		g->ray.side_dist_y = (cell_y - g->ray.map_y) * g->ray.delta_y;
+	}
+	else
+	{
+		g->ray.step_y = 1;
+		g->ray.side_dist_y = (g->ray.map_y + 1.0 - cell_y) * g->ray.delta_y;
 	}
 }
 
-void	draw_walls(t_data *g, float wall_distance)
+static void	dda(t_data *g)
 {
-	int		i;
-	int		s;
-	int		end;
-
-	i = 0;
-	g->ray.wall_height = (BLOCK_SIZE / wall_distance) * PROJECTION;
-	s = (HEIGHT / 2) - (g->ray.wall_height / 2);
-	end = s + g->ray.wall_height;
-	while (i++ <= s)
-		put_pixel(&g->mlx.img, g->ray.column, i, g->map.ceiling_color);
-	i = s;
-	while (s++ < end)
+	g->ray.hit = false;
+	while (!g->ray.hit)
 	{
-		if (s >= 0 && s <= HEIGHT)
-			put_pixel(&g->mlx.img, g->ray.column, s, side_wall(g, s, i));
-	}
-	while (s++ < HEIGHT)
-		put_pixel(&g->mlx.img, g->ray.column, s, g->map.floor_color);
-}
-
-void	slice_of_wall(t_data *g, int i)
-{
-	g->ray.cos_a = cosf(g->ray.a);
-	g->ray.sin_a = sinf(g->ray.a);
-	g->ray.x = g->player.co.x;
-	g->ray.y = g->player.co.y;
-	while (1)
-	{
-		g->ray.v_hit = false;
-		g->ray.old_x = g->ray.x;
-		g->ray.old_y = g->ray.y;
-		g->ray.x = (g->player.co.x) + g->ray.cos_a * i;
-		g->ray.y = (g->player.co.y) - g->ray.sin_a * i;
-		if (touch(g->ray.x, g->ray.y, g->map))
+		if (g->ray.side_dist_x < g->ray.side_dist_y)
 		{
-			if (touch(g->ray.old_x, g->ray.y, g->map)
-				&& !touch(g->ray.x, g->ray.old_y, g->map))
-				g->ray.v_hit = true;
-			draw_walls(g, distance(g->player, g->ray));
-			return ;
+			g->ray.side_dist_x += g->ray.delta_x;
+			g->ray.map_x += g->ray.step_x;
+			g->ray.side = 0;
 		}
-		i++;
+		else
+		{
+			g->ray.side_dist_y += g->ray.delta_y;
+			g->ray.map_y += g->ray.step_y;
+			g->ray.side = 1;
+		}
+		if (g->map.map[g->ray.map_y][g->ray.map_x] == '1')
+			g->ray.hit = true;
 	}
 }
 
 void	draw_ray(t_data *g)
 {
-	g->ray.a = g->player.angle + (FOV / 2.0f);
-	g->ray.column = 0;
-	while (g->ray.a >= g->player.angle - (FOV / 2.0f))
+	g->ray.col = 0;
+	while (g->ray.col < WIDTH)
 	{
-		slice_of_wall(g, 0);
-		g->ray.a -= (FOV / (WIDTH - 10));
-		g->ray.column++;
+		init_dda(g);
+		init_dir(g);
+		dda(g);
+		if (g->ray.side == 0)
+			g->ray.wall_dist = (g->ray.side_dist_x - g->ray.delta_x);
+		else
+			g->ray.wall_dist = (g->ray.side_dist_y - g->ray.delta_y);
+		g->ray.hit_x = (g->p.pos_x / BLOCK_SIZE)
+			+ g->ray.wall_dist * g->ray.dir_x;
+		g->ray.hit_y = (g->p.pos_y / BLOCK_SIZE)
+			+ g->ray.wall_dist * g->ray.dir_y;
+		if (g->ray.side == 0)
+			g->ray.wall_x = g->ray.hit_y;
+		else
+			g->ray.wall_x = g->ray.hit_x;
+		g->ray.wall_x -= floorf(g->ray.wall_x);
+		draw_walls(g, g->ray.wall_dist);
+		g->ray.col++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/28 15:56:19 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:55:04 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,6 @@ typedef	struct s_player
 	float	dir_y;
 	float	plane_x;
 	float	plane_y;
-	int		move_x;
-	int		move_y;
 }	t_player;
 
 typedef struct s_map
@@ -193,6 +191,7 @@ typedef struct s_data
 	float			ray_steps;
 	float			projection;
 	float			target_fov;
+	int				img_size;
 }	t_data;
 
 //DRAW RAY

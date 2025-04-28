@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 15:45:53 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/16 15:46:30 by agoldber         ###   ########.fr       */
+/*   Created: 2025/04/13 16:14:34 by agoldber          #+#    #+#             */
+/*   Updated: 2025/04/28 16:29:19 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 void	delta(float *dx, float *dy, float cos_a, float sin_a)
 {
