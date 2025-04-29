@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:18:33 by slangero          #+#    #+#             */
-/*   Updated: 2025/04/29 17:19:39 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:52:48 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,22 @@
 
 static int check_texture_file(char *path)
 {
-	int fd;
-	
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
-		return (0);
-	close(fd);
-	return (1);
+    int     fd;
+    char    buffer[10];
+    ssize_t bytes_read;
+    int     path_len;
+    
+    path_len = ft_strlen(path);
+    if (path_len < 5 || ft_strncmp(path + path_len - 4, ".xpm", 4) != 0)
+        return (0);
+    fd = open(path, O_RDONLY);
+    if (fd == -1)
+        return (0);
+    bytes_read = read(fd, buffer, 9);
+    close(fd);
+    if (bytes_read < 9 || ft_strncmp(buffer, "/* XPM */", 9) != 0)
+        return (0);
+    return (1);
 }
 
 static int parse_rgb_value(char *str, int *r, int *g, int *b)

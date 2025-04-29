@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/29 16:33:54 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:50:23 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static int validate_file(char *path)
 {
 	int len;
 	int fd;
+	int result;
 
 	len = ft_strlen(path);
 	if (len < 5 || ft_strncmp(path + len - 4, ".cub", 4) != 0)
@@ -34,9 +35,10 @@ static int validate_file(char *path)
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 		return (0);
-	close(fd);
+	result = 1;
 	
-	return (1);
+	close(fd);
+	return (result);
 }
 
 static int print_error(char *message)
