@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:30:41 by slangero          #+#    #+#             */
-/*   Updated: 2025/04/29 19:00:56 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/29 19:08:11 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,36 +117,39 @@ static int process_map_data(t_parse_buffer *buffer, t_map *map, int map_start)
 	return (1);
 }
 
-
 int parse_map(char *file_path, t_map *final_map)
 {
     t_parse_buffer buffer;
     t_map temp_map;
     
-    // Initialize temporary map structure
     ft_bzero(&temp_map, sizeof(t_map));
-    
-    // Read file into buffer
+    ft_bzero(&buffer, sizeof(t_parse_buffer));
     buffer = read_file_to_buffer(file_path);
     if (!buffer.lines)
-        return (0);
-    
-    // Parse metadata (textures, colors)
+        return (file_error(file_path));
     if (!parse_metadata(&buffer, &temp_map))
-        return (cleanup_buffer(&buffer), clean_map_data(&temp_map), 0);
-    
-    // Extract and validate map
-    if (!extract_map_data(&buffer, &temp_map) || !validate_map(&temp_map))
-        return (cleanup_buffer(&buffer), clean_map_data(&temp_map), 0);
-    
-    // Populate final map structure
+    {
+        cleanup_buffer(&buffer);
+        clean_map_data(&temp_map);
+        return (0);
+    }
+    if (!extract_map_data(&buffer, &temp_map))
+    {
+        return (parse_error_cleanup(&buffer, &temp_map, NULL, 
+                "Failed to extract map data"));
+    }
+    if (!validate_map(&temp_map))
+    {
+        return (parse_error_cleanup(&buffer, &temp_map, NULL, 
+                "Map validation failed"));
+    }
     if (!populate_map_structure(&buffer, &temp_map, final_map))
-        return (cleanup_buffer(&buffer), clean_map_data(&temp_map), 0);
-    
-    // Clean up temporary resources
+    {
+        return (parse_error_cleanup(&buffer, &temp_map, final_map, 
+                "Failed to populate map structure"));
+    }
     cleanup_buffer(&buffer);
     clean_map_data(&temp_map);
-    
     return (1);
 }
 
