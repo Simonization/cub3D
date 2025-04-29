@@ -6,11 +6,10 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:30:41 by slangero          #+#    #+#             */
-/*   Updated: 2025/04/29 16:33:36 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:39:41 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* src/parse/parse.c */
 #include "cub3d.h"
 
 typedef struct s_parse_buffer
