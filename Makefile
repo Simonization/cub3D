@@ -6,7 +6,7 @@
 #    By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/04/30 14:54:50 by agoldber         ###   ########.fr        #
+#    Updated: 2025/04/30 18:29:47 by agoldber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,12 +48,14 @@ COLOR_END		=	\033[0m
 #SOURCES
 DRAW_RAY_FILES	=	draw_ray draw_ray_utils
 MOVE_FILES		=	direction move
+PARSE_FILES		=	parse_map map_validation
 RAY_BONUS_FILES	=	draw_ray_bonus draw_ray_utils_bonus
 MINIMAP_FILES	=	minimap_bonus minimap_shape_bonus
 MOVE_BONUS_FILES=	move_bonus vision_bonus direction_bonus
 
 DRAW_RAY		=	${addprefix ${DRAW_RAY_DIR}, ${DRAW_RAY_FILES}}
 MOVE			=	${addprefix ${MOVE_DIR}, ${MOVE_FILES}}
+PARSE			=	${addprefix ${PARSE_DIR}, ${PARSE_FILES}}
 DRAW_RAY_BONUS	=	${addprefix ${DRAW_RAY_DIR}, ${RAY_BONUS_FILES}}
 MINIMAP			=	${addprefix ${MINIMAP_DIR}, ${MINIMAP_FILES}}
 MOVE_BONUS		=	${addprefix ${MOVE_DIR}, ${MOVE_BONUS_FILES}}
