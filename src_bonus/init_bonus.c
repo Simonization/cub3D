@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
+/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:53:03 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/28 16:55:19 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:41:10 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,26 @@ t_map	get_map(void)
 	i = -1;
 	map.ceiling_color = 0x00303030;
 	map.floor_color = 0x00303030;
-	map.no_path = ft_strdup("img/among-us-yellow-shakes-booty.xpm");
+	// map.no_path = ft_strdup("img/among-us-yellow-shakes-booty.xpm");
+	// if (!map.no_path)
+	// 	return (printf("no path\n"), map);
+	// map.so_path = ft_strdup("img/among-us-red-shakes-booty.xpm");
+	// if (!map.so_path)
+	// 	return (printf("so path\n"), map);
+	// map.we_path = ft_strdup("img/among-us-purple-shakes-booty.xpm");
+	// if (!map.we_path)
+	// 	return (printf("we path\n"), map);
+	// map.ea_path = ft_strdup("img/among-us-green-shakes-booty.xpm");
+	map.no_path = ft_strdup("img/mossy.xpm");
 	if (!map.no_path)
 		return (printf("no path\n"), map);
-	map.so_path = ft_strdup("img/among-us-red-shakes-booty.xpm");
+	map.so_path = ft_strdup("img/mossy.xpm");
 	if (!map.so_path)
 		return (printf("so path\n"), map);
-	map.we_path = ft_strdup("img/among-us-purple-shakes-booty.xpm");
+	map.we_path = ft_strdup("img/greystone.xpm");
 	if (!map.we_path)
 		return (printf("we path\n"), map);
-	map.ea_path = ft_strdup("img/among-us-green-shakes-booty.xpm");
+	map.ea_path = ft_strdup("img/greystone.xpm");
 	if (!map.ea_path)
 		return (printf("ea path\n"), map);
 	map.map = malloc(sizeof(char *) * 54);
@@ -190,6 +200,7 @@ void	init_utils(t_data *game)
 	game->fps = 0.0f;
 	game->fov = PI / 3.0f;
 	game->fov_2 = game->fov / 2.0f;
+	game->tan_fov = tan(game->fov_2);
 	game->ray_steps = game->fov / WIDTH;
 	game->projection = ((WIDTH / 2.0f) / tan(game->fov_2));
 	game->target_fov = PI / 3.5f;

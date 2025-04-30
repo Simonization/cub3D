@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
+/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/28 16:55:04 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:47:47 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # define MINIMAP_RADIUS ((MINIMAP_SIZE + 10) / 2) - 1
 # define MINIMAP_CENTER (MINIMAP_SIZE + (TILES_SIZE / 2)) / 2
 # define MINIMAP_PLAYER MINIMAP_CENTER + (TILES_SIZE / 2)
-# define CROUCH 102
+# define CROUCH 65507
 
 # include "libft.h"
 # include <mlx.h>
@@ -188,6 +188,7 @@ typedef struct s_data
 	float			delta_time;
 	float			fov;
 	float			fov_2;
+	float			tan_fov;
 	float			ray_steps;
 	float			projection;
 	float			target_fov;
@@ -211,7 +212,6 @@ int		ft_close(t_data *game);
 int		mouse(int x, int y, t_data *game);
 //MOVEMENT
 void	move_player(t_data *g);
-void	delta(float *dx, float *dy, float cos_a, float sin_a);
 void	offset(t_flag *f, t_player *player);
 void	bobbing(t_data *game);
 void	move_player_forward(t_data *g, float speed);

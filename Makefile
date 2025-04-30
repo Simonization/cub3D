@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: slangero <slangero@student.42.fr>          +#+  +:+       +#+         #
+#    By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/04/30 15:45:26 by slangero         ###   ########.fr        #
+#    Updated: 2025/04/30 19:22:01 by slangero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ MOVE_FILES		=	direction move
 PARSE_FILES		=	parse_map map_validation
 RAY_BONUS_FILES	=	draw_ray_bonus draw_ray_utils_bonus
 MINIMAP_FILES	=	minimap_bonus minimap_shape_bonus
-MOVE_BONUS_FILES		=	move_bonus vision_bonus direction_bonus
+MOVE_BONUS_FILES=	move_bonus vision_bonus direction_bonus
 
 DRAW_RAY		=	${addprefix ${DRAW_RAY_DIR}, ${DRAW_RAY_FILES}}
 MOVE			=	${addprefix ${MOVE_DIR}, ${MOVE_FILES}}

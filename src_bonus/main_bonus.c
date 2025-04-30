@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
+/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/28 16:19:19 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:47:14 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static int	draw_game(t_data *game)
 	draw_ray(game);
 	if (game->flag.map != 0)
 		draw_minimap(game);
-	put_fps(game);
 	weapon_anim(game);
 	mlx_put_image_to_window(game->mlx.mlx, game->mlx.win,
 		game->mlx.img.img, 0, 0);
+	put_fps(game);
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
+/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:49:19 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/28 16:55:50 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/29 13:29:53 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ static void	rotate_player(t_data *g)
 		g->p.angle = 2.0f * PI;
 	g->p.dir_x = cosf(g->p.angle);
 	g->p.dir_y = -sinf(g->p.angle);
-	g->p.plane_x = -g->p.dir_y * tan(g->fov / 2);
-	g->p.plane_y = g->p.dir_x * tan(g->fov / 2);
+	g->p.plane_x = -g->p.dir_y * g->tan_fov;
+	g->p.plane_y = g->p.dir_x * g->tan_fov;
 }
 
 void	move_player(t_data *g)

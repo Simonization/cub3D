@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_ray_utils_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
+/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 23:44:45 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/28 16:06:39 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/30 18:08:06 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,9 @@ void	draw_walls(t_data *g, float wall_distance)
 	start = HEIGHT - g->ray.wall_height / (2 + g->flag.jump_offset)
 		- (360 - g->flag.head_offset);
 	end = start + g->ray.wall_height;
-	while (i++ <= start)
-		put_pixel(&g->mlx.img, g->ray.col, i, g->map.ceiling_color);
+	// while (i++ <= start)
+	// 	put_pixel(&g->mlx.img, g->ray.col, i, g->map.ceiling_color);
+	// floor_and_ceiling(g);
 	i = start;
 	while (start++ < end)
 	{
@@ -98,6 +99,6 @@ void	draw_walls(t_data *g, float wall_distance)
 			put_pixel(&g->mlx.img, g->ray.col, start, color);
 		}
 	}
-	while (start++ < HEIGHT)
-		put_pixel(&g->mlx.img, g->ray.col, start, g->map.floor_color);
+	// while (start++ < HEIGHT)
+	// 	put_pixel(&g->mlx.img, g->ray.col, start, g->map.floor_color);
 }
