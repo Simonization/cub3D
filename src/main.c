@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/30 11:02:51 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:31:02 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,11 @@ static int	print_error(char *message)
 	return (1);
 }
 
-int	main(int argc, char **argv)
+static int	validate_map_file(char *file_path)
 {
-	t_data	game;
-	char	*file_path;
-	int		len;
-	int		fd;
+	int	len;
+	int	fd;
 
-	if (argc != 2)
-		return (print_error("Usage: ./cub3D <map.cub>"));
-	
-	file_path = argv[1];
 	len = ft_strlen(file_path);
 	if (len < 5 || ft_strncmp(file_path + len - 4, ".cub", 4) != 0)
 		return (print_error("File must have .cub extension"));
@@ -53,7 +47,40 @@ int	main(int argc, char **argv)
 	if (fd == -1)
 		return (print_error("Failed to open file"));
 	close(fd);
-	game.map = get_map();
+	return (1);
+}
+
+int	main(int argc, char **argv)
+{
+	t_data	game;
+
+	if (argc != 2)
+		return (print_error("Usage: ./cub3D <map.cub>"));
+	if (!validate_map_file(argv[1]))
+		return (1);
+	game.map = get_map(argv[1]);
+	if (!game.map.map || !game.map.no_path || !game.map.so_path || 
+		!game.map.we_path || !game.map.ea_path || 
+		game.map.floor_color == 0 || game.map.ceiling_color == 0)
+	{
+		return (1);
+	}
+	if (!validate_map(&game.map))
+	{
+		if (game.map.map)
+			free_array(game.map.map);
+		if (game.map.line_len)
+			free(game.map.line_len);
+		if (game.map.no_path)
+			free(game.map.no_path);
+		if (game.map.so_path)
+			free(game.map.so_path);
+		if (game.map.we_path)
+			free(game.map.we_path);
+		if (game.map.ea_path)
+			free(game.map.ea_path);
+		return (1);
+	}
 	windows_init(&game.mlx, &game);
 	player_init(&game.p, get_player_pos(game.map));
 	init_utils(&game);
