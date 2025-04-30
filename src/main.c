@@ -6,11 +6,11 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/29 17:50:23 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:02:51 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d_bonus.h"
+#include "cub3d.h"
 
 static int	draw_game(t_data *game)
 {
@@ -23,25 +23,7 @@ static int	draw_game(t_data *game)
 	return (0);
 }
 
-static int validate_file(char *path)
-{
-	int len;
-	int fd;
-	int result;
-
-	len = ft_strlen(path);
-	if (len < 5 || ft_strncmp(path + len - 4, ".cub", 4) != 0)
-		return (0);
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
-		return (0);
-	result = 1;
-	
-	close(fd);
-	return (result);
-}
-
-static int print_error(char *message)
+static int	print_error(char *message)
 {
 	ft_putstr_fd("Error\n", 2);
 	ft_putstr_fd(message, 2);
@@ -49,6 +31,42 @@ static int print_error(char *message)
 	return (1);
 }
 
+int	main(int argc, char **argv)
+{
+	t_data	game;
+	char	*file_path;
+	int		len;
+	int		fd;
+
+	if (argc != 2)
+		return (print_error("Usage: ./cub3D <map.cub>"));
+	
+	file_path = argv[1];
+	len = ft_strlen(file_path);
+	if (len < 5 || ft_strncmp(file_path + len - 4, ".cub", 4) != 0)
+		return (print_error("File must have .cub extension"));
+	if (access(file_path, F_OK) == -1)
+		return (print_error("File does not exist"));
+	if (access(file_path, R_OK) == -1)
+		return (print_error("Permission denied: cannot read file"));
+	fd = open(file_path, O_RDONLY);
+	if (fd == -1)
+		return (print_error("Failed to open file"));
+	close(fd);
+	game.map = get_map();
+	windows_init(&game.mlx, &game);
+	player_init(&game.p, get_player_pos(game.map));
+	init_utils(&game);
+	mlx_hook(game.mlx.win, 2, 1L << 0, pressed_key, &game);
+	mlx_hook(game.mlx.win, 3, 1L << 1, released_key, &game);
+	mlx_hook(game.mlx.win, 17, 0, ft_close, &game);
+	mlx_loop_hook(game.mlx.mlx, draw_game, &game);
+	mlx_loop(game.mlx.mlx);
+	return (0);
+}
+
+
+/*
 int main(int argc, char **argv)
 {
 	t_data game;
@@ -74,3 +92,4 @@ int main(int argc, char **argv)
 	mlx_loop(game.mlx.mlx);
 	return (0);
 }
+*/
