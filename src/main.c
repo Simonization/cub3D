@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/30 14:31:02 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:32:23 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int argc, char **argv)
 		return (print_error("Usage: ./cub3D <map.cub>"));
 	if (!validate_map_file(argv[1]))
 		return (1);
-	game.map = get_map(argv[1]);
+	game.map = parse_map(argv[1]);
 	if (!game.map.map || !game.map.no_path || !game.map.so_path || 
 		!game.map.we_path || !game.map.ea_path || 
 		game.map.floor_color == 0 || game.map.ceiling_color == 0)

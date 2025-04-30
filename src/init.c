@@ -6,12 +6,12 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:53:03 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/29 18:43:53 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:26:38 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
-
+/*
 t_map	get_map(void)
 {
 	t_map	map;
@@ -92,7 +92,7 @@ t_map	get_map(void)
 		map.line_len[i] = ft_strlen(map.map[i]);
 	return (map);
 }
-
+*/
 void	windows_init(t_mlx *mlx, t_data *game)
 {
 	mlx->mlx = mlx_init();

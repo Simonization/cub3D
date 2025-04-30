@@ -6,7 +6,7 @@
 #    By: slangero <slangero@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/04/30 14:35:02 by slangero         ###   ########.fr        #
+#    Updated: 2025/04/30 15:45:26 by slangero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ NAME_BONUS		=	cub3d_bonus
 INCLUDES		=	includes
 MLX_DIR			=	includes/minilibx-linux
 SRCS_DIR 		=	src/
+PARSE_DIR		=	parse/
 DRAW_RAY_DIR	=	draw_ray/
 MOVE_DIR		=	movement/
 MINIMAP_DIR		=	minimap/
@@ -60,7 +61,7 @@ DRAW_RAY_BONUS	=	${addprefix ${DRAW_RAY_DIR}, ${RAY_BONUS_FILES}}
 MINIMAP			=	${addprefix ${MINIMAP_DIR}, ${MINIMAP_FILES}}
 MOVE_BONUS		=	${addprefix ${MOVE_DIR}, ${MOVE_BONUS_FILES}}
 
-FILES			=	main hooks init utils ${DRAW_RAY} ${MOVE}
+FILES			=	main hooks init utils ${DRAW_RAY} ${MOVE} ${PARSE}
 FILES_BONUS		=	main_bonus hooks_bonus init_bonus utils_bonus weapon_bonus draw_xpm ${DRAW_RAY_BONUS} ${MOVE_BONUS} ${MINIMAP}
 
 SRCS			=	${addprefix ${SRCS_DIR}, ${addsuffix .c, ${FILES}}}

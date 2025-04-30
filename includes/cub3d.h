@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:44:12 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/30 14:33:15 by slangero         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:32:39 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,6 @@ void	draw_ray(t_data *game);
 void	draw_walls(t_data *g, float wall_distance);
 //INIT
 t_map	get_map(void);
-t_map	parse_map(char *file_path);
 void	windows_init(t_mlx *mlx, t_data *game);
 t_coord	get_player_pos(t_map map);
 void	player_init(t_player *player, t_coord pos);
@@ -172,6 +171,8 @@ void	move_player_right(t_data *g, float speed);
 void	validate_move(t_data *g, float new_x, float new_y);
 //UTILS
 void	put_pixel(t_img *img, int x, int y, int color);
+//PARSE MAP
+t_map	parse_map(char *file_path);
 //MAP VALIDATION
 int		validate_map(t_map *map);
 int		validate_player_position(t_map *map);
