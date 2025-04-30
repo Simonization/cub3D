@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_ray_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
+/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:46:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/28 15:56:52 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/04/30 18:26:32 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,64 @@ static void	dda(t_data *g)
 	}
 }
 
+void	floor_and_ceiling(t_data *g)
+{
+	float	raydir_x0;
+	float	raydir_y0;
+	float	raydir_x1;
+	float	raydir_y1;
+	int		p;
+	float	pos_z;
+	float	row_distance;
+	float	floorstep_x;
+	float	floorstep_y;
+	float	floor_x;
+	float	floor_y;
+	int		cell_x;
+	int		cell_y;
+	int		tx;
+	int		ty;
+	int		x;
+	int		y;
+	char	*pixel;
+	int		color;
+
+	y = 0;
+	while (y < HEIGHT)
+	{
+		raydir_x0 = g->ray.dir_x - g->p.plane_x;
+		raydir_y0 = g->ray.dir_y - g->p.plane_y;
+		raydir_x1 = g->ray.dir_x + g->p.plane_x;
+		raydir_y1 = g->ray.dir_y + g->p.plane_y;
+		p = y - Y_CENTER;
+		pos_z = 0.5 * HEIGHT; //g->flag.head_offset
+		row_distance = pos_z / p;
+		floorstep_x = row_distance * (raydir_x1 - raydir_x0) / WIDTH;
+		floorstep_y = row_distance * (raydir_y1 - raydir_y0) / WIDTH;
+		floor_x = g->p.pos_x + row_distance * raydir_x0;
+		floor_y = g->p.pos_y + row_distance * raydir_y0;
+		x = 0;
+		while (x < WIDTH)
+		{
+			cell_x = (int)floor_x;
+			cell_y = (int)floor_y;
+			tx = (int)(g->mlx.ea.width * (floor_x - cell_x)) & (g->mlx.ea.width - 1);
+			ty = (int)(g->mlx.ea.height * (floor_y - cell_y)) & (g->mlx.ea.height - 1);
+			floor_x += floorstep_x;
+			floor_y += floorstep_y;
+			pixel = g->mlx.ea.addr + (ty * g->mlx.ea.size_line + tx * (g->mlx.ea.bpp_8));
+			color = *(int *)pixel;
+			put_pixel(&g->mlx.img, x, y, color);
+			x++;
+		}
+		y++;
+	}
+}
+
 void	draw_ray(t_data *g)
 {
 	g->ray.col = 0;
+	floor_and_ceiling(g);
 	while (g->ray.col < WIDTH)
 	{
 		init_dda(g);

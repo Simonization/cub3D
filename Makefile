@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+         #
+#    By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/04/28 16:37:37 by agoldber         ###   ########.fr        #
+#    Updated: 2025/04/30 14:54:50 by agoldber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ DRAW_RAY_FILES	=	draw_ray draw_ray_utils
 MOVE_FILES		=	direction move
 RAY_BONUS_FILES	=	draw_ray_bonus draw_ray_utils_bonus
 MINIMAP_FILES	=	minimap_bonus minimap_shape_bonus
-MOVE_BONUS_FILES		=	move_bonus vision_bonus direction_bonus
+MOVE_BONUS_FILES=	move_bonus vision_bonus direction_bonus
 
 DRAW_RAY		=	${addprefix ${DRAW_RAY_DIR}, ${DRAW_RAY_FILES}}
 MOVE			=	${addprefix ${MOVE_DIR}, ${MOVE_FILES}}
