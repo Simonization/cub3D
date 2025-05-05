@@ -3,19 +3,13 @@ WE ./textures/wall_w.xpm
 SO ./textures/wall_s.xpm
 EA ./textures/wall_e.xpm
 
-# Floor Color (e.g., brown)
 F 130, 70, 0
-
-# Ceiling Color (e.g., light blue)
 C 135, 206, 235
 
-
-# The map layout must be the last element in the file.
-# It must be surrounded by walls ('1').
-1111111111
-1000000001
-100110001
-1001N0001  
-100110001
-1000000001
-1111111111
+11111111
+10000001
+10011001
+1001N001
+10011001
+10000001
+11111111

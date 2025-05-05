@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:25:33 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/05 18:12:13 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:57:51 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ static int	extract_map_data(char **lines, t_map *map)
 		return (0);
 		
 	map->map = malloc(sizeof(char *) * (map_lines + 1));
-	map->line_len = malloc(sizeof(int) * map_lines);
+	map->line_len = ft_calloc(map_lines + 1, sizeof(int));
 	if (!map->map || !map->line_len)
 		return (0);
 		
