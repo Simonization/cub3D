@@ -6,11 +6,14 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:50:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/05 17:12:21 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:47:44 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d_bonus.h"
+
+#include "cub3d.h"
+
+// #include "cub3d_bonus.h"
 
 // ft_close avec checks po usegfault mlx
 

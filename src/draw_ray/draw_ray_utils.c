@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   draw_ray_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
+/*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 23:44:45 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/28 16:42:07 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:49:00 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d_bonus.h"
+#include "cub3d.h"
+// #include "cub3d_bonus.h"
 
 static int	get_texture(t_img tex, int height, t_ray ray)
 {

@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
+/*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:49:19 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/28 16:49:54 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:52:05 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d_bonus.h"
+#include "cub3d.h"
+
+// #include "cub3d_bonus.h"
 
 static int	is_wall(float x, float y, t_map *map)
 {
@@ -47,8 +49,8 @@ static void	rotate_player(t_data *g)
 	float	rotation_speed;
 
 	rotation_speed = 0.05f;
-	if (g->p.run)
-		rotation_speed += 0.03f;
+	// if (g->p.run)
+		// rotation_speed += 0.03f;
 	if (g->p.rotate_left)
 		g->p.angle += rotation_speed;
 	if (g->p.rotate_right)
@@ -68,10 +70,10 @@ void	move_player(t_data *g)
 	float	speed;
 
 	speed = 5.0f;
-	if (g->p.run && !g->flag.crouch)
-		speed = 10.0f;
-	else if (g->flag.crouch)
-		speed = 3.0f;
+	// if (g->p.run && !g->flag.crouch)
+		// speed = 10.0f;
+	// else if (g->flag.crouch)
+		// speed = 3.0f;
 	if (g->p.up)
 		move_player_forward(g, speed);
 	if (g->p.down)

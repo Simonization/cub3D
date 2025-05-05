@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   direction.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
+/*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:34:32 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/28 15:34:42 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:48:28 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d_bonus.h"
+#include "cub3d.h"
+// #include "cub3d_bonus.h"
 
 void	move_player_forward(t_data *g, float speed)
 {

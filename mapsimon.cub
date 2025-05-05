@@ -1,10 +1,6 @@
-# This is a comment, the parser should ignore it (or handle it gracefully)
-
-# Textures: Make sure these paths are correct relative to your executable!
-# And ensure the .xpm files are valid.
 NO ./textures/wall_n.xpm
-SO ./textures/wall_s.xpm
 WE ./textures/wall_w.xpm
+SO ./textures/wall_s.xpm
 EA ./textures/wall_e.xpm
 
 # Floor Color (e.g., brown)
