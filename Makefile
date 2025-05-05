@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+         #
+#    By: slangero <slangero@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/04/30 19:22:01 by slangero         ###   ########.fr        #
+#    Updated: 2025/05/05 16:45:34 by slangero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRCS_BONUS_DIR	=	src_bonus/
 OBJS_DIR		=	obj/
 OBJS_BONUS_DIR	=	obj_bonus/
 CC				=	cc
-C_FLAGS			=	-Ofast -Wall -Werror -Wextra -I${INCLUDES} -I${MLX_DIR}
+C_FLAGS			=	-Ofast -Wall -Werror -Wextra -I${INCLUDES} -I${MLX_DIR} -g
 LIBFT			=	libft.a
 MLX_LIB			=	-lmlx_Linux -L${MLX_DIR} -I${MLX_DIR} -lXext -lX11 -lm -lz
 RM				=	rm -rf

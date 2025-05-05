@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:53:03 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/30 15:26:38 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:21:12 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,33 +97,42 @@ void	windows_init(t_mlx *mlx, t_data *game)
 {
 	mlx->mlx = mlx_init();
 	mlx->win = mlx_new_window(mlx->mlx, WIDTH, HEIGHT, "Cub3d");
+	printf("Check 1\n");
 	mlx->img.img = mlx_new_image(mlx->mlx, WIDTH, HEIGHT);
+	printf("Check 2\n");
 	if (!mlx->img.img)
 		ft_close(game);
 	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp,
 		&mlx->img.size_line, &mlx->img.endian);
+	printf("Check 3\n");
 	game->img_size = HEIGHT * game->mlx.img.size_line;
+	printf("Attempting to load NO texture: '%s'\n", game->map.no_path);
 	mlx->no.img = mlx_xpm_file_to_image(mlx->mlx, game->map.no_path, &mlx->no.width, &mlx->no.height);
+	printf("Check close\n");
 	if (!mlx->no.img)
 		ft_close(game);
+	printf("Check 4\n");
 	mlx->no.addr = mlx_get_data_addr(mlx->no.img, &mlx->no.bpp, &mlx->no.size_line, &mlx->no.endian);
 	mlx->no.bpp_8 = mlx->no.bpp / 8;
 	mlx->no.steps = mlx->no.width / BLOCK_SIZE;
 	mlx->so.img = mlx_xpm_file_to_image(mlx->mlx, game->map.so_path, &mlx->so.width, &mlx->so.height);
 	if (!mlx->so.img)
 		ft_close(game);
+	printf("Check 5\n");
 	mlx->so.addr = mlx_get_data_addr(mlx->so.img, &mlx->so.bpp, &mlx->so.size_line, &mlx->so.endian);
 	mlx->so.bpp_8 = mlx->so.bpp / 8;
 	mlx->so.steps = mlx->so.width / BLOCK_SIZE;
 	mlx->we.img = mlx_xpm_file_to_image(mlx->mlx, game->map.we_path, &mlx->we.width, &mlx->we.height);
 	if (!mlx->we.img)
 		ft_close(game);
+	printf("Check 6\n");
 	mlx->we.addr = mlx_get_data_addr(mlx->we.img, &mlx->we.bpp, &mlx->we.size_line, &mlx->we.endian);
 	mlx->we.bpp_8 = mlx->we.bpp / 8;
 	mlx->we.steps = mlx->we.width / BLOCK_SIZE;
 	mlx->ea.img = mlx_xpm_file_to_image(mlx->mlx, game->map.ea_path, &mlx->ea.width, &mlx->ea.height);
 	if (!mlx->ea.img)
 		ft_close(game);
+	printf("Check 7\n");
 	mlx->ea.addr = mlx_get_data_addr(mlx->ea.img, &mlx->ea.bpp, &mlx->ea.size_line, &mlx->ea.endian);
 	mlx->ea.bpp_8 = mlx->ea.bpp / 8;
 	mlx->ea.steps = mlx->ea.width / BLOCK_SIZE;

@@ -1,0 +1,25 @@
+# This is a comment, the parser should ignore it (or handle it gracefully)
+
+# Textures: Make sure these paths are correct relative to your executable!
+# And ensure the .xpm files are valid.
+NO ./textures/wall_n.xpm
+SO ./textures/wall_s.xpm
+WE ./textures/wall_w.xpm
+EA ./textures/wall_e.xpm
+
+# Floor Color (e.g., brown)
+F 130, 70, 0
+
+# Ceiling Color (e.g., light blue)
+C 135, 206, 235
+
+
+# The map layout must be the last element in the file.
+# It must be surrounded by walls ('1').
+1111111111
+1000000001
+100110001
+1001N0001  
+100110001
+1000000001
+1111111111
