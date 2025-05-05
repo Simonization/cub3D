@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:21:21 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/28 15:15:33 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/02 19:49:46 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	jump_crouch(t_flag *f)
 {
 	if (f->jump)
 	{
-		f->jump_time += 0.1f;
+		f->jump_time += 0.2f;
 		f->jump_offset = sinf(f->jump_time) * 4.5f;
 		if (f->jump_time >= PI)
 		{
@@ -27,12 +27,12 @@ void	jump_crouch(t_flag *f)
 	}
 	if (f->crouch && f->crouch_time < PI / 2)
 	{
-		f->crouch_time += 0.1f;
+		f->crouch_time += 0.2f;
 		f->jump_offset = -sinf(f->crouch_time) * 0.5f;
 	}
 	else if (!f->crouch && f->crouch_time > 0)
 	{
-		f->crouch_time -= 0.1f;
+		f->crouch_time -= 0.2f;
 		if (f->crouch_time < 0.0f)
 			f->crouch_time = 0.0f;
 		f->jump_offset = -sinf(f->crouch_time) * 0.5f;
@@ -67,7 +67,7 @@ void	bobbing(t_data *game)
 			game->flag.bob_steps += 0.25f;
 		game->flag.head_offset += game->flag.bobbing;
 		if (game->flag.bob_steps > 2.0f * PI)
-			game->flag.bob_steps -= 2.0f * PI;
+			game->flag.bob_steps = 0.0f;
 	}
 	else
 	{

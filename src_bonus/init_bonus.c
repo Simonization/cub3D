@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:53:03 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/30 14:41:10 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/05 12:47:16 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_map	get_map(void)
 	map.map[21] = ft_strdup("1000011000000001           100000000000000011         10000001");
 	map.map[22] = ft_strdup("1000000000000001           10000000000000001111111111110000001");
 	map.map[23] = ft_strdup("1000001000000001           10000000000000000100000000010000001");
-	map.map[24] = ft_strdup("1000011000000001           10000000P00000000000000000000000001");
+	map.map[24] = ft_strdup("1000011000000001           10000000000000000000000000000000001");
 	map.map[25] = ft_strdup("1000011000000001           10000000000000000100000000010000001");
 	map.map[26] = ft_strdup("1000011000000001           10000000000000001111000011110000001");
 	map.map[27] = ft_strdup("10000111111011111          100000000000000011111001   10000001");
@@ -93,7 +93,7 @@ t_map	get_map(void)
 	map.map[47] = ft_strdup("                            100001000100001");
 	map.map[48] = ft_strdup("                            111111000111111");
 	map.map[49] = ft_strdup("                            100000000000001");
-	map.map[50] = ft_strdup("                            100000000000001");
+	map.map[50] = ft_strdup("                            1000000P0000001");
 	map.map[51] = ft_strdup("                            100000000000001");
 	map.map[52] = ft_strdup("                            111111111111111");
 	map.map[53] = NULL;
@@ -103,37 +103,37 @@ t_map	get_map(void)
 	return (map);
 }
 
-void	windows_init(t_mlx *mlx, t_data *game)
+void	windows_init(t_mlx *mlx, t_data *g)
 {
 	mlx->mlx = mlx_init();
 	mlx->win = mlx_new_window(mlx->mlx, WIDTH, HEIGHT, "Cub3d");
 	mlx->img.img = mlx_new_image(mlx->mlx, WIDTH, HEIGHT);
 	if (!mlx->img.img)
-		ft_close(game);
+		ft_close(g);
 	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp,
 		&mlx->img.size_line, &mlx->img.endian);
-	game->img_size = HEIGHT * game->mlx.img.size_line;
-	mlx->no.img = mlx_xpm_file_to_image(mlx->mlx, game->map.no_path, &mlx->no.width, &mlx->no.height);
+	g->img_size = HEIGHT * g->mlx.img.size_line;
+	mlx->no.img = mlx_xpm_file_to_image(mlx->mlx, g->map.no_path, &mlx->no.width, &mlx->no.height);
 	if (!mlx->no.img)
-		ft_close(game);
+		ft_close(g);
 	mlx->no.addr = mlx_get_data_addr(mlx->no.img, &mlx->no.bpp, &mlx->no.size_line, &mlx->no.endian);
 	mlx->no.bpp_8 = mlx->no.bpp / 8;
 	mlx->no.steps = mlx->no.width / BLOCK_SIZE;
-	mlx->so.img = mlx_xpm_file_to_image(mlx->mlx, game->map.so_path, &mlx->so.width, &mlx->so.height);
+	mlx->so.img = mlx_xpm_file_to_image(mlx->mlx, g->map.so_path, &mlx->so.width, &mlx->so.height);
 	if (!mlx->so.img)
-		ft_close(game);
+		ft_close(g);
 	mlx->so.addr = mlx_get_data_addr(mlx->so.img, &mlx->so.bpp, &mlx->so.size_line, &mlx->so.endian);
 	mlx->so.bpp_8 = mlx->so.bpp / 8;
 	mlx->so.steps = mlx->so.width / BLOCK_SIZE;
-	mlx->we.img = mlx_xpm_file_to_image(mlx->mlx, game->map.we_path, &mlx->we.width, &mlx->we.height);
+	mlx->we.img = mlx_xpm_file_to_image(mlx->mlx, g->map.we_path, &mlx->we.width, &mlx->we.height);
 	if (!mlx->we.img)
-		ft_close(game);
+		ft_close(g);
 	mlx->we.addr = mlx_get_data_addr(mlx->we.img, &mlx->we.bpp, &mlx->we.size_line, &mlx->we.endian);
 	mlx->we.bpp_8 = mlx->we.bpp / 8;
 	mlx->we.steps = mlx->we.width / BLOCK_SIZE;
-	mlx->ea.img = mlx_xpm_file_to_image(mlx->mlx, game->map.ea_path, &mlx->ea.width, &mlx->ea.height);
+	mlx->ea.img = mlx_xpm_file_to_image(mlx->mlx, g->map.ea_path, &mlx->ea.width, &mlx->ea.height);
 	if (!mlx->ea.img)
-		ft_close(game);
+		ft_close(g);
 	mlx->ea.addr = mlx_get_data_addr(mlx->ea.img, &mlx->ea.bpp, &mlx->ea.size_line, &mlx->ea.endian);
 	mlx->ea.bpp_8 = mlx->ea.bpp / 8;
 	mlx->ea.steps = mlx->ea.width / BLOCK_SIZE;
