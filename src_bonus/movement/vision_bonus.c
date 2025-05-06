@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vision_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
+/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:21:21 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/02 19:49:46 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:46:47 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	jump_crouch(t_flag *f)
 {
 	if (f->jump)
 	{
-		f->jump_time += 0.2f;
+		f->jump_time += 0.13f;
 		f->jump_offset = sinf(f->jump_time) * 4.5f;
 		if (f->jump_time >= PI)
 		{
