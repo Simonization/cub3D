@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:53:03 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/06 12:43:54 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:04:20 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,46 +138,6 @@ void	windows_init(t_mlx *mlx, t_data *game)
 	mlx->ea.steps = mlx->ea.width / BLOCK_SIZE;
 }
 
-t_coord	get_player_pos(t_map map)
-{
-	t_coord	pos;
-
-	pos.y = 0;
-	while (map.map[pos.y])
-	{
-		pos.x = 0;
-		while (map.map[pos.y][pos.x])
-		{
-			if (map.map[pos.y][pos.x] == 'N')
-				return (pos);
-			pos.x++;
-		}
-		pos.y++;
-	}
-	return (pos);
-}
-
-void	player_init(t_player *p, t_coord pos)
-{
-	p->pos_x = (pos.x + 0.5f) * BLOCK_SIZE;
-	p->pos_y = (pos.y + 0.5f) * BLOCK_SIZE;
-	p->co.color = 0x0000FF00;
-	p->angle = PI / 2;
-	p->dir_x = cosf(p->angle);
-	p->dir_y = -sinf(p->angle);
-	p->plane_x = 0.66;
-	p->plane_y = 0;
-	// p->move_y = 0;
-	// p->move_x = 0;
-	p->angle = atan2(-p->dir_y, p->dir_x);
-	p->up = false;
-	p->down = false;
-	p->right = false;
-	p->left = false;
-	p->rotate_left = false;
-	p->rotate_right = false;
-}
-
 void	init_utils(t_data *game)
 {
 	game->trigo.cos_a = cosf(game->p.angle);
@@ -191,3 +151,159 @@ void	init_utils(t_data *game)
 	game->ray_steps = game->fov / WIDTH;
 	game->projection = ((WIDTH / 2.0f) / tan(game->fov_2));
 }
+
+t_coord get_player_pos(t_map map)
+{
+    t_coord pos;
+
+    pos.y = 0;
+    pos.orientation = '\0'; // Default to null if not found (though validate_player_position should prevent this)
+    while (map.map[pos.y])
+    {
+        pos.x = 0;
+        while (map.map[pos.y][pos.x])
+        {
+            // Check for any of the valid player start characters
+            if (ft_strchr("NSEW", map.map[pos.y][pos.x]))
+            {
+                pos.orientation = map.map[pos.y][pos.x];
+                // Player found, validate_player_position ensures only one, so we can return.
+                return (pos);
+            }
+            pos.x++;
+        }
+        pos.y++;
+    }
+    // Should not be reached if validate_player_position worked correctly
+    // and map guarantees a player.
+    // Consider an error message or specific handling if player is NOT found,
+    // though validate_player_position should catch "No player position".
+    ft_putstr_fd("Error\nPlayer position not found by get_player_pos (unexpected).\n", 2);
+    // To avoid returning uninitialized data in case of error (though theoretically unreachable with prior validation)
+    pos.x = -1; 
+    pos.y = -1;
+    pos.orientation = '\0';
+    return (pos);
+}
+
+// Corrected player_init
+void player_init(t_player *p, t_coord start_pos_info)
+{
+    p->pos_x = (start_pos_info.x + 0.5f) * BLOCK_SIZE;
+    p->pos_y = (start_pos_info.y + 0.5f) * BLOCK_SIZE;
+    p->co.color = 0x0000FF00; // Example color, if t_coord in t_player uses it
+
+    // Set angle, direction, and plane vectors based on orientation
+    // Note: PI is defined in your cub3d.h as 3.14159265359f
+    if (start_pos_info.orientation == 'N')
+    {
+        p->angle = PI / 2.0f;
+        p->dir_x = 0.0f;
+        p->dir_y = -1.0f;
+        p->plane_x = 0.66f; // Standard FOV
+        p->plane_y = 0.0f;
+    }
+    else if (start_pos_info.orientation == 'S')
+    {
+        p->angle = 3.0f * PI / 2.0f;
+        p->dir_x = 0.0f;
+        p->dir_y = 1.0f;
+        p->plane_x = -0.66f;
+        p->plane_y = 0.0f;
+    }
+    else if (start_pos_info.orientation == 'E')
+    {
+        p->angle = 0.0f; // Or 2.0f * PI, but 0.0f is simpler
+        p->dir_x = 1.0f;
+        p->dir_y = 0.0f;
+        p->plane_x = 0.0f;
+        p->plane_y = 0.66f;
+    }
+    else if (start_pos_info.orientation == 'W')
+    {
+        p->angle = PI;
+        p->dir_x = -1.0f;
+        p->dir_y = 0.0f;
+        p->plane_x = 0.0f;
+        p->plane_y = -0.66f;
+    }
+    else
+    {
+        // Fallback or error: This case should ideally not be reached
+        // if get_player_pos and map validation are correct.
+        // Defaulting to North as a safety, but you might want an error message.
+        ft_putstr_fd("Warning: player_init received invalid orientation. Defaulting to North.\n", 2);
+        p->angle = PI / 2.0f;
+        p->dir_x = 0.0f;
+        p->dir_y = -1.0f;
+        p->plane_x = 0.66f;
+        p->plane_y = 0.0f;
+    }
+
+    // The rest of your player initialization
+    p->up = false;
+    p->down = false;
+    p->right = false;
+    p->left = false;
+    p->rotate_left = false;
+    p->rotate_right = false;
+
+    // It's generally good practice to recalculate dir_x/dir_y from the angle if angle is primary,
+    // or angle from dir_x/dir_y if those are primary.
+    // Since we set dir_x/dir_y explicitly above, recalculating angle is optional but ensures consistency.
+    // However, the initial angle IS the primary definition of orientation here.
+    // The lines:
+    // p->dir_x = cosf(p->angle);
+    // p->dir_y = -sinf(p->angle); // Note the negative for screen Y-axis
+    // are now effectively handled by the if-else block.
+
+    // Similarly for plane vectors if they are derived from dir vectors and FOV:
+    // Assuming a standard 90-degree FOV for this plane vector calculation (0.66 is common)
+    // float fov_factor = 0.66f; // This factor relates to tan(FOV/2)
+    // p->plane_x = p->dir_y * fov_factor;
+    // p->plane_y = -p->dir_x * fov_factor;
+    // This general calculation is also covered by the specific settings in the if-else block.
+}
+
+
+
+// t_coord	get_player_pos(t_map map)
+// {
+// 	t_coord	pos;
+
+// 	pos.y = 0;
+// 	while (map.map[pos.y])
+// 	{
+// 		pos.x = 0;
+// 		while (map.map[pos.y][pos.x])
+// 		{
+// 			if (map.map[pos.y][pos.x] == 'N')
+// 				return (pos);
+// 			pos.x++;
+// 		}
+// 		pos.y++;
+// 	}
+// 	return (pos);
+// }
+
+// void	player_init(t_player *p, t_coord pos)
+// {
+// 	p->pos_x = (pos.x + 0.5f) * BLOCK_SIZE;
+// 	p->pos_y = (pos.y + 0.5f) * BLOCK_SIZE;
+// 	p->co.color = 0x0000FF00;
+// 	p->angle = PI / 2;
+// 	p->dir_x = cosf(p->angle);
+// 	p->dir_y = -sinf(p->angle);
+// 	p->plane_x = 0.66;
+// 	p->plane_y = 0;
+// 	// p->move_y = 0;
+// 	// p->move_x = 0;
+// 	p->angle = atan2(-p->dir_y, p->dir_x);
+// 	p->up = false;
+// 	p->down = false;
+// 	p->right = false;
+// 	p->left = false;
+// 	p->rotate_left = false;
+// 	p->rotate_right = false;
+// }
+//

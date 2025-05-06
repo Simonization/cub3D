@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:29:21 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/06 12:04:04 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:19:56 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	validate_player_position(t_map *map)
 
 static int is_invalid_neighbor(t_map *map, int x, int y, int num_rows)
 {
-	// 1. Check vertical bounds (y)
 	if (y < 0 || y >= num_rows)
 	{
 		return (1); // Out of bounds vertically
@@ -126,7 +125,7 @@ int validate_map(t_map *map)
 		return (0);
 	if (!validate_player_position(map))
 		return (0);
-	if (!validate_map_walls(map)
+	if (!validate_map_walls(map))
 		return (0);
 	return (1);
 }

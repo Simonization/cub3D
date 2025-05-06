@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:44:12 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/30 15:32:39 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:02:53 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,10 @@ typedef struct s_mlx
 
 typedef struct s_coordinates
 {
-	int	x;
-	int	y;
-	int	color;
+	int		x;
+	int		y;
+	char	orientation;
+	int		color;
 }	t_coord;
 
 typedef struct s_ray
