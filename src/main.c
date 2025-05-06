@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/05 19:03:52 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:35:36 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,6 @@ int	main(int argc, char **argv)
 			free(game.map.ea_path);
 		return (1);
 	}
-	printf("In main, address of game: %p\n", (void*)&game);
-	printf("In main, address of game.map.no_path: %p\n", (void*)game.map.no_path);
-	printf("In main, content of game.map.no_path: %s\n", game.map.no_path);
-	printf("Calling windows_init...\n");
 	windows_init(&game.mlx, &game);
 	player_init(&game.p, get_player_pos(game.map));
 	init_utils(&game);

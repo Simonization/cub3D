@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:53:03 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/05 18:57:40 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:25:59 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ t_coord	get_player_pos(t_map map)
 		pos.x = 0;
 		while (map.map[pos.y][pos.x])
 		{
-			if (map.map[pos.y][pos.x] == 'P')
+			if (map.map[pos.y][pos.x] == 'N')
 				return (pos);
 			pos.x++;
 		}
