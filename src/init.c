@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:53:03 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/06 11:25:59 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/06 12:43:54 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,90 +191,3 @@ void	init_utils(t_data *game)
 	game->ray_steps = game->fov / WIDTH;
 	game->projection = ((WIDTH / 2.0f) / tan(game->fov_2));
 }
-
-
-/*
-Add Orientation Parameter to player_init
-If we can modify the player_init signature, this is cleaner:
-
-// Extract player position and orientation, replace with '0'
-int extract_player_data(t_map *map, t_coord *pos, char *orientation)
-{
-    int i;
-    int j;
-    
-    i = 0;
-    while (map->map[i])
-    {
-        j = 0;
-        while (j < map->line_len[i])
-        {
-            if (map->map[i][j] == 'N' || map->map[i][j] == 'S' ||
-                map->map[i][j] == 'E' || map->map[i][j] == 'W')
-            {
-                pos->x = j;
-                pos->y = i;
-                *orientation = map->map[i][j];
-                
-                // Replace with empty space
-                map->map[i][j] = '0';
-                return (1);
-            }
-            j++;
-        }
-        i++;
-    }
-    return (0); // No player found
-}
-
-// Updated player_init with orientation parameter
-void player_init(t_player *p, t_coord pos, char orientation)
-{
-    // Position initialization
-    p->pos_x = (pos.x + 0.5f) * BLOCK_SIZE;
-    p->pos_y = (pos.y + 0.5f) * BLOCK_SIZE;
-    p->co = pos;
-    p->co.color = 0x0000FF00;
-    
-    // Set angle based on orientation
-    if (orientation == 'N')
-        p->angle = 3 * PI / 2;
-    else if (orientation == 'S')
-        p->angle = PI / 2;
-    else if (orientation == 'E')
-        p->angle = 0;
-    else if (orientation == 'W')
-        p->angle = PI;
-    else
-        p->angle = PI / 2; // Default
-    
-    // Direction and plane vectors
-    p->dir_x = cosf(p->angle);
-    p->dir_y = -sinf(p->angle);
-    p->plane_x = -p->dir_y * 0.66;
-    p->plane_y = p->dir_x * 0.66;
-    
-    // Movement flags initialization
-    p->up = false;
-    p->down = false;
-    p->right = false;
-    p->left = false;
-    p->rotate_left = false;
-    p->rotate_right = false;
-}
-
-// In main.c
-t_coord player_pos;
-char player_orientation;
-
-// Extract player data and modify map
-if (!extract_player_data(&game.map, &player_pos, &player_orientation))
-{
-    ft_putstr_fd("Error\nNo valid player position found\n", 2);
-    return (1);
-}
-
-// Initialize player with position and orientation
-player_init(&game.p, player_pos, player_orientation);
-
-*/

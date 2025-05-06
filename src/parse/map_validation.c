@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:29:21 by slangero          #+#    #+#             */
-/*   Updated: 2025/04/30 22:00:47 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/06 12:04:04 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int is_invalid_neighbor(t_map *map, int x, int y, int num_rows)
 	// If none of the above, the neighbor is valid in terms of map closure rules
 	return (0);
 }
-// Main validation function using the new helper
+
 int validate_map_walls(t_map *map)
 {
 	int i; // Row index
@@ -120,16 +120,13 @@ int validate_map_walls(t_map *map)
 	return (1); // Map is validly closed
 }
 
-// Keep validate_player_position as it was
-
-// The main validate_map function remains the same, calling the other two
 int validate_map(t_map *map)
 {
 	if (!map || !map->map) // Add basic null checks
 		return (0);
 	if (!validate_player_position(map))
 		return (0);
-	if (!validate_map_walls(map)) // Calls the updated function
+	if (!validate_map_walls(map)
 		return (0);
 	return (1);
 }
