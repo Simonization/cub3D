@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:29:21 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/06 16:19:56 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:04:27 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,9 @@ static int is_invalid_neighbor(t_map *map, int x, int y, int num_rows)
 {
 	if (y < 0 || y >= num_rows)
 	{
-		return (1); // Out of bounds vertically
+		return (1);
 	}
 
-	// We know y is valid, so map->map[y] and map->line_len[y] should be safe to access.
-	// 2. Check horizontal bounds (x)
 	if (x < 0 || x >= map->line_len[y])
 	{
 		return (1); // Out of bounds horizontally

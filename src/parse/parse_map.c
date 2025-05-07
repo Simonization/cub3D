@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:25:33 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/05 19:57:51 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:14:07 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,34 +59,70 @@ static char	**read_file_to_array(char *file_path, int line_count)
 	return (lines);
 }
 
-static int	parse_rgb(char *str)
+int is_valid_rgb_component(char *component)
 {
-	char	**rgb_parts;
-	int		r;
-	int		g;
-	int		b;
-	int		i;
+	int i;
+	int value;
 
-	rgb_parts = ft_split(str, ',');
-	if (!rgb_parts)
-		return (0);
+	if (!component || component[0] == '\0')
+		return (-1);
+
 	i = 0;
-	while (rgb_parts[i])
+	while (component[i])
+	{
+		if (!ft_isdigit(component[i]))
+			return (-1);
+		i++;
+	}
+	value = ft_atoi(component);
+	if (value < 0 || value > 255)
+		return (-1);
+
+	return (value);
+}
+
+static int parse_and_validate_rgb(char *rgb_string)
+{
+	char    **parts;
+	char    *trimmed_parts[3];
+	int     rgb[3];
+	int     i;
+	int     final_color;
+
+	if (!rgb_string) return (-1);
+
+	parts = ft_split(rgb_string, ',');
+	if (!parts) return (-1);
+	i = 0;
+	while (parts[i])
 		i++;
 	if (i != 3)
 	{
-		free_array(rgb_parts);
-		return (0);
+		free_array(parts);
+		return (-1);
 	}
-	r = ft_atoi(rgb_parts[0]);
-	g = ft_atoi(rgb_parts[1]);
-	b = ft_atoi(rgb_parts[2]);
-	free_array(rgb_parts);
-	
-	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
-		return (0);
-		
-	return ((r << 16) | (g << 8) | b);
+	final_color = -1;
+	for (i = 0; i < 3; i++)
+	{
+		trimmed_parts[i] = ft_strtrim(parts[i], " \t\n");
+		if (!trimmed_parts[i]) {
+			 int k = 0;
+			 while(k < i) free(trimmed_parts[k++]);
+			 free_array(parts);
+			 return -1;
+		}
+		rgb[i] = is_valid_rgb_component(trimmed_parts[i]);
+		free(trimmed_parts[i]);
+
+		if (rgb[i] == -1)
+		{
+			free_array(parts);
+			return (-1);
+		}
+	}
+	final_color = (rgb[0] << 16) | (rgb[1] << 8) | rgb[2];
+	free_array(parts);
+	return (final_color);
 }
 
 static int	parse_texture_paths(char **lines, t_map *map)
@@ -120,12 +156,28 @@ static int	parse_texture_paths(char **lines, t_map *map)
 		}
 		else if (ft_strncmp(lines[i], "F ", 2) == 0 && map->floor_color == 0)
 		{
-			map->floor_color = parse_rgb(lines[i] + 2);
+			char *value_str = lines[i] + 1;
+			while (*value_str && ft_isspace(value_str)) value_str++;
+			map->floor_color = parse_and_validate_rgb(value_str);
+			if (map->floor_color == -1)
+			{
+				ft_putstr_fd("Error\nInvalid floor color format or value\n", 2);
+				free_array(lines);
+				exit(1);
+			}
 			count++;
 		}
 		else if (ft_strncmp(lines[i], "C ", 2) == 0 && map->ceiling_color == 0)
 		{
-			map->ceiling_color = parse_rgb(lines[i] + 2);
+			char *value_str = lines[i] + 1;
+			while (*value_str && ft_isspace(value_str)) value_str++;
+			map->ceiling_color = parse_and_validate_rgb(value_str);
+			if (map->ceiling_color == -1)
+			{
+				ft_putstr_fd("Error\nInvalid ceiling color format or value\n", 2);
+				free_array(lines);
+				exit(1);
+			}
 			count++;
 		}
 		i++;
