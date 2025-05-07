@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:49:19 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/29 13:29:53 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/07 21:36:17 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	move_player(t_data *g)
 		speed = 10.0f;
 	else if (g->flag.crouch)
 		speed = 3.0f;
+	speed *= g->delta_time * 50;
 	if (g->p.up)
 		move_player_forward(g, speed);
 	if (g->p.down)

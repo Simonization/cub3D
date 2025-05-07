@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 23:44:45 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/02 16:40:54 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/07 21:29:05 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	draw_walls(t_data *g, float wall_distance)
 	i = start;
 	while (start++ < end)
 	{
-		if (start >= 0 && start <= HEIGHT)
+		if (start > 0 && start <= HEIGHT)
 		{
 			color = get_light(side_wall(g, start - i), wall_distance);
 			put_pixel(&g->mlx.img, g->ray.col, start, color);
