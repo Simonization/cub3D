@@ -1,7 +1,7 @@
-NO ./img/among-us-yellow-shakes-booty.xpm
-SO ./img/among-us-red-shakes-booty.xpm
-WE ./img/among-us-purple-shakes-booty.xpm
-EA ./img/among-us-green-shakes-booty.xpm
+NO img/among-us-green-shakes-booty.xpm
+SO img/among-us-green-shakes-booty.xpm
+WE img/among-us-green-shakes-booty.xpm
+EA img/among-us-green-shakes-booty.xpm
 F 220,100,0
 C 225,30,0
 
