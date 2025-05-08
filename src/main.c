@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/08 12:24:37 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:39:00 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,32 +91,3 @@ int	main(int argc, char **argv)
 	mlx_loop(game.mlx.mlx);
 	return (0);
 }
-
-
-/*
-int main(int argc, char **argv)
-{
-	t_data game;
-	char *file_path;
-
-	if (argc != 2)
-		return (print_error("Usage: ./cub3D <map.cub>"));
-	
-	file_path = argv[1];
-	
-	if (!validate_file(file_path))
-		return (print_error("Invalid map file"));
-	
-	if (!parse_map(file_path, &game.map))
-		return (1); 
-	windows_init(&game.mlx, &game);
-	player_init(&game.p, get_player_pos(game.map));
-	init_utils(&game);
-	mlx_hook(game.mlx.win, 2, 1L << 0, pressed_key, &game);
-	mlx_hook(game.mlx.win, 3, 1L << 1, released_key, &game);
-	mlx_hook(game.mlx.win, 17, 0, ft_close, &game);
-	mlx_loop_hook(game.mlx.mlx, draw_game, &game);
-	mlx_loop(game.mlx.mlx);
-	return (0);
-}
-*/
