@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/06 11:35:36 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/08 12:24:37 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	print_error(char *message)
 	return (1);
 }
 
-static int	validate_map_file(char *file_path)
+int	validate_map_file(char *file_path)
 {
 	int	len;
 	int	fd;

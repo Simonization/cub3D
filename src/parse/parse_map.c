@@ -6,13 +6,13 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:25:33 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/07 19:31:00 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/08 12:25:46 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static int	is_map_line(char *line)
+int	is_map_line(char *line)
 {
 	int	i;
 

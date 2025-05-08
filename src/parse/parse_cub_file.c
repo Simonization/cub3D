@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:11:13 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/07 19:12:02 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/08 12:39:32 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_map	parse_map(char *file_path)
 		return (map);
 	}
 
-	if (!parse_texture_paths(lines, &map))
+	if (!parse_texture_paths(lines, &map, ))
 	{
 		ft_putstr_fd("Error\nInvalid or missing texture/color information\n", 2);
 		free_array(lines);
