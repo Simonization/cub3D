@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:44:12 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/06 13:02:53 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/07 19:32:28 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,10 +172,15 @@ void	move_player_right(t_data *g, float speed);
 void	validate_move(t_data *g, float new_x, float new_y);
 //UTILS
 void	put_pixel(t_img *img, int x, int y, int color);
-//PARSE MAP
+// PARSE CUB FILE
 t_map	parse_map(char *file_path);
+//PARSE MAP
+int	extract_map_data(char **lines, t_map *map);
 //MAP VALIDATION
 int		validate_map(t_map *map);
 int		validate_player_position(t_map *map);
 int		validate_map_walls(t_map *map);
+//TEXTURE RGB VALIDATION
+int	parse_texture_paths(char **lines, t_map *map);
+int parse_and_validate_rgb(char *rgb_string);
 #endif
