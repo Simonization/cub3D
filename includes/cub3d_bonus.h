@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/05 12:45:27 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/07 21:39:02 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ int		ft_close(t_data *game);
 int		mouse(int x, int y, t_data *game);
 //MOVEMENT
 void	move_player(t_data *g);
-void	offset(t_flag *f, t_player *player);
+void	offset(t_flag *f, t_player *player, float delta_time);
 void	bobbing(t_data *game);
 void	move_player_forward(t_data *g, float speed);
 void	move_player_backward(t_data *g, float speed);

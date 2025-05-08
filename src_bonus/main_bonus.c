@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/29 14:47:14 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/07 21:42:53 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 static int	draw_game(t_data *game)
 {
-	if (game->mlx.img.addr)
-		ft_bzero(game->mlx.img.addr, game->img_size);
 	move_player(game);
-	offset(&game->flag, &game->p);
+	offset(&game->flag, &game->p, game->delta_time);
 	bobbing(game);
 	draw_ray(game);
 	if (game->flag.map != 0)

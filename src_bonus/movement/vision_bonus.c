@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   vision_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:21:21 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/06 14:46:47 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/07 21:45:27 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-void	jump_crouch(t_flag *f)
+void	jump_crouch(t_flag *f, float delta_time)
 {
 	if (f->jump)
 	{
-		f->jump_time += 0.13f;
+		f->jump_time += 0.13f * delta_time * 35;
 		f->jump_offset = sinf(f->jump_time) * 4.5f;
 		if (f->jump_time >= PI)
 		{
@@ -27,7 +27,7 @@ void	jump_crouch(t_flag *f)
 	}
 	if (f->crouch && f->crouch_time < PI / 2)
 	{
-		f->crouch_time += 0.2f;
+		f->crouch_time += 0.13f * delta_time * 35;
 		f->jump_offset = -sinf(f->crouch_time) * 0.5f;
 	}
 	else if (!f->crouch && f->crouch_time > 0)
@@ -39,7 +39,7 @@ void	jump_crouch(t_flag *f)
 	}
 }
 
-void	offset(t_flag *f, t_player *player)
+void	offset(t_flag *f, t_player *player, float delta_time)
 {
 	if (f->head_up && !player->run)
 		f->head_offset += 10;
@@ -53,12 +53,13 @@ void	offset(t_flag *f, t_player *player)
 		f->head_offset = 360;
 	if (f->head_offset < -360)
 		f->head_offset = -360;
-	jump_crouch(f);
+	jump_crouch(f, delta_time);
 }
 
 void	bobbing(t_data *game)
 {
-	if (game->p.up || game->p.down || game->p.left || game->p.right)
+	if (!game->flag.jump && (game->p.up || game->p.down
+		|| game->p.left || game->p.right))
 	{
 		game->flag.bobbing = sinf(game->flag.bob_steps) * 2.0f;
 		if (!game->p.run)
