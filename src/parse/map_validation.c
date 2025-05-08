@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:29:21 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/07 13:04:27 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/08 16:46:07 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,73 +53,58 @@ static int is_invalid_neighbor(t_map *map, int x, int y, int num_rows)
 	{
 		return (1);
 	}
-
 	if (x < 0 || x >= map->line_len[y])
 	{
-		return (1); // Out of bounds horizontally
+		return (1);
 	}
-
-	// 3. Check if the character is a space
 	if (map->map[y][x] == ' ')
 	{
-		return (1); // Neighbor is a space
+		return (1);
 	}
-
-	// If none of the above, the neighbor is valid in terms of map closure rules
 	return (0);
 }
 
 int validate_map_walls(t_map *map)
 {
-	int i; // Row index
-	int j; // Column index
+	int i;
+	int j;
 	int num_rows;
 	char current_char;
 
-	// Calculate the number of rows once
 	num_rows = 0;
-	if (map && map->map) // Basic null check
-	{
+	if (map && map->map)
 		while (map->map[num_rows])
 			num_rows++;
-	}
 	if (num_rows == 0)
-		return (0); // Or handle as appropriate error
-
+		return (0);
 	i = 0;
-	while (i < num_rows) // Iterate through rows
+	while (i < num_rows)
 	{
 		j = 0;
-		while (j < map->line_len[i]) // Iterate through columns
+		while (j < map->line_len[i])
 		{
 			current_char = map->map[i][j];
-			// Check only floor ('0') and player ('N','S','E','W') tiles
 			if (current_char == '0' || ft_strchr("NSEW", current_char))
 			{
-				// Check all 4 neighbors using the helper function
-				// If ANY neighbor is invalid (returns 1), the map is not closed.
-				if (is_invalid_neighbor(map, j + 1, i, num_rows) || // Check right
-					is_invalid_neighbor(map, j - 1, i, num_rows) || // Check left
-					is_invalid_neighbor(map, j, i + 1, num_rows) || // Check down
-					is_invalid_neighbor(map, j, i - 1, num_rows))   // Check up
+				if (is_invalid_neighbor(map, j + 1, i, num_rows) ||
+					is_invalid_neighbor(map, j - 1, i, num_rows) ||
+					is_invalid_neighbor(map, j, i + 1, num_rows) ||
+					is_invalid_neighbor(map, j, i - 1, num_rows))
 				{
-					// Found an exposed '0' or Player character
 					ft_putstr_fd("Error\nMap not surrounded by walls\n", 2);
-					return (0); // Return error
+					return (0);
 				}
 			}
 			j++;
 		}
 		i++;
 	}
-
-	// If we looped through the whole map without finding exposed characters, it's closed.
-	return (1); // Map is validly closed
+	return (1);
 }
 
 int validate_map(t_map *map)
 {
-	if (!map || !map->map) // Add basic null checks
+	if (!map || !map->map)
 		return (0);
 	if (!validate_player_position(map))
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:09:45 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/08 14:13:10 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/08 16:42:36 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int parse_and_validate_rgb(char *rgb_string)
 	return (final_color);
 }
 
-static int assign_rgb_color(int *map_color_field, const char *value_str, int *is_set_flag)
+int assign_rgb_color(int *map_color_field, const char *value_str, int *is_set_flag)
 {
 	char *trimmed_value_str;
 	

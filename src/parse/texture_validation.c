@@ -6,19 +6,11 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:09:05 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/08 14:13:18 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/08 16:41:58 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int parsing_error(const char *msg)
-{
-	ft_putstr_fd("Error\n", 2);
-	ft_putstr_fd((char *)msg, 2);
-	ft_putstr_fd("\n", 2);
-	return (0);
-}
 
 int is_valid_xpm_path(const char *path)
 {

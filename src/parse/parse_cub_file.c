@@ -6,11 +6,19 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:11:13 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/08 13:49:23 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/08 16:42:08 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int parsing_error(const char *msg)
+{
+	ft_putstr_fd("Error\n", 2);
+	ft_putstr_fd((char *)msg, 2);
+	ft_putstr_fd("\n", 2);
+	return (0);
+}
 
 int	count_lines(char *file_path)
 {

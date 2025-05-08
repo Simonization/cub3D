@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:44:12 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/08 13:16:23 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/08 16:42:53 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ typedef struct s_data
 }	t_data;
 
 // PARSING FUNCTIONS (from your existing structure)
+int parsing_error(const char *msg);
 t_map	parse_map(char *file_path);
 int		is_map_line(char *line);
 int		extract_map_data(char **lines, t_map *map, int map_content_start_index);
@@ -172,6 +173,7 @@ int     validate_map(t_map *map);
 // RGB VALIDATION
 int     is_valid_rgb_component(char *component);
 int		parse_and_validate_rgb(char *rgb_string);
+int assign_rgb_color(int *map_color_field, const char *value_str, int *is_set_flag);
 
 // TEXTURE VALIDATION
 int		is_valid_xpm_path(const char *path); // Enhanced version
