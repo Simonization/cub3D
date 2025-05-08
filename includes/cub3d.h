@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:44:12 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/08 12:38:30 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:16:23 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,39 +160,38 @@ typedef struct s_data
 }	t_data;
 
 // PARSING FUNCTIONS (from your existing structure)
-t_map	parse_map(char *file_path); // Entry point for parsing from parse_cub_file.c
-int	extract_map_data(char **lines, t_map *map);
-int		is_map_line(char *line); // Helper for map parsing
-int		find_map_start_index(char **lines, t_map *config);
-int validate_map(t_map *map);
+t_map	parse_map(char *file_path);
+int		is_map_line(char *line);
+int		extract_map_data(char **lines, t_map *map, int map_content_start_index);
 
+// MAP VALIDATION
+int		validate_player_position(t_map *map);
+int		validate_map_walls(t_map *map);
+int     validate_map(t_map *map);
 
-// VALIDATION FUNCTIONS
-int		validate_map_elements(t_map *map); // Overall map validation
-int		validate_player_position(t_map *map); // from map_validation.c
-int		validate_map_walls(t_map *map); // from map_validation.c
-int     is_valid_rgb_component(char *component); // From RGB_validation.c
-int		parse_and_validate_rgb(char *rgb_string); // From RGB_validation.c
+// RGB VALIDATION
+int     is_valid_rgb_component(char *component);
+int		parse_and_validate_rgb(char *rgb_string);
 
-// Texture validation (NEW and MODIFIED)
+// TEXTURE VALIDATION
 int		is_valid_xpm_path(const char *path); // Enhanced version
 int		parse_texture_and_color_paths(char **lines, t_map *map, int *map_content_start_index); // Enhanced version
 
 // UTILS
 void	put_pixel(t_img *img, int x, int y, int color);
-void	free_array(char **arr); // From libft
-char	*get_next_line(int fd); // Assuming from your libft or provided gnl
+void	free_array(char **arr);
+char	*get_next_line(int fd);
 
 // INIT FUNCTIONS
 void	windows_init(t_mlx *mlx, t_data *game);
-t_coord	get_player_pos(t_map map); // To get initial player x,y and orientation
+t_coord	get_player_pos(t_map map);
 void	player_init(t_player *player, t_coord start_pos_info);
-void	init_utils(t_data *game); // For general game data initialization
+void	init_utils(t_data *game);
 
 // HOOKS and GAME LOOP
 int		pressed_key(int keycode, t_data *game);
 int		released_key(int keycode, t_data *game);
-int		ft_close(t_data *game); // For clean exit
+int		ft_close(t_data *game);
 
 // MOVEMENT
 void	move_player(t_data *g);
@@ -205,41 +204,5 @@ void	move_player_right(t_data *g, float speed);
 // DRAWING
 void	draw_ray(t_data *game);
 void	draw_walls(t_data *g, float wall_distance);
-
-// //DRAW RAY
-// void	draw_ray(t_data *game);
-// void	draw_walls(t_data *g, float wall_distance);
-// //INIT
-// t_map	get_map(void);
-// void	windows_init(t_mlx *mlx, t_data *game);
-// t_coord	get_player_pos(t_map map);
-// void	player_init(t_player *player, t_coord pos);
-// void	init_utils(t_data *game);
-// //HOOKS
-// int		released_key(int keycode, t_data *game);
-// int		pressed_key(int keycode, t_data *game);
-// int		ft_close(t_data *game);
-// //MOVEMENT
-// void	move_player(t_data *g);
-// void	delta(float *dx, float *dy, float cos_a, float sin_a);
-// void	move_player_forward(t_data *g, float speed);
-// void	move_player_backward(t_data *g, float speed);
-// void	move_player_left(t_data *g, float speed);
-// void	move_player_right(t_data *g, float speed);
-// void	validate_move(t_data *g, float new_x, float new_y);
-// //UTILS
-// void	put_pixel(t_img *img, int x, int y, int color);
-// // PARSE CUB FILE
-// t_map	parse_map(char *file_path);
-// //PARSE MAP
-// int	extract_map_data(char **lines, t_map *map);
-// //MAP VALIDATION
-// int		validate_map(t_map *map);
-// int		validate_player_position(t_map *map);
-// int		validate_map_walls(t_map *map);
-// //TEXTURE RGB VALIDATION
-// int	parse_texture_paths(char **lines, t_map *map);
-// int parse_and_validate_rgb(char *rgb_string);
-
 
 #endif
