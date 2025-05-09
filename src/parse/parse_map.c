@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:25:33 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/09 17:40:55 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:52:52 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,18 @@ void	check(char **line, int map_content_start_index, t_map *map)
 		j = 0;
 		while (line[i][j])
 		{
-			if (line[i][j] != 'N' && line[i][j] != 'S' && line[i][j] != 'E' && line[i][j] != 'W' && line[i][j] != '0' && line[i][j] != '1' && line[i][j] != ' ')
+			if (line[i][j] != 'N' && line[i][j] != 'S'
+				&& line[i][j] != 'E' && line[i][j] != 'W'
+				&& line[i][j] != '0' && line[i][j] != '1'
+				&& line[i][j] != ' ')
 			{
 				ft_putstr_fd("Error\nInvalid character in map area\n", 2);
 				free_array(line);
 				free_array(map->map);
+				free(map->no_path);
+				free(map->so_path);
+				free(map->we_path);
+				free(map->ea_path);
 				exit(1);
 			}
 			j++;

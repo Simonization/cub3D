@@ -6,13 +6,14 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:09:05 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/09 13:54:36 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:52:17 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	assign_texture_path(char **map_texture_path, const char *path_value, int *is_set_flag)
+int	assign_texture_path(char **map_texture_path,
+		const char *path_value, int *is_set_flag)
 {
 	if (*is_set_flag)
 		return (parsing_error("Duplicate texture identifier."));
@@ -29,7 +30,8 @@ int	assign_texture_path(char **map_texture_path, const char *path_value, int *is
 	return (1);
 }
 
-int	parse_texture_and_color_paths(char **lines, t_map *map, int *map_content_start_index)
+int	parse_texture_and_color_paths(
+		char **lines, t_map *map, int *map_content_start_index)
 {
 	int		i;
 	int		elements_count;
@@ -42,7 +44,8 @@ int	parse_texture_and_color_paths(char **lines, t_map *map, int *map_content_sta
 	{
 		trimmed_line = ft_strtrim(lines[i], " \t\n");
 		if (!trimmed_line)
-			return (parsing_error("Memory allocation failed while trimming line."));
+			return (parsing_error(
+					"Memory allocation failed while trimming line."));
 		if (trimmed_line[0] == '\0' || trimmed_line[0] == '#')
 		{
 			free(trimmed_line);
@@ -70,7 +73,8 @@ int	parse_texture_and_color_paths(char **lines, t_map *map, int *map_content_sta
 		else if (trimmed_line[0] != '\0' && !is_map_line(trimmed_line))
 		{
 			free(trimmed_line);
-			return (parsing_error("Invalid identifier or misplaced map content."));
+			return (parsing_error(
+					"Invalid identifier or misplaced map content."));
 		}
 		free(trimmed_line);
 		if (success_flag == 0 && elements_count < 6)
@@ -83,7 +87,7 @@ int	parse_texture_and_color_paths(char **lines, t_map *map, int *map_content_sta
 	if (elements_count < 6)
 	{
 		return (parsing_error(
-				"Incomplete texture/color configuration. 6 elements required."));
+				"Incomplete texture/color. Need 6 elements."));
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/09 10:58:12 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:43:58 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ int	main(int argc, char **argv)
 	if (!validate_map_file(argv[1]))
 		return (1);
 	game.map = parse_map(argv[1]);
-	if (!game.map.map || !game.map.no_path || !game.map.so_path || 
-		!game.map.we_path || !game.map.ea_path || 
-		game.map.floor_color == 0 || game.map.ceiling_color == 0)
+	if (!game.map.map || !game.map.no_path || !game.map.so_path
+		|| !game.map.we_path || !game.map.ea_path
+		|| game.map.floor_color == 0 || game.map.ceiling_color == 0)
 	{
 		return (1);
 	}
