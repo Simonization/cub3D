@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_cub_file.c                                   :+:      :+:    :+:   */
+/*   parse_basis.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:11:13 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/08 16:42:08 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/09 13:04:34 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int parsing_error(const char *msg)
+int	parsing_error(const char *msg)
 {
 	ft_putstr_fd("Error\n", 2);
 	ft_putstr_fd((char *)msg, 2);
@@ -20,23 +20,18 @@ int parsing_error(const char *msg)
 	return (0);
 }
 
-int	count_lines(char *file_path)
+void	initialize_map_config_flags(t_map *map)
 {
-	int		fd;
-	int		count;
-	char	*line;
-
-	count = 0;
-	fd = open(file_path, O_RDONLY);
-	if (fd == -1)
-		return (-1);
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		count++;
-		free(line);
-	}
-	close(fd);
-	return (count);
+	map->no_path_set = 0;
+	map->so_path_set = 0;
+	map->we_path_set = 0;
+	map->ea_path_set = 0;
+	map->floor_color_set = 0;
+	map->ceiling_color_set = 0;
+	map->no_path = NULL;
+	map->so_path = NULL;
+	map->we_path = NULL;
+	map->ea_path = NULL;
 }
 
 char	**read_file_to_array(char *file_path, int line_count)
@@ -55,6 +50,7 @@ char	**read_file_to_array(char *file_path, int line_count)
 		free(lines);
 		return (NULL);
 	}
+	line = 0;
 	i = 0;
 	while ((line = get_next_line(fd)) != NULL && i < line_count)
 	{
@@ -90,7 +86,7 @@ t_map	parse_map(char *file_path)
 	}
 	if (!parse_texture_and_color_paths(lines, &map, &map_content_start_index))
 	{
-		ft_putstr_fd("Error\nParsing texture and color information failed.\n", 2);
+		ft_putstr_fd("Error\nParsing texture & color failed.\n", 2);
 		free_array(lines);
 		if (map.no_path)
 			free(map.no_path);
@@ -115,9 +111,10 @@ t_map	parse_map(char *file_path)
 			free(map.we_path);
 		if (map.ea_path)
 			free(map.ea_path);
-		if (map.map) 
+		if (map.map)
 			free_array(map.map);
-		if (map.line_len) free(map.line_len);
+		if (map.line_len)
+			free(map.line_len);
 		ft_bzero(&map, sizeof(t_map));
 		return (map);
 	}

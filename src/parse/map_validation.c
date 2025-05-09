@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:29:21 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/08 16:46:07 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:08:19 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	validate_player_position(t_map *map)
 	return (1);
 }
 
-static int is_invalid_neighbor(t_map *map, int x, int y, int num_rows)
+int	is_invalid_neighbor(t_map *map, int x, int y, int num_rows)
 {
 	if (y < 0 || y >= num_rows)
 	{
@@ -64,12 +64,12 @@ static int is_invalid_neighbor(t_map *map, int x, int y, int num_rows)
 	return (0);
 }
 
-int validate_map_walls(t_map *map)
+int	validate_map_walls(t_map *map)
 {
-	int i;
-	int j;
-	int num_rows;
-	char current_char;
+	int		i;
+	int		j;
+	int		num_rows;
+	char	current_char;
 
 	num_rows = 0;
 	if (map && map->map)
@@ -86,10 +86,10 @@ int validate_map_walls(t_map *map)
 			current_char = map->map[i][j];
 			if (current_char == '0' || ft_strchr("NSEW", current_char))
 			{
-				if (is_invalid_neighbor(map, j + 1, i, num_rows) ||
-					is_invalid_neighbor(map, j - 1, i, num_rows) ||
-					is_invalid_neighbor(map, j, i + 1, num_rows) ||
-					is_invalid_neighbor(map, j, i - 1, num_rows))
+				if (is_invalid_neighbor(map, j + 1, i, num_rows)
+					|| is_invalid_neighbor(map, j - 1, i, num_rows)
+					|| is_invalid_neighbor(map, j, i + 1, num_rows)
+					|| is_invalid_neighbor(map, j, i - 1, num_rows))
 				{
 					ft_putstr_fd("Error\nMap not surrounded by walls\n", 2);
 					return (0);
@@ -102,7 +102,7 @@ int validate_map_walls(t_map *map)
 	return (1);
 }
 
-int validate_map(t_map *map)
+int	validate_map(t_map *map)
 {
 	if (!map || !map->map)
 		return (0);
