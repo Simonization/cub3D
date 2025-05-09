@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:25:33 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/09 15:32:23 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/09 17:40:55 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,30 @@ static int	count_map_lines(char **lines, int start_idx)
 	return (count);
 }
 
+void	check(char **line, int map_content_start_index, t_map *map)
+{
+	int	i;
+	int	j;
+
+	i = map_content_start_index;
+	while (line[i])
+	{
+		j = 0;
+		while (line[i][j])
+		{
+			if (line[i][j] != 'N' && line[i][j] != 'S' && line[i][j] != 'E' && line[i][j] != 'W' && line[i][j] != '0' && line[i][j] != '1' && line[i][j] != ' ')
+			{
+				ft_putstr_fd("Error\nInvalid character in map area\n", 2);
+				free_array(line);
+				free_array(map->map);
+				exit(1);
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 int	extract_map_data(char **lines, t_map *map, int map_content_start_index)
 {
 	int		map_actual_start_line_idx;
@@ -86,6 +110,7 @@ int	extract_map_data(char **lines, t_map *map, int map_content_start_index)
 	int		i;
 	int		j;
 
+	check(lines, map_content_start_index, map);
 	map_actual_start_line_idx = map_content_start_index;
 	while (lines[map_actual_start_line_idx])
 	{

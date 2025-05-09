@@ -6,12 +6,11 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:14:34 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/05 18:49:18 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/09 17:36:53 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-// #include "cub3d_bonus.h"
 
 void	delta(float *dx, float *dy, float cos_a, float sin_a)
 {
