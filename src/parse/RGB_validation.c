@@ -6,15 +6,15 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:09:45 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/09 13:42:32 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/09 13:50:46 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int process_f_color(t_map *map, char *value_part)
+int	process_f_color(t_map *map, char *value_part)
 {
-	char *rgb_string;
+	char	*rgb_string;
 
 	if (map->floor_color_set)
 	{
@@ -23,12 +23,12 @@ int process_f_color(t_map *map, char *value_part)
 	rgb_string = ft_strtrim(value_part, " \t");
 	if (!rgb_string)
 	{
-		return parsing_error("Memory alloc for F color trim failed.");
+		return (parsing_error("Memory alloc for F color trim failed."));
 	}
 	if (ft_strlen(rgb_string) == 0)
 	{
 		free(rgb_string);
-		return parsing_error("Floor color value missing.");
+		return (parsing_error("Floor color value missing."));
 	}
 	if (!assign_rgb_color(&map->floor_color, rgb_string, &map->floor_color_set))
 	{
@@ -39,9 +39,9 @@ int process_f_color(t_map *map, char *value_part)
 	return (1);
 }
 
-int process_c_color(t_map *map, char *value_part)
+int	process_c_color(t_map *map, char *value_part)
 {
-	char *rgb_string;
+	char	*rgb_string;
 
 	if (map->ceiling_color_set)
 	{
@@ -50,14 +50,15 @@ int process_c_color(t_map *map, char *value_part)
 	rgb_string = ft_strtrim(value_part, " \t");
 	if (!rgb_string)
 	{
-		return parsing_error("Memory alloc for C color trim failed.");
+		return (parsing_error("Memory alloc for C color trim failed."));
 	}
 	if (ft_strlen(rgb_string) == 0)
 	{
 		free(rgb_string);
-		return parsing_error("Ceiling color value missing.");
+		return (parsing_error("Ceiling color value missing."));
 	}
-	if (!assign_rgb_color(&map->ceiling_color, rgb_string, &map->ceiling_color_set))
+	if (!assign_rgb_color(&map->ceiling_color,
+			rgb_string, &map->ceiling_color_set))
 	{
 		free(rgb_string);
 		return (0);
@@ -137,20 +138,18 @@ int	parse_and_validate_rgb(char *rgb_string)
 	return (final_color);
 }
 
-int assign_rgb_color(int *map_color_field, const char *value_str, int *is_set_flag)
+int	assign_rgb_color(int *map_color_field,
+						const char *value_str, int *is_set_flag)
 {
-	char *trimmed_value_str;
-	
+	char	*trimmed_value_str;
+
 	trimmed_value_str = ft_strtrim(value_str, " \t");
 	if (!trimmed_value_str)
-		return (parsing_error("Memory allocation failed for color string.")); // This error is fine
-
+		return (parsing_error("Memory allocation failed for color string."));
 	*map_color_field = parse_and_validate_rgb(trimmed_value_str);
 	free(trimmed_value_str);
-
 	if (*map_color_field == -1)
-		return (parsing_error("Invalid RGB color format or value.")); // This error is fine
-	
+		return (parsing_error("Invalid RGB color format or value."));
 	*is_set_flag = 1;
 	return (1);
 }

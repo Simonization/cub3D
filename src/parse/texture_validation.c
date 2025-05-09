@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:09:05 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/09 13:44:40 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/09 13:54:36 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,11 @@ int	parse_texture_and_color_paths(char **lines, t_map *map, int *map_content_sta
 
 	i = 0;
 	elements_count = 0;
-
 	while (lines[i] && elements_count < 6)
 	{
 		trimmed_line = ft_strtrim(lines[i], " \t\n");
 		if (!trimmed_line)
 			return (parsing_error("Memory allocation failed while trimming line."));
-		
 		if (trimmed_line[0] == '\0' || trimmed_line[0] == '#')
 		{
 			free(trimmed_line);
@@ -54,7 +52,7 @@ int	parse_texture_and_color_paths(char **lines, t_map *map, int *map_content_sta
 		if (is_map_line(trimmed_line))
 		{
 			free(trimmed_line);
-			break ; 
+			break ;
 		}
 		success_flag = 0;
 		if (ft_strncmp(trimmed_line, "NO ", 3) == 0)
@@ -74,21 +72,18 @@ int	parse_texture_and_color_paths(char **lines, t_map *map, int *map_content_sta
 			free(trimmed_line);
 			return (parsing_error("Invalid identifier or misplaced map content."));
 		}
-
 		free(trimmed_line);
-		
 		if (success_flag == 0 && elements_count < 6)
-			return (0); 
+			return (0);
 		if (success_flag == 1)
 			elements_count++;
-		
 		i++;
 	}
 	*map_content_start_index = i;
-	if (elements_count < 6) 
+	if (elements_count < 6)
 	{
 		return (parsing_error(
-			"Incomplete texture/color configuration. 6 elements required."));
+				"Incomplete texture/color configuration. 6 elements required."));
 	}
 	return (1);
 }
