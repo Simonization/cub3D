@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:29:21 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/09 14:38:06 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/09 16:32:13 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ int	validate_map_characters(t_map *map)
         j = 0;
         while (j < map->line_len[i])
         {
-            char current_char = map->map[i][j];
-            if (current_char != '0' && current_char != '1' && 
-                current_char != 'N' && current_char != 'S' && 
-                current_char != 'E' && current_char != 'W' && 
-                current_char != ' ')
+            if (map->map[i][j] != '0' && map->map[i][j] != '1' && 
+                map->map[i][j] != 'd
+				' && map->map[i][j] != 'S' && 
+                map->map[i][j] != 'E' && map->map[i][j] != 'W' && 
+                map->map[i][j] != ' ')
             {
-                ft_putstr_fd("Error\nInvalid character in map\n", 2);
+                // ft_putstr_fd("Error\nInvalid character in map\n", 2);
                 return (0);
             }
             j++;
@@ -60,6 +60,11 @@ int	validate_player_position(t_map *map)
 			j++;
 		}
 		i++;
+	}
+	if (validate_map_characters(map) == 0)
+	{
+		ft_putstr_fd("Error\nInvalid character in map\n", 2);
+		return (0);
 	}
 	if (player_count == 0)
 	{
@@ -133,8 +138,8 @@ int	validate_map(t_map *map)
 {
 	if (!map || !map->map)
 		return (0);
-	if (!validate_map_characters(map))
-        return (0);
+	//if (!validate_map_characters(map))
+       // return (0);
 	if (!validate_player_position(map))
 		return (0);
 	if (!validate_map_walls(map))
