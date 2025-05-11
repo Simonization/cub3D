@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:53:03 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/05 12:47:16 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/12 01:01:43 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ void	init_utils(t_data *game)
 	game->flag.jump_offset = 0.0f;
 	game->flag.jump = false;
 	game->flag.crouch = false;
+	game->flag.crouch_time = 0.0f;
 	game->flag.map = 1;
 	game->trigo.cos_a = cosf(game->p.angle);
 	game->trigo.sin_a = sinf(game->p.angle);
@@ -206,7 +207,20 @@ void	init_utils(t_data *game)
 	game->target_fov = PI / 3.5f;
 }
 
-void	weapon_init(t_data *game)
+int	weapon_error(char *free1, char *free2, char *free3, t_data *game)
+{
+	ft_putstr_fd("Error\nWeapon init\n", 2);
+	if (free1)
+		free(free1);
+	if (free2)
+		free(free2);
+	if (free3)
+		free(free3);
+	ft_close(game);
+	return (0);
+}
+
+int	weapon_init(t_data *game)
 {
 	int	i;
 	char	*path;
@@ -215,8 +229,18 @@ void	weapon_init(t_data *game)
 	char	*all;
 
 	i = 0;
+	while (i < 7)
+	{
+		game->weapon.weapon[i].img = NULL;
+		i++;
+	}
+	i = 0;
 	path = ft_strdup("img/w");
+	if (!path)
+		return (weapon_error(NULL, NULL, NULL, game));
 	extension = ft_strdup(".xpm");
+	if (!extension)
+		return (weapon_error(path, NULL, NULL, game));
 	game->weapon.current_img = 0;
 	game->weapon.is_firing = false;
 	game->weapon.is_anim = false;
@@ -224,16 +248,31 @@ void	weapon_init(t_data *game)
 	while (i <= 6)
 	{
 		name = ft_itoa(i + 1);
+		if (!name)
+			return (weapon_error(path, extension, NULL, game));
 		all = ft_strjoin(path, name);
+		if (!all)
+			return (weapon_error(path, extension, name, game));
 		free(name);
 		name = ft_strjoin(all, extension);
+		if (!name)
+			return (weapon_error(path, extension, all, game));
 		free(all);
-		game->weapon.weapon[i].img = mlx_xpm_file_to_image(game->mlx.mlx, name, &game->weapon.weapon[i].width, &game->weapon.weapon[i].height);
-		game->weapon.weapon[i].addr = mlx_get_data_addr(game->weapon.weapon[i].img, &game->weapon.weapon[i].bpp, &game->weapon.weapon[i].size_line, &game->weapon.weapon[i].endian);
-		game->weapon.weapon[i].bpp_8 = game->weapon.weapon[i].bpp / 8;
+		game->weapon.weapon[i].img = mlx_xpm_file_to_image(game->mlx.mlx,
+			name, &game->weapon.weapon[i].width,
+			&game->weapon.weapon[i].height);
 		free(name);
+		if (!game->weapon.weapon[i].img)
+			return (weapon_error(path, extension, NULL, game));
+		game->weapon.weapon[i].addr = mlx_get_data_addr(
+			game->weapon.weapon[i].img, &game->weapon.weapon[i].bpp,
+			&game->weapon.weapon[i].size_line, &game->weapon.weapon[i].endian);
+		if (!game->weapon.weapon[i].addr)
+			return (weapon_error(path, extension, NULL, game));
+		game->weapon.weapon[i].bpp_8 = game->weapon.weapon[i].bpp / 8;
 		i++;
 	}
 	free(path);
 	free(extension);
+	return (0);
 }

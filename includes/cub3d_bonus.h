@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/07 21:39:02 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/12 00:38:15 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,6 @@ typedef struct s_flag
 	float	jump_time;
 	bool	jump;
 	int		map;
-	float	crouch_offset;
 	float	crouch_time;
 	bool	crouch;
 }	t_flag;
@@ -197,14 +196,14 @@ typedef struct s_data
 
 //DRAW RAY
 void	draw_ray(t_data *game);
-void	draw_walls(t_data *g, float wall_distance);
+t_coord	draw_walls(t_data *g, float wall_distance);
 //INIT
 t_map	get_map(void);
 void	windows_init(t_mlx *mlx, t_data *game);
 t_coord	get_player_pos(t_map map);
 void	player_init(t_player *player, t_coord pos);
 void	init_utils(t_data *game);
-void	weapon_init(t_data *game);
+int		weapon_init(t_data *game);
 //HOOKS
 int		released_key(int keycode, t_data *game);
 int		pressed_key(int keycode, t_data *game);

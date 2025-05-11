@@ -3,43 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   hooks_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:50:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/04/30 14:48:09 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/12 00:54:12 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
-
-int	ft_close(t_data *game)
-{
-	if (game->mlx.mlx && game->mlx.img.img)
-		mlx_destroy_image(game->mlx.mlx, game->mlx.img.img);
-	if (game->mlx.mlx && game->mlx.no.img)
-		mlx_destroy_image(game->mlx.mlx, game->mlx.no.img);
-	if (game->mlx.mlx && game->mlx.so.img)
-		mlx_destroy_image(game->mlx.mlx, game->mlx.so.img);
-	if (game->mlx.mlx && game->mlx.we.img)
-		mlx_destroy_image(game->mlx.mlx, game->mlx.we.img);
-	if (game->mlx.mlx && game->mlx.ea.img)
-		mlx_destroy_image(game->mlx.mlx, game->mlx.ea.img);
-	mlx_destroy_window(game->mlx.mlx, game->mlx.win);
-	mlx_destroy_display(game->mlx.mlx);
-	free(game->mlx.mlx);
-	free_array(game->map.map);
-	if (game->map.no_path)
-		free(game->map.no_path);
-	if (game->map.so_path)
-		free(game->map.so_path);
-	if (game->map.we_path)
-		free(game->map.we_path);
-	if (game->map.ea_path)
-		free(game->map.ea_path);
-	free(game->map.line_len);
-	exit(0);
-	return (0);
-}
 
 void	pressed_key2(int keycode, t_data *game)
 {

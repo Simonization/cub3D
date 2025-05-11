@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 23:44:45 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/07 21:29:05 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/07 22:22:43 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,12 @@ static int	side_wall(t_data *g, int height)
 	}
 }
 
-void	draw_walls(t_data *g, float wall_distance)
+t_coord	draw_walls(t_data *g, float wall_distance)
 {
 	int	i;
 	int	start;
 	int	end;
+	t_coord	start_end;
 	int	color;
 
 	i = 0;
@@ -87,6 +88,8 @@ void	draw_walls(t_data *g, float wall_distance)
 	start = HEIGHT - g->ray.wall_height / (2 + g->flag.jump_offset)
 		- (360 - g->flag.head_offset);
 	end = start + g->ray.wall_height;
+	start_end.x = start;
+	start_end.y = end;
 	while (i++ <= start)
 		put_pixel(&g->mlx.img, g->ray.col, i, g->map.ceiling_color);
 	i = start;
@@ -100,4 +103,5 @@ void	draw_walls(t_data *g, float wall_distance)
 	}
 	while (start++ < HEIGHT)
 		put_pixel(&g->mlx.img, g->ray.col, start, g->map.floor_color);
+	return (start_end);
 }

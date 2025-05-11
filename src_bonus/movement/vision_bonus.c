@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:21:21 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/07 21:45:27 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/07 22:02:32 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ void	bobbing(t_data *game)
 	{
 		game->flag.bobbing = sinf(game->flag.bob_steps) * 2.0f;
 		if (!game->p.run)
-			game->flag.bob_steps += 0.15f;
+			game->flag.bob_steps += 0.15f * (game->delta_time * 50);
 		else
-			game->flag.bob_steps += 0.25f;
+			game->flag.bob_steps += 0.25f * (game->delta_time * 50);
 		game->flag.head_offset += game->flag.bobbing;
 		if (game->flag.bob_steps > 2.0f * PI)
 			game->flag.bob_steps = 0.0f;
