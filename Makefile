@@ -6,7 +6,7 @@
 #    By: slangero <slangero@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/05/09 13:43:41 by slangero         ###   ########.fr        #
+#    Updated: 2025/05/12 20:50:19 by slangero         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ COLOR_END		=	\033[0m
 #SOURCES
 DRAW_RAY_FILES	=	draw_ray draw_ray_utils
 MOVE_FILES		=	direction move
-PARSE_FILES		=	parse_basis parse_gen_cub_file parse_map map_validation RGB_validation texture_validation process_textures
+PARSE_FILES		=	parse_basis parse_gen_cub_file parse_map map_validation RGB_validation texture_validation process_textures process_colors
 RAY_BONUS_FILES	=	draw_ray_bonus draw_ray_utils_bonus
 MINIMAP_FILES	=	minimap_bonus minimap_shape_bonus
 MOVE_BONUS_FILES=	move_bonus vision_bonus direction_bonus

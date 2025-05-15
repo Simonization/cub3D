@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:44:12 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/09 13:44:56 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/12 20:51:17 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@
 # include <math.h>
 # include <stdbool.h>
 
-typedef struct s_img {
+typedef struct s_img
+{
 	void	*img;
 	char	*addr;
 	int		bpp;
@@ -95,7 +96,7 @@ typedef struct s_ray
 	float	wall_x;
 }	t_ray;
 
-typedef	struct s_player
+typedef struct s_player
 {
 	t_coord	co;
 	float	angle;
@@ -129,8 +130,8 @@ typedef struct s_map
 	int		ea_path_set;
 	int		floor_color_set;
 	int		ceiling_color_set;
-    int     map_height;
-    int     map_width;
+	int		map_height;
+	int		map_width;
 }	t_map;
 
 typedef struct s_trigo
@@ -159,7 +160,7 @@ typedef struct s_data
 }	t_data;
 
 // PARSING FUNCTIONS
-int parsing_error(const char *msg);
+int		parsing_error(const char *msg);
 t_map	parse_map(char *file_path);
 int		is_map_line(char *line);
 int		extract_map_data(char **lines, t_map *map, int map_content_start_index);
@@ -170,24 +171,27 @@ int		is_valid_xpm_path(const char *path);
 // MAP VALIDATION
 int		validate_player_position(t_map *map);
 int		validate_map_walls(t_map *map);
-int     validate_map(t_map *map);
+int		validate_map(t_map *map);
 
 // RGB VALIDATION
+int	process_f_color(t_map *map, char *value_part);
+int	process_c_color(t_map *map, char *value_part);
 int		process_f_color(t_map *map, char *value_part);
 int		process_c_color(t_map *map, char *value_part);
-int     is_valid_rgb_component(char *component);
+int		is_valid_rgb_component(char *component);
 int		parse_and_validate_rgb(char *rgb_string);
-int		assign_rgb_color(int *map_color_field, const char *value_str, int *is_set_flag);
+int		assign_rgb_color(int *map_color_field,
+			const char *value_str, int *is_set_flag);
 
 // TEXTURE VALIDATION
-int	assign_texture_path(char **map_texture_path, const char *path_value, int *is_set_flag);
-int	parse_texture_and_color_paths(char **lines, t_map *map, int *map_content_start_index);
-int process_no_texture(t_map *map, char *value_part);
-int process_so_texture(t_map *map, char *value_part);
-int process_we_texture(t_map *map, char *value_part);
-int process_ea_texture(t_map *map, char *value_part);
-
-
+int		process_ea_texture(t_map *map, char *value_part);
+int		assign_texture_path(char **map_texture_path,
+			const char *path_value, int *is_set_flag);
+int		parse_texture_and_color_paths(char **lines,
+			t_map *map, int *map_content_start_index);
+int		process_no_texture(t_map *map, char *value_part);
+int		process_so_texture(t_map *map, char *value_part);
+int		process_we_texture(t_map *map, char *value_part);
 
 // UTILS
 void	put_pixel(t_img *img, int x, int y, int color);
