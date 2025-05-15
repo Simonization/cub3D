@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 13:01:38 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/15 17:01:53 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:48:56 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	is_valid_xpm_path(const char *path)
 	if (bytes_read <= 0)
 		return (p_err("Texture file is empty or unreadable."));
 	buffer[bytes_read] = '\0';
-	if (!(ft_strnstr(buffer, "XPM", bytes_read) != NULL \
-		&& ft_strnstr(buffer, "static char", bytes_read) != NULL))
+	if (!(ft_strnstr(buffer, "XPM", bytes_read) != NULL
+			&& ft_strnstr(buffer, "static char", bytes_read) != NULL))
 		return (p_err("Invalid XPM file content or format."));
 	return (1);
 }

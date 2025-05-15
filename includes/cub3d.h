@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:44:12 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/15 17:01:53 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:45:56 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,9 +159,10 @@ typedef struct s_data
 }	t_data;
 
 // PARSING FUNCTIONS
-int p_err(const char *msg);
+int		p_err(const char *msg);
 t_map	parse_map(char *file_path);
 int		is_map_line(char *line);
+int		fill_map(t_map *map, int j, int map_lines_count, char **lines);
 int		extract_map_data(char **lines, t_map *map, int map_content_start_index);
 void	initialize_map_config_flags(t_map *map);
 int		count_lines(char *file_path);
@@ -180,19 +181,18 @@ int		parse_and_validate_rgb(char *rgb_string);
 int		assign_rgb_color(int *map_color_field, const char *value_str, int *is_set_flag);
 
 // TEXTURE VALIDATION
-int	assign_texture_path(char **map_texture_path, const char *path_value, int *is_set_flag);
-int	parse_texture_and_color_paths(char **lines, t_map *map, int *map_content_start_index);
-int process_no_texture(t_map *map, char *value_part);
-int process_so_texture(t_map *map, char *value_part);
-int process_we_texture(t_map *map, char *value_part);
-int process_ea_texture(t_map *map, char *value_part);
+int		assign_texture_path(char **map_texture_path, const char *path_value, int *is_set_flag);
+int		parse_texture_and_color_paths(char **lines, t_map *map, int *map_content_start_index);
+int		process_no_texture(t_map *map, char *value_part);
+int		process_so_texture(t_map *map, char *value_part);
+int		process_we_texture(t_map *map, char *value_part);
+int		process_ea_texture(t_map *map, char *value_part);
 
 
 
 // UTILS
 void	put_pixel(t_img *img, int x, int y, int color);
 void	free_array(char **arr);
-// char	*get_next_line(int fd);
 void	ft_exit(int n, char *message, t_map *map);
 void	print_error(char *message);
 

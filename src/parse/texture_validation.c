@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:09:05 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/15 17:01:53 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:49:11 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	assign_texture_path(char **map_texture_path,
 
 int	get_texture_path(char *trimmed_line, t_map *map, int *elements_count)
 {
-	int success_flag;
+	int	success_flag;
 
 	success_flag = 0;
 	if (ft_strncmp(trimmed_line, "NO ", 3) == 0)

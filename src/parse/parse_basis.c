@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:11:13 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/15 21:04:55 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:47:56 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,13 @@ char	**read_file_to_array(char *file_path, int line_count)
 		return (free(lines), NULL);
 	line = NULL;
 	i = 0;
-	while ((line = get_next_line(fd)) != NULL && i < line_count)
+	line = get_next_line(fd);
+	while (line && i < line_count)
 	{
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
 		lines[i++] = line;
+		line = get_next_line(fd);
 	}
 	lines[i] = NULL;
 	close(fd);

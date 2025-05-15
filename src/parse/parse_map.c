@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:25:33 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/15 21:38:30 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:44:12 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,56 +109,6 @@ int	get_start_index(char **lines, int *start)
 	}
 	if (!lines[*start])
 		return (p_err("No map after texture/color definitions."), 0);
-	return (1);
-}
-
-int	ft_isspace_mod(char *str)
-{
-	while (*str)
-	{
-		if (*str != ' ' && *str != '\n' && *str != '\t')
-			return (0);
-		str++;
-	}
-	return (1);
-}
-
-int	double_map(char **lines, int j)
-{
-	while (lines[j])
-	{
-		if (!ft_isspace_mod(lines[j]))
-			return (p_err("Double map."), 1);
-		j++;
-	}
-	return (0);
-}
-
-int	fill_map(t_map *map, int j, int map_lines_count, char **lines)
-{
-	char	*trim;
-	int		i;
-
-	i = 0;
-	while (i < map_lines_count && lines[j])
-	{
-		trim = ft_strtrim(lines[j], " \t\n");
-		if (!trim)
-			return (p_err("Memory allocation failed"), 0);
-		if (is_map_line(trim))
-		{
-			map->map[i] = ft_strdup(lines[j]);
-			if (!map->map[i])
-				return (free(trim), p_err("Memory allocation failed"), 0);
-			i++;
-		}
-		free(trim);
-		j++;
-	}
-	if (i != map_lines_count)
-		return (p_err("Mismatch: counted map VS extracted lines."), 0);
-	if (double_map(lines, j))
-		return (0);
 	return (1);
 }
 
