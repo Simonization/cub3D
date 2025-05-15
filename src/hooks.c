@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:50:18 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/09 18:34:50 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/15 22:25:32 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,8 @@
 
 int	ft_close(t_data *game)
 {
-	if (!game || !game->mlx.mlx)
-	{
-		if (game && game->map.map)
-			free_array(game->map.map);
-		if (game && game->map.line_len)
-			free(game->map.line_len);
-		if (game && game->map.no_path)
-			free(game->map.no_path);
-		if (game && game->map.so_path)
-			free(game->map.so_path);
-		if (game && game->map.we_path)
-			free(game->map.we_path);
-		if (game && game->map.ea_path)
-			free(game->map.ea_path);
-		exit(1);
-	}
+	if (!game->mlx.mlx)
+		ft_exit(1, NULL, &game->map);
 	if (game->mlx.img.img)
 		mlx_destroy_image(game->mlx.mlx, game->mlx.img.img);
 	if (game->mlx.no.img)
@@ -42,19 +28,9 @@ int	ft_close(t_data *game)
 		mlx_destroy_image(game->mlx.mlx, game->mlx.ea.img);
 	if (game->mlx.win)
 		mlx_destroy_window(game->mlx.mlx, game->mlx.win);
+	mlx_destroy_display(game->mlx.mlx);
 	free(game->mlx.mlx);
-	free_array(game->map.map);
-	if (game->map.line_len)
-		free(game->map.line_len);
-	if (game->map.no_path)
-		free(game->map.no_path);
-	if (game->map.so_path)
-		free(game->map.so_path);
-	if (game->map.we_path)
-		free(game->map.we_path);
-	if (game->map.ea_path)
-		free(game->map.ea_path);
-	exit(0);
+	ft_exit(0, NULL, &game->map);
 	return (0);
 }
 

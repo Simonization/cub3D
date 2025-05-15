@@ -3,29 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:53:03 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/09 18:43:03 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/15 22:35:37 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	windows_init(t_mlx *mlx, t_data *game)
+void	get_no_so_img(t_mlx *mlx, t_data *game)
 {
-	if (!game)
-		exit(1);
-	if (!game->map.no_path)
-		exit(1);
-	mlx->mlx = mlx_init();
-	mlx->win = mlx_new_window(mlx->mlx, WIDTH, HEIGHT, "Cub3d");
-	mlx->img.img = mlx_new_image(mlx->mlx, WIDTH, HEIGHT);
-	if (!mlx->img.img)
-		ft_close(game);
-	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp,
-			&mlx->img.size_line, &mlx->img.endian);
-	game->img_size = HEIGHT * game->mlx.img.size_line;
 	mlx->no.img = mlx_xpm_file_to_image(mlx->mlx,
 			game->map.no_path, &mlx->no.width, &mlx->no.height);
 	if (!mlx->no.img)
@@ -42,6 +30,10 @@ void	windows_init(t_mlx *mlx, t_data *game)
 			&mlx->so.bpp, &mlx->so.size_line, &mlx->so.endian);
 	mlx->so.bpp_8 = mlx->so.bpp / 8;
 	mlx->so.steps = mlx->so.width / BLOCK_SIZE;
+}
+
+void	get_we_ea_img(t_mlx *mlx, t_data *game)
+{
 	mlx->we.img = mlx_xpm_file_to_image(mlx->mlx,
 			game->map.we_path, &mlx->we.width, &mlx->we.height);
 	if (!mlx->we.img)
@@ -60,6 +52,24 @@ void	windows_init(t_mlx *mlx, t_data *game)
 	mlx->ea.steps = mlx->ea.width / BLOCK_SIZE;
 }
 
+void	windows_init(t_mlx *mlx, t_data *game)
+{
+	if (!game)
+		exit(1);
+	if (!game->map.no_path)
+		exit(1);
+	mlx->mlx = mlx_init();
+	mlx->win = mlx_new_window(mlx->mlx, WIDTH, HEIGHT, "Cub3d");
+	mlx->img.img = mlx_new_image(mlx->mlx, WIDTH, HEIGHT);
+	if (!mlx->img.img)
+		ft_close(game);
+	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp,
+			&mlx->img.size_line, &mlx->img.endian);
+	game->img_size = HEIGHT * game->mlx.img.size_line;
+	get_no_so_img(mlx, game);
+	get_we_ea_img(mlx, game);
+}
+
 void	init_utils(t_data *game)
 {
 	game->trigo.cos_a = cosf(game->p.angle);
@@ -74,80 +84,19 @@ void	init_utils(t_data *game)
 	game->projection = ((WIDTH / 2.0f) / tan(game->fov_2));
 }
 
-t_coord	get_player_pos(t_map map)
-{
-	t_coord	pos;
-
-	pos.y = 0;
-	pos.orientation = '\0';
-	while (map.map[pos.y])
-	{
-		pos.x = 0;
-		while (map.map[pos.y][pos.x])
-		{
-			if (ft_strchr("NSEW", map.map[pos.y][pos.x]))
-			{
-				pos.orientation = map.map[pos.y][pos.x];
-				return (pos);
-			}
-			pos.x++;
-		}
-		pos.y++;
-	}
-	ft_putstr_fd("Error\nPlayer position not found by get_player_pos\n", 2);
-	pos.x = -1;
-	pos.y = -1;
-	pos.orientation = '\0';
-	return (pos);
-}
-
 void	player_init(t_player *p, t_coord start_pos_info)
 {
 	p->pos_x = (start_pos_info.x + 0.5f) * BLOCK_SIZE;
 	p->pos_y = (start_pos_info.y + 0.5f) * BLOCK_SIZE;
 	p->co.color = 0x0000FF00;
 	if (start_pos_info.orientation == 'N')
-	{
-		p->angle = PI / 2.0f;
-		p->dir_x = 0.0f;
-		p->dir_y = -1.0f;
-		p->plane_x = 0.66f;
-		p->plane_y = 0.0f;
-	}
+		north_orientation(p);
 	else if (start_pos_info.orientation == 'S')
-	{
-		p->angle = 3.0f * PI / 2.0f;
-		p->dir_x = 0.0f;
-		p->dir_y = 1.0f;
-		p->plane_x = -0.66f;
-		p->plane_y = 0.0f;
-	}
+		south_orientation(p);
 	else if (start_pos_info.orientation == 'E')
-	{
-		p->angle = 0.0f;
-		p->dir_x = 1.0f;
-		p->dir_y = 0.0f;
-		p->plane_x = 0.0f;
-		p->plane_y = 0.66f;
-	}
+		east_orientation(p);
 	else if (start_pos_info.orientation == 'W')
-	{
-		p->angle = PI;
-		p->dir_x = -1.0f;
-		p->dir_y = 0.0f;
-		p->plane_x = 0.0f;
-		p->plane_y = -0.66f;
-	}
-	else
-	{
-		ft_putstr_fd(
-			"Warning: player_init: invalid orient.Default to North.\n", 2);
-		p->angle = PI / 2.0f;
-		p->dir_x = 0.0f;
-		p->dir_y = -1.0f;
-		p->plane_x = 0.66f;
-		p->plane_y = 0.0f;
-	}
+		west_orientation(p);
 	p->up = false;
 	p->down = false;
 	p->right = false;

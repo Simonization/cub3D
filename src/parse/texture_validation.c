@@ -6,27 +6,27 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:09:05 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/15 21:49:11 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/15 22:44:18 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	assign_texture_path(char **map_texture_path,
-		const char *path_value, int *is_set_flag)
+int	assign_texture_path(char **path,
+		const char *path_value, int *is_set)
 {
-	if (*is_set_flag)
+	if (*is_set)
 		return (p_err("Duplicate texture identifier."));
-	*map_texture_path = ft_strdup(path_value);
-	if (!*map_texture_path)
+	*path = ft_strdup(path_value);
+	if (!*path)
 		return (p_err("Memory allocation failed for texture path."));
-	if (!is_valid_xpm_path(*map_texture_path))
+	if (!is_valid_xpm_path(*path))
 	{
-		free(*map_texture_path);
-		*map_texture_path = NULL;
+		free(*path);
+		*path = NULL;
 		return (0);
 	}
-	*is_set_flag = 1;
+	*is_set = 1;
 	return (1);
 }
 
@@ -75,7 +75,7 @@ int	check_trim(char **lines, char *trim, char *c)
 }
 
 int	parse_texture_and_color_paths(
-		char **lines, t_map *map, int *map_content_start_index)
+		char **lines, t_map *map, int *start)
 {
 	int		i;
 	int		elements_count;
@@ -96,7 +96,7 @@ int	parse_texture_and_color_paths(
 		if (!get_texture_path(trimmed_line, map, &elements_count))
 			return (0);
 	}
-	*map_content_start_index = i;
+	*start = i;
 	if (elements_count < 6)
 		return (p_err(
 				"Incomplete texture/color. Need 6 elements."));

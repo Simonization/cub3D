@@ -6,7 +6,7 @@
 #    By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/05/15 21:44:57 by agoldber         ###   ########.fr        #
+#    Updated: 2025/05/15 22:36:40 by agoldber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ COLOR_END		=	\033[0m
 #SOURCES
 DRAW_RAY_FILES	=	draw_ray draw_ray_utils
 MOVE_FILES		=	direction move
-PARSE_FILES		=	parse_basis parse_gen_cub_file parse_map parse_map_utils map_validation RGB_validation texture_validation process_textures
+PARSE_FILES		=	parse_basis parse_gen_cub_file parse_map parse_map_utils map_validation RGB_validation rgb_utils texture_validation process_textures
 RAY_BONUS_FILES	=	draw_ray_bonus draw_ray_utils_bonus
 MINIMAP_FILES	=	minimap_bonus minimap_shape_bonus
 MOVE_BONUS_FILES=	move_bonus vision_bonus direction_bonus
@@ -61,7 +61,7 @@ DRAW_RAY_BONUS	=	${addprefix ${DRAW_RAY_DIR}, ${RAY_BONUS_FILES}}
 MINIMAP			=	${addprefix ${MINIMAP_DIR}, ${MINIMAP_FILES}}
 MOVE_BONUS		=	${addprefix ${MOVE_DIR}, ${MOVE_BONUS_FILES}}
 
-FILES			=	main hooks init utils ${DRAW_RAY} ${MOVE} ${PARSE}
+FILES			=	main hooks init init_player_orientation utils ${DRAW_RAY} ${MOVE} ${PARSE}
 FILES_BONUS		=	main_bonus hooks_bonus init_bonus utils_bonus weapon_bonus draw_xpm ${DRAW_RAY_BONUS} ${MOVE_BONUS} ${MINIMAP}
 
 SRCS			=	${addprefix ${SRCS_DIR}, ${addsuffix .c, ${FILES}}}

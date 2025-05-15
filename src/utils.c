@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:14:34 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/15 21:04:32 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/15 22:35:42 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,31 @@ void	ft_exit(int n, char *message, t_map *map)
 	if (message)
 		p_err(message);
 	exit(n);
+}
+
+t_coord	get_player_pos(t_map map)
+{
+	t_coord	pos;
+
+	pos.y = 0;
+	pos.orientation = '\0';
+	while (map.map[pos.y])
+	{
+		pos.x = 0;
+		while (map.map[pos.y][pos.x])
+		{
+			if (ft_strchr("NSEW", map.map[pos.y][pos.x]))
+			{
+				pos.orientation = map.map[pos.y][pos.x];
+				return (pos);
+			}
+			pos.x++;
+		}
+		pos.y++;
+	}
+	ft_putstr_fd("Error\nPlayer position not found by get_player_pos\n", 2);
+	pos.x = -1;
+	pos.y = -1;
+	pos.orientation = '\0';
+	return (pos);
 }
