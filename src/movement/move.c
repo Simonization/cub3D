@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:49:19 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/09 18:45:19 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:53:47 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,3 @@ void	move_player(t_data *g)
 	g->trigo.cos_l = cosf(g->p.angle - PI / 2);
 	g->trigo.sin_l = sinf(g->p.angle - PI / 2);
 }
-
-to rotate player
-	// if (g->p.run)
-		// rotation_speed += 0.03f;
-
-//to run player
-	// if (g->p.run && !g->flag.crouch)
-		// speed = 10.0f;
-	// else if (g->flag.crouch)
-		// speed = 3.0f;

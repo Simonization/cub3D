@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_basis.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:11:13 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/09 17:24:47 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:52:15 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,8 @@ char	**read_file_to_array(char *file_path, int line_count)
 		return (NULL);
 	fd = open(file_path, O_RDONLY);
 	if (fd == -1)
-	{
-		free(lines);
-		return (NULL);
-	}
-	line = 0;
+		return (free(lines), NULL);
+	line = NULL;
 	i = 0;
 	while ((line = get_next_line(fd)) != NULL && i < line_count)
 	{
@@ -74,30 +71,15 @@ t_map	parse_map(char *file_path)
 	map_content_start_index = 0;
 	line_count = count_lines(file_path);
 	if (line_count <= 0)
-	{
-		ft_putstr_fd("Error\nFailed to read file or empty file\n", 2);
-		return (map);
-	}
+		ft_exit(1, "Error\nFailed to read file or empty file\n", NULL);
 	lines = read_file_to_array(file_path, line_count);
 	if (!lines)
-	{
-		ft_putstr_fd("Error\nFailed to read file lines into array\n", 2);
-		return (map);
-	}
+		ft_exit(1, "Error\nFailed to read file lines into array\n", NULL);
 	if (!parse_texture_and_color_paths(lines, &map, &map_content_start_index))
 	{
-		ft_putstr_fd("Error\nParsing texture & color failed.\n", 2);
+		// ft_putstr_fd("Error\nParsing texture & color failed.\n", 2);
 		free_array(lines);
-		if (map.no_path)
-			free(map.no_path);
-		if (map.so_path)
-			free(map.so_path);
-		if (map.we_path)
-			free(map.we_path);
-		if (map.ea_path)
-			free(map.ea_path);
-		ft_bzero(&map, sizeof(t_map));
-		return (map);
+		ft_exit(1, NULL, &map);
 	}
 	if (!extract_map_data(lines, &map, map_content_start_index))
 	{

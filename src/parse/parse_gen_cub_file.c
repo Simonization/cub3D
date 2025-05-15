@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_gen_cub_file.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 13:01:38 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/09 13:48:35 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:25:00 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,14 @@ int	count_lines(char *file_path)
 	fd = open(file_path, O_RDONLY);
 	if (fd == -1)
 		return (-1);
-	while ((line = get_next_line(fd)) != NULL)
+	line = get_next_line(fd);
+	while (1)
 	{
-		count++;
+		if (!line)
+			break ;
 		free(line);
+		line = get_next_line(fd);
+		count++;
 	}
 	close(fd);
 	return (count);

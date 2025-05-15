@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 14:24:10 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/06 11:18:26 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:15:44 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ char	*hexa_transfo(unsigned long ptr_val);
 int		display_address(unsigned long ptr_val);
 int		display_hexa(int n, char c);
 //GNL
-// char	*ft_strjoin_mod(char *s1, char *s2);
-// int		ft_findchar(char c, char *str);
-// char	*get_next_line(int fd);
+char	*ft_strjoin_mod(char *s1, char *s2);
+int		ft_findchar(char c, char *str);
+char	*get_next_line(int fd);
 //ADDITIONAL FUNCTIONS
 void	ft_swap(int *i, int *j);
 void	free_array(char **arr);

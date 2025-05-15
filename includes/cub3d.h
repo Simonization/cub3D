@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:44:12 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/09 13:44:56 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:49:56 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,9 @@ int process_ea_texture(t_map *map, char *value_part);
 // UTILS
 void	put_pixel(t_img *img, int x, int y, int color);
 void	free_array(char **arr);
-char	*get_next_line(int fd);
+// char	*get_next_line(int fd);
+void	ft_exit(int n, char *message, t_map *map);
+void	print_error(char *message);
 
 // INIT FUNCTIONS
 void	windows_init(t_mlx *mlx, t_data *game);

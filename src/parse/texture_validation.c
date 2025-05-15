@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_validation.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:09:05 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/09 18:52:17 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:42:24 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,64 +30,75 @@ int	assign_texture_path(char **map_texture_path,
 	return (1);
 }
 
+int	get_texture_path(char *trimmed_line, t_map *map, int *elements_count)
+{
+	int success_flag;
+
+	success_flag = 0;
+	if (ft_strncmp(trimmed_line, "NO ", 3) == 0)
+		success_flag = process_no_texture(map, trimmed_line + 3);
+	else if (ft_strncmp(trimmed_line, "SO ", 3) == 0)
+		success_flag = process_so_texture(map, trimmed_line + 3);
+	else if (ft_strncmp(trimmed_line, "WE ", 3) == 0)
+		success_flag = process_we_texture(map, trimmed_line + 3);
+	else if (ft_strncmp(trimmed_line, "EA ", 3) == 0)
+		success_flag = process_ea_texture(map, trimmed_line + 3);
+	else if (ft_strncmp(trimmed_line, "F ", 2) == 0)
+		success_flag = process_f_color(map, trimmed_line + 2);
+	else if (ft_strncmp(trimmed_line, "C ", 2) == 0)
+		success_flag = process_c_color(map, trimmed_line + 2);
+	else if (trimmed_line[0] != '\0' && !is_map_line(trimmed_line))
+		return (free(trimmed_line), parsing_error(
+				"Invalid identifier or misplaced map content."));
+	free(trimmed_line);
+	if (success_flag == 0 && *elements_count < 6)
+		return (0);
+	if (success_flag == 1)
+		(*elements_count)++;
+	return (1);
+}
+
+int	check_trim(char **lines, char *trim, char *c)
+{
+	if (!trim)
+	{
+		free_array(lines);
+		ft_exit(1, "Error\nMemory allocation failed\n", NULL);
+	}
+	if (trim[0] == '\0' || trim[0] == '#' || is_map_line(trim))
+	{
+		*c = trim[0];
+		free(trim);
+		return (1);
+	}
+	return (0);
+}
+
 int	parse_texture_and_color_paths(
 		char **lines, t_map *map, int *map_content_start_index)
 {
 	int		i;
 	int		elements_count;
 	char	*trimmed_line;
-	int		success_flag;
+	char	c;
 
-	i = 0;
+	i = -1;
 	elements_count = 0;
-	while (lines[i] && elements_count < 6)
+	while (lines[++i] && elements_count < 6)
 	{
 		trimmed_line = ft_strtrim(lines[i], " \t\n");
-		if (!trimmed_line)
-			return (parsing_error(
-					"Memory allocation failed while trimming line."));
-		if (trimmed_line[0] == '\0' || trimmed_line[0] == '#')
+		if (check_trim(lines, trimmed_line, &c))
 		{
-			free(trimmed_line);
-			i++;
-			continue ;
-		}
-		if (is_map_line(trimmed_line))
-		{
-			free(trimmed_line);
+			if (c == '\0' || c == '#')
+				continue ;
 			break ;
 		}
-		success_flag = 0;
-		if (ft_strncmp(trimmed_line, "NO ", 3) == 0)
-			success_flag = process_no_texture(map, trimmed_line + 3);
-		else if (ft_strncmp(trimmed_line, "SO ", 3) == 0)
-			success_flag = process_so_texture(map, trimmed_line + 3);
-		else if (ft_strncmp(trimmed_line, "WE ", 3) == 0)
-			success_flag = process_we_texture(map, trimmed_line + 3);
-		else if (ft_strncmp(trimmed_line, "EA ", 3) == 0)
-			success_flag = process_ea_texture(map, trimmed_line + 3);
-		else if (ft_strncmp(trimmed_line, "F ", 2) == 0)
-			success_flag = process_f_color(map, trimmed_line + 2);
-		else if (ft_strncmp(trimmed_line, "C ", 2) == 0)
-			success_flag = process_c_color(map, trimmed_line + 2);
-		else if (trimmed_line[0] != '\0' && !is_map_line(trimmed_line))
-		{
-			free(trimmed_line);
-			return (parsing_error(
-					"Invalid identifier or misplaced map content."));
-		}
-		free(trimmed_line);
-		if (success_flag == 0 && elements_count < 6)
+		if (!get_texture_path(trimmed_line, map, &elements_count))
 			return (0);
-		if (success_flag == 1)
-			elements_count++;
-		i++;
 	}
 	*map_content_start_index = i;
 	if (elements_count < 6)
-	{
 		return (parsing_error(
 				"Incomplete texture/color. Need 6 elements."));
-	}
 	return (1);
 }
