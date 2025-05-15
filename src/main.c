@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/15 21:05:09 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:40:13 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,7 @@ int	main(int argc, char **argv)
 		|| game.map.floor_color == 0 || game.map.ceiling_color == 0)
 		return (1);
 	if (!validate_map(&game.map))
-	{
-		if (game.map.map)
-			free_array(game.map.map);
-		if (game.map.line_len)
-			free(game.map.line_len);
-		if (game.map.no_path)
-			free(game.map.no_path);
-		if (game.map.so_path)
-			free(game.map.so_path);
-		if (game.map.we_path)
-			free(game.map.we_path);
-		if (game.map.ea_path)
-			free(game.map.ea_path);
-		return (1);
-	}
+		ft_exit(1, NULL, &game.map);
 	windows_init(&game.mlx, &game);
 	player_init(&game.p, get_player_pos(game.map));
 	init_utils(&game);

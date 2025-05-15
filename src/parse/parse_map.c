@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:25:33 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/15 21:03:41 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:38:30 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	check(char **lines, int map_content_start_index, t_map *map)
 				&& lines[i][j] != ' ')
 			{
 				free_array(lines);
-				ft_exit(1, "Error\nInvalid character in map area\n", map);
+				ft_exit(1, "Invalid character in map area", map);
 			}
 			j++;
 		}
@@ -112,6 +112,28 @@ int	get_start_index(char **lines, int *start)
 	return (1);
 }
 
+int	ft_isspace_mod(char *str)
+{
+	while (*str)
+	{
+		if (*str != ' ' && *str != '\n' && *str != '\t')
+			return (0);
+		str++;
+	}
+	return (1);
+}
+
+int	double_map(char **lines, int j)
+{
+	while (lines[j])
+	{
+		if (!ft_isspace_mod(lines[j]))
+			return (p_err("Double map."), 1);
+		j++;
+	}
+	return (0);
+}
+
 int	fill_map(t_map *map, int j, int map_lines_count, char **lines)
 {
 	char	*trim;
@@ -132,12 +154,11 @@ int	fill_map(t_map *map, int j, int map_lines_count, char **lines)
 		}
 		free(trim);
 		j++;
-		if (i == map_lines_count && lines[j]
-			&& is_map_line(ft_strtrim(lines[j], " \t\n")))
-			return (p_err("Map disjointed or invalid empty lines in map."), 0);
 	}
 	if (i != map_lines_count)
 		return (p_err("Mismatch: counted map VS extracted lines."), 0);
+	if (double_map(lines, j))
+		return (0);
 	return (1);
 }
 
@@ -153,8 +174,7 @@ int	extract_map_data(char **lines, t_map *map, int map_content_start_index)
 	if (map_lines_count <= 0)
 		return (0);
 	map->map = ft_calloc(sizeof(char *), (map_lines_count + 1));
-	// map->line_len = ft_calloc(map_lines_count + 1, sizeof(int));
-	map->line_len = NULL;
+	map->line_len = ft_calloc(map_lines_count + 1, sizeof(int));
 	if (!map->map || !map->line_len)
 		return (p_err("Memory allocation failed"), 0);
 	if (!fill_map(map, map_content_start_index, map_lines_count, lines))

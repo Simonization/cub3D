@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_validation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:29:21 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/09 17:39:59 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:18:47 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,77 +27,54 @@ int	validate_player_position(t_map *map)
 		{
 			if (map->map[i][j] == 'N' || map->map[i][j] == 'S' ||
 				map->map[i][j] == 'E' || map->map[i][j] == 'W')
-			{
 				player_count++;
-			}
 			j++;
 		}
 		i++;
 	}
 	if (player_count == 0)
-	{
-		ft_putstr_fd("Error\nNo player position in map\n", 2);
-		return (0);
-	}
+		return (p_err("No player position in map"), 0);
 	if (player_count > 1)
-	{
-		ft_putstr_fd("Error\nMultiple player positions in map\n", 2);
-		return (0);
-	}
+		return (p_err("Multiple player positions in map"), 0);
 	return (1);
 }
 
-int	is_invalid_neighbor(t_map *map, int x, int y, int num_rows)
+int	neighbor(t_map *map, int x, int y, int num_rows)
 {
 	if (y < 0 || y >= num_rows)
-	{
 		return (1);
-	}
 	if (x < 0 || x >= map->line_len[y])
-	{
 		return (1);
-	}
 	if (map->map[y][x] == ' ')
-	{
 		return (1);
-	}
 	return (0);
 }
 
-int	validate_map_walls(t_map *map)
+int	validate_map_walls(t_map *m)
 {
 	int		i;
 	int		j;
-	int		num_rows;
+	int		r;
 	char	current_char;
 
-	num_rows = 0;
-	if (map && map->map)
-		while (map->map[num_rows])
-			num_rows++;
-	if (num_rows == 0)
+	r = 0;
+	if (m && m->map)
+		while (m->map[r])
+			r++;
+	if (r == 0)
 		return (0);
-	i = 0;
-	while (i < num_rows)
+	i = -1;
+	while (++i < r)
 	{
-		j = 0;
-		while (j < map->line_len[i])
+		j = -1;
+		while (++j < m->line_len[i])
 		{
-			current_char = map->map[i][j];
+			current_char = m->map[i][j];
 			if (current_char == '0' || ft_strchr("NSEW", current_char))
-			{
-				if (is_invalid_neighbor(map, j + 1, i, num_rows)
-					|| is_invalid_neighbor(map, j - 1, i, num_rows)
-					|| is_invalid_neighbor(map, j, i + 1, num_rows)
-					|| is_invalid_neighbor(map, j, i - 1, num_rows))
-				{
-					ft_putstr_fd("Error\nMap not surrounded by walls\n", 2);
-					return (0);
-				}
-			}
-			j++;
+				if (neighbor(m, j + 1, i, r) || neighbor(m, j - 1, i, r)
+					|| neighbor(m, j, i + 1, r) || neighbor(m, j, i - 1, r))
+					return (p_err("Map not surrounded by walls"), 0);
 		}
-		i++;
 	}
 	return (1);
 }
@@ -112,28 +89,3 @@ int	validate_map(t_map *map)
 		return (0);
 	return (1);
 }
-
-// int	validate_map_characters(t_map *map)
-// {
-//     int	i;
-// 	int	j;
-
-//     i = 0;
-//     while (map->map[i])
-//     {
-//         j = 0;
-//         while (j < map->line_len[i])
-//         {
-//             if (map->map[i][j] != '0' && map->map[i][j] != '1' && 
-//                 map->map[i][j] != 'N' && map->map[i][j] != 'S' && 
-//                 map->map[i][j] != 'E' && map->map[i][j] != 'W' && 
-//                 map->map[i][j] != ' ')
-//             {
-//                 return (0);
-//             }
-//             j++;
-//         }
-//         i++;
-//     }
-//     return (1);
-// }
