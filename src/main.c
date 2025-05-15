@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/15 14:28:33 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:05:09 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,7 @@ int	main(int argc, char **argv)
 	if (!game.map.map || !game.map.no_path || !game.map.so_path
 		|| !game.map.we_path || !game.map.ea_path
 		|| game.map.floor_color == 0 || game.map.ceiling_color == 0)
-	{
 		return (1);
-	}
 	if (!validate_map(&game.map))
 	{
 		if (game.map.map)

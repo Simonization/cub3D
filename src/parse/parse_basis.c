@@ -6,13 +6,13 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:11:13 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/15 15:52:15 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:04:55 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	parsing_error(const char *msg)
+int	p_err(const char *msg)
 {
 	ft_putstr_fd("Error\n", 2);
 	ft_putstr_fd((char *)msg, 2);
@@ -71,34 +71,19 @@ t_map	parse_map(char *file_path)
 	map_content_start_index = 0;
 	line_count = count_lines(file_path);
 	if (line_count <= 0)
-		ft_exit(1, "Error\nFailed to read file or empty file\n", NULL);
+		ft_exit(1, "Failed to read file or empty file", NULL);
 	lines = read_file_to_array(file_path, line_count);
 	if (!lines)
-		ft_exit(1, "Error\nFailed to read file lines into array\n", NULL);
+		ft_exit(1, "Failed to read file lines into array", NULL);
 	if (!parse_texture_and_color_paths(lines, &map, &map_content_start_index))
 	{
-		// ft_putstr_fd("Error\nParsing texture & color failed.\n", 2);
 		free_array(lines);
 		ft_exit(1, NULL, &map);
 	}
 	if (!extract_map_data(lines, &map, map_content_start_index))
 	{
-		ft_putstr_fd("Error\nExtracting map data failed.\n", 2);
 		free_array(lines);
-		if (map.no_path)
-			free(map.no_path);
-		if (map.so_path)
-			free(map.so_path);
-		if (map.we_path)
-			free(map.we_path);
-		if (map.ea_path)
-			free(map.ea_path);
-		if (map.map)
-			free_array(map.map);
-		if (map.line_len)
-			free(map.line_len);
-		ft_bzero(&map, sizeof(t_map));
-		return (map);
+		ft_exit(1, NULL, &map);
 	}
 	free_array(lines);
 	return (map);

@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:44:12 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/15 14:49:56 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/15 17:01:53 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ typedef struct s_data
 }	t_data;
 
 // PARSING FUNCTIONS
-int parsing_error(const char *msg);
+int p_err(const char *msg);
 t_map	parse_map(char *file_path);
 int		is_map_line(char *line);
 int		extract_map_data(char **lines, t_map *map, int map_content_start_index);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RGB_validation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:09:45 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/09 13:50:46 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:07:41 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,14 @@ int	process_f_color(t_map *map, char *value_part)
 	char	*rgb_string;
 
 	if (map->floor_color_set)
-	{
-		return (parsing_error("Duplicate color identifier: F."));
-	}
+		return (p_err("Duplicate color identifier: F."));
 	rgb_string = ft_strtrim(value_part, " \t");
 	if (!rgb_string)
-	{
-		return (parsing_error("Memory alloc for F color trim failed."));
-	}
+		return (p_err("Memory alloc for F color trim failed."));
 	if (ft_strlen(rgb_string) == 0)
 	{
 		free(rgb_string);
-		return (parsing_error("Floor color value missing."));
+		return (p_err("Floor color value missing."));
 	}
 	if (!assign_rgb_color(&map->floor_color, rgb_string, &map->floor_color_set))
 	{
@@ -44,18 +40,14 @@ int	process_c_color(t_map *map, char *value_part)
 	char	*rgb_string;
 
 	if (map->ceiling_color_set)
-	{
-		return (parsing_error("Duplicate color identifier: C."));
-	}
+		return (p_err("Duplicate color identifier: C."));
 	rgb_string = ft_strtrim(value_part, " \t");
 	if (!rgb_string)
-	{
-		return (parsing_error("Memory alloc for C color trim failed."));
-	}
+		return (p_err("Memory alloc for C color trim failed."));
 	if (ft_strlen(rgb_string) == 0)
 	{
 		free(rgb_string);
-		return (parsing_error("Ceiling color value missing."));
+		return (p_err("Ceiling color value missing."));
 	}
 	if (!assign_rgb_color(&map->ceiling_color,
 			rgb_string, &map->ceiling_color_set))
@@ -145,11 +137,11 @@ int	assign_rgb_color(int *map_color_field,
 
 	trimmed_value_str = ft_strtrim(value_str, " \t");
 	if (!trimmed_value_str)
-		return (parsing_error("Memory allocation failed for color string."));
+		return (p_err("Memory allocation failed for color string."));
 	*map_color_field = parse_and_validate_rgb(trimmed_value_str);
 	free(trimmed_value_str);
 	if (*map_color_field == -1)
-		return (parsing_error("Invalid RGB color format or value."));
+		return (p_err("Invalid RGB color format or value."));
 	*is_set_flag = 1;
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:14:34 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/15 14:43:26 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:04:32 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	ft_exit(int n, char *message, t_map *map)
 		if (map->map)
 			free_array(map->map);
 	}
-	ft_putstr_fd(message, 2);
+	if (message)
+		p_err(message);
 	exit(n);
 }

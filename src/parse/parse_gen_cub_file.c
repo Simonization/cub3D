@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 13:01:38 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/15 14:25:00 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/15 17:01:53 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,21 @@ int	is_valid_xpm_path(const char *path)
 	ssize_t	bytes_read;
 
 	if (!path)
-		return (parsing_error("Texture path is NULL."));
+		return (p_err("Texture path is NULL."));
 	len = ft_strlen(path);
 	if (len <= 4 || ft_strncmp(path + len - 4, ".xpm", 4) != 0)
-		return (parsing_error("Texture file must have .xpm extension."));
+		return (p_err("Texture file must have .xpm extension."));
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
-		return (parsing_error("Texture file not found or permission denied."));
+		return (p_err("Texture file not found or permission denied."));
 	bytes_read = read(fd, buffer, sizeof(buffer) - 1);
 	close(fd);
 	if (bytes_read <= 0)
-		return (parsing_error("Texture file is empty or unreadable."));
+		return (p_err("Texture file is empty or unreadable."));
 	buffer[bytes_read] = '\0';
 	if (!(ft_strnstr(buffer, "XPM", bytes_read) != NULL \
 		&& ft_strnstr(buffer, "static char", bytes_read) != NULL))
-		return (parsing_error("Invalid XPM file content or format."));
+		return (p_err("Invalid XPM file content or format."));
 	return (1);
 }
 
