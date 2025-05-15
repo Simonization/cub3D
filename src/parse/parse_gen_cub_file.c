@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 13:01:38 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/09 13:48:35 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/12 19:08:52 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,11 @@ int	count_lines(char *file_path)
 	fd = open(file_path, O_RDONLY);
 	if (fd == -1)
 		return (-1);
+	printf("avant gnl check\n");
+	printf("gnl : %s\n", get_next_line(fd));
 	while ((line = get_next_line(fd)) != NULL)
 	{
+		printf("gnl check\n");
 		count++;
 		free(line);
 	}

@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:29:21 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/09 17:39:59 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/09 19:15:50 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,28 +112,3 @@ int	validate_map(t_map *map)
 		return (0);
 	return (1);
 }
-
-// int	validate_map_characters(t_map *map)
-// {
-//     int	i;
-// 	int	j;
-
-//     i = 0;
-//     while (map->map[i])
-//     {
-//         j = 0;
-//         while (j < map->line_len[i])
-//         {
-//             if (map->map[i][j] != '0' && map->map[i][j] != '1' && 
-//                 map->map[i][j] != 'N' && map->map[i][j] != 'S' && 
-//                 map->map[i][j] != 'E' && map->map[i][j] != 'W' && 
-//                 map->map[i][j] != ' ')
-//             {
-//                 return (0);
-//             }
-//             j++;
-//         }
-//         i++;
-//     }
-//     return (1);
-// }

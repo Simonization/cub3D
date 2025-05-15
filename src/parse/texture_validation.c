@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:09:05 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/09 18:52:17 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/12 21:25:02 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	parse_texture_and_color_paths(
 	while (lines[i] && elements_count < 6)
 	{
 		trimmed_line = ft_strtrim(lines[i], " \t\n");
+		printf("line[%d] : %s\ntrimmed : %s\n", i, lines[i], trimmed_line);
 		if (!trimmed_line)
 			return (parsing_error(
 					"Memory allocation failed while trimming line."));
@@ -72,6 +73,7 @@ int	parse_texture_and_color_paths(
 			success_flag = process_c_color(map, trimmed_line + 2);
 		else if (trimmed_line[0] != '\0' && !is_map_line(trimmed_line))
 		{
+			printf("trimmed line : %s\n", trimmed_line);
 			free(trimmed_line);
 			return (parsing_error(
 					"Invalid identifier or misplaced map content."));

@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:11:13 by slangero          #+#    #+#             */
-/*   Updated: 2025/05/09 17:24:47 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/12 19:31:16 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	**read_file_to_array(char *file_path, int line_count)
 	char	*line;
 	char	**lines;
 
-	lines = malloc(sizeof(char *) * (line_count + 1));
+	lines = ft_calloc(sizeof(char *), (line_count + 2));
 	if (!lines)
 		return (NULL);
 	fd = open(file_path, O_RDONLY);
@@ -52,8 +52,10 @@ char	**read_file_to_array(char *file_path, int line_count)
 	}
 	line = 0;
 	i = 0;
-	while ((line = get_next_line(fd)) != NULL && i < line_count)
+	printf("GNL\n");
+	while ((line = get_next_line(fd)) != NULL && i <= line_count)
 	{
+		printf("line : %s\n", line);
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
 		lines[i++] = line;
