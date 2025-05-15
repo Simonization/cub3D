@@ -6,7 +6,7 @@
 /*   By: slangero <slangero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:49:19 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/09 18:45:19 by slangero         ###   ########.fr       */
+/*   Updated: 2025/05/09 19:19:37 by slangero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,9 @@ void	move_player(t_data *g)
 	g->trigo.sin_l = sinf(g->p.angle - PI / 2);
 }
 
-to rotate player
+//to rotate player
 	// if (g->p.run)
 		// rotation_speed += 0.03f;
-
 //to run player
 	// if (g->p.run && !g->flag.crouch)
 		// speed = 10.0f;
