@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/12 00:38:15 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/19 01:24:41 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,13 @@
 # define SHIFT 65505
 # define BLOCK_SIZE 64
 # define PI 3.14159265359f
-# define RAY_STEPS (FOV / WIDTH)
-# define PROJECTION ((WIDTH / 2) / tan(FOV / 2.0f))
-# define X_CENTER WIDTH / 2
-# define Y_CENTER HEIGHT / 2
+# define X_CENTER 800
+# define Y_CENTER 450
 # define MINIMAP_SIZE 160
 # define TILES_SIZE 15
-# define MINIMAP_RADIUS ((MINIMAP_SIZE + 10) / 2) - 1
-# define MINIMAP_CENTER (MINIMAP_SIZE + (TILES_SIZE / 2)) / 2
-# define MINIMAP_PLAYER MINIMAP_CENTER + (TILES_SIZE / 2)
+# define MINIMAP_RADIUS 84
+# define MINIMAP_CENTER 83.75
+# define MINIMAP_PLAYER 86.75
 # define CROUCH 65507
 
 # include "libft.h"
@@ -49,7 +47,8 @@
 # include <stdbool.h>
 # include <sys/time.h>
 
-typedef struct s_img {
+typedef struct s_img
+{
 	void	*img;
 	char	*addr;
 	int		bpp;
@@ -104,7 +103,7 @@ typedef struct s_ray
 	float	wall_x;
 }	t_ray;
 
-typedef	struct s_player
+typedef struct s_player
 {
 	t_coord	co;
 	float	angle;
