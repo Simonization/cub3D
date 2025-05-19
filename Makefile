@@ -6,7 +6,7 @@
 #    By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/05/15 22:36:40 by agoldber         ###   ########.fr        #
+#    Updated: 2025/05/19 02:02:52 by agoldber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ COLOR_END		=	\033[0m
 DRAW_RAY_FILES	=	draw_ray draw_ray_utils
 MOVE_FILES		=	direction move
 PARSE_FILES		=	parse_basis parse_gen_cub_file parse_map parse_map_utils map_validation RGB_validation rgb_utils texture_validation process_textures
+P_BONUS_FILES	=	parse_basis_bonus parse_gen_cub_file_bonus parse_map_bonus parse_map_utils_bonus map_validation_bonus RGB_validation_bonus rgb_utils_bonus texture_validation_bonus process_textures_bonus
 RAY_BONUS_FILES	=	draw_ray_bonus draw_ray_utils_bonus
 MINIMAP_FILES	=	minimap_bonus minimap_shape_bonus
 MOVE_BONUS_FILES=	move_bonus vision_bonus direction_bonus
@@ -57,12 +58,13 @@ MOVE_BONUS_FILES=	move_bonus vision_bonus direction_bonus
 DRAW_RAY		=	${addprefix ${DRAW_RAY_DIR}, ${DRAW_RAY_FILES}}
 MOVE			=	${addprefix ${MOVE_DIR}, ${MOVE_FILES}}
 PARSE			=	${addprefix ${PARSE_DIR}, ${PARSE_FILES}}
+PARSE_BONUS		=	${addprefix ${PARSE_DIR}, ${P_BONUS_FILES}}
 DRAW_RAY_BONUS	=	${addprefix ${DRAW_RAY_DIR}, ${RAY_BONUS_FILES}}
 MINIMAP			=	${addprefix ${MINIMAP_DIR}, ${MINIMAP_FILES}}
 MOVE_BONUS		=	${addprefix ${MOVE_DIR}, ${MOVE_BONUS_FILES}}
 
 FILES			=	main hooks init init_player_orientation utils ${DRAW_RAY} ${MOVE} ${PARSE}
-FILES_BONUS		=	main_bonus hooks_bonus init_bonus utils_bonus weapon_bonus draw_xpm ${DRAW_RAY_BONUS} ${MOVE_BONUS} ${MINIMAP}
+FILES_BONUS		=	main_bonus hooks_bonus init_bonus player_init utils_bonus weapon_bonus weapon_init draw_xpm ${DRAW_RAY_BONUS} ${MOVE_BONUS} ${MINIMAP} ${PARSE_BONUS}
 
 SRCS			=	${addprefix ${SRCS_DIR}, ${addsuffix .c, ${FILES}}}
 SRCS_BONUS		=	${addprefix ${SRCS_BONUS_DIR}, ${addsuffix .c, ${FILES_BONUS}}}

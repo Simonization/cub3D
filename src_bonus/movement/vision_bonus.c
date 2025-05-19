@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:21:21 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/07 22:02:32 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/19 02:24:36 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	offset(t_flag *f, t_player *player, float delta_time)
 void	bobbing(t_data *game)
 {
 	if (!game->flag.jump && (game->p.up || game->p.down
-		|| game->p.left || game->p.right))
+			|| game->p.left || game->p.right))
 	{
 		game->flag.bobbing = sinf(game->flag.bob_steps) * 2.0f;
 		if (!game->p.run)

@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 16:14:34 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/12 00:54:15 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/19 01:44:49 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,26 @@ int	ft_close(t_data *game)
 	free(game->map.line_len);
 	exit(0);
 	return (0);
+}
+
+void	ft_exit(int n, char *message, t_map *map)
+{
+	if (map)
+	{
+		if (map->no_path)
+			free(map->no_path);
+		if (map->so_path)
+			free(map->so_path);
+		if (map->we_path)
+			free(map->we_path);
+		if (map->ea_path)
+			free(map->ea_path);
+		if (map->line_len)
+			free(map->line_len);
+		if (map->map)
+			free_array(map->map);
+	}
+	if (message)
+		p_err(message);
+	exit(n);
 }

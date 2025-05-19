@@ -6,13 +6,13 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 23:44:45 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/07 22:22:43 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/19 02:23:43 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
 
-static int	get_light(int color, float wall_distance)
+static int	light(int color, float wall_distance)
 {
 	float	intensity;
 	int		r;
@@ -56,7 +56,7 @@ static int	get_texture(t_img tex, int height, t_ray ray)
 	return (color);
 }
 
-static int	side_wall(t_data *g, int height)
+static int	s_w(t_data *g, int height)
 {
 	if (g->ray.side == 0)
 	{
@@ -74,34 +74,29 @@ static int	side_wall(t_data *g, int height)
 	}
 }
 
-t_coord	draw_walls(t_data *g, float wall_distance)
+t_coord	draw_walls(t_data *g, float w_d)
 {
-	int	i;
-	int	start;
-	int	end;
+	int		i;
+	int		s;
+	int		end;
 	t_coord	start_end;
-	int	color;
 
 	i = 0;
-	color = 0;
-	g->ray.wall_height = g->projection / wall_distance;
-	start = HEIGHT - g->ray.wall_height / (2 + g->flag.jump_offset)
+	g->ray.wall_height = g->projection / w_d;
+	s = HEIGHT - g->ray.wall_height / (2 + g->flag.jump_offset)
 		- (360 - g->flag.head_offset);
-	end = start + g->ray.wall_height;
-	start_end.x = start;
+	end = s + g->ray.wall_height;
+	start_end.x = s;
 	start_end.y = end;
-	while (i++ <= start)
+	while (i++ <= s)
 		put_pixel(&g->mlx.img, g->ray.col, i, g->map.ceiling_color);
-	i = start;
-	while (start++ < end)
+	i = s;
+	while (s++ < end)
 	{
-		if (start > 0 && start <= HEIGHT)
-		{
-			color = get_light(side_wall(g, start - i), wall_distance);
-			put_pixel(&g->mlx.img, g->ray.col, start, color);
-		}
+		if (s > 0 && s <= HEIGHT)
+			put_pixel(&g->mlx.img, g->ray.col, s, light(s_w(g, s - i), w_d));
 	}
-	while (start++ < HEIGHT)
-		put_pixel(&g->mlx.img, g->ray.col, start, g->map.floor_color);
+	while (s++ < HEIGHT)
+		put_pixel(&g->mlx.img, g->ray.col, s, g->map.floor_color);
 	return (start_end);
 }

@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:18:00 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/12 00:53:27 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/19 02:18:16 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,43 @@ static int	draw_game(t_data *game)
 	return (0);
 }
 
-int	main(void)
+void	print_error(char *message)
+{
+	ft_putstr_fd("Error\n", 2);
+	ft_putstr_fd(message, 2);
+	ft_putstr_fd("\n", 2);
+}
+
+int	validate_map_file(char *file_path)
+{
+	int	len;
+	int	fd;
+
+	len = ft_strlen(file_path);
+	if (len < 5 || ft_strncmp(file_path + len - 4, ".cub", 4) != 0)
+		return (print_error("File must have .cub extension"), 0);
+	if (access(file_path, F_OK) == -1)
+		return (print_error("File does not exist"), 0);
+	if (access(file_path, R_OK) == -1)
+		return (print_error("Permission denied: cannot read file"), 0);
+	fd = open(file_path, O_RDONLY);
+	if (fd == -1)
+		return (print_error("Failed to open file"), 0);
+	close(fd);
+	return (1);
+}
+
+int	main(int argc, char **argv)
 {
 	t_data	game;
 
-	game.map = get_map();
+	if (argc != 2)
+		return (print_error("Usage: ./cub3D <map.cub>"), 1);
+	if (!validate_map_file(argv[1]))
+		return (1);
+	game.map = parse_map(argv[1]);
+	if (!validate_map(&game.map))
+		ft_exit(1, NULL, &game.map);
 	windows_init(&game.mlx, &game);
 	player_init(&game.p, get_player_pos(game.map));
 	init_utils(&game);

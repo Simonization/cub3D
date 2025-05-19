@@ -6,7 +6,7 @@
 /*   By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 18:42:57 by agoldber          #+#    #+#             */
-/*   Updated: 2025/05/19 01:24:41 by agoldber         ###   ########.fr       */
+/*   Updated: 2025/05/19 02:17:19 by agoldber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define TILES_SIZE 15
 # define MINIMAP_RADIUS 84
 # define MINIMAP_CENTER 83.75
-# define MINIMAP_PLAYER 86.75
+# define MINIMAP_PLAYER 90
 # define CROUCH 65507
 
 # include "libft.h"
@@ -73,9 +73,10 @@ typedef struct s_mlx
 
 typedef struct s_coordinates
 {
-	int	x;
-	int	y;
-	int	color;
+	int		x;
+	int		y;
+	char	orientation;
+	int		color;
 }	t_coord;
 
 typedef struct s_ray
@@ -193,16 +194,54 @@ typedef struct s_data
 	int				img_size;
 }	t_data;
 
+// PARSING FUNCTIONS
+int		p_err(const char *msg);
+t_map	parse_map(char *file_path);
+int		is_map_line(char *line);
+int		fill_map(t_map *map, int j, int map_lines_count, char **lines);
+int		extract_map_data(char **lines, t_map *map, int map_content_start_index);
+void	initialize_map_config_flags(t_map *map);
+int		count_lines(char *file_path);
+int		is_valid_xpm_path(const char *path);
+
+// MAP VALIDATION
+int		validate_player_position(t_map *map);
+int		validate_map_walls(t_map *map);
+int		validate_map(t_map *map);
+
+// RGB VALIDATION
+int		process_f_color(t_map *map, char *value_part);
+int		process_c_color(t_map *map, char *value_part);
+int		is_valid_rgb_component(char *component);
+int		parse_and_validate_rgb(char *rgb_string);
+int		assign_rgb_color(int *field, const char *value_str, int *is_set_flag);
+
+// TEXTURE VALIDATION
+int		assign_texture_path(char **path, const char *path_value, int *is_set);
+int		parse_texture_and_color_paths(char **lines, t_map *map, int *start);
+int		process_no_texture(t_map *map, char *value_part);
+int		process_so_texture(t_map *map, char *value_part);
+int		process_we_texture(t_map *map, char *value_part);
+int		process_ea_texture(t_map *map, char *value_part);
+
 //DRAW RAY
 void	draw_ray(t_data *game);
 t_coord	draw_walls(t_data *g, float wall_distance);
+
 //INIT
 t_map	get_map(void);
 void	windows_init(t_mlx *mlx, t_data *game);
+
 t_coord	get_player_pos(t_map map);
+void	north_orientation(t_player *p);
+void	south_orientation(t_player *p);
+void	east_orientation(t_player *p);
+void	west_orientation(t_player *p);
 void	player_init(t_player *player, t_coord pos);
+
 void	init_utils(t_data *game);
-int		weapon_init(t_data *game);
+void	weapon_init(t_data *game);
+
 //HOOKS
 int		released_key(int keycode, t_data *game);
 int		pressed_key(int keycode, t_data *game);
@@ -229,4 +268,6 @@ void	put_pixel(t_img *img, int x, int y, int color);
 void	put_fps(t_data *game);
 void	change_fov(t_data *g);
 void	draw_xpm(t_data *g, t_img *i, t_coord dst, int scale);
+void	ft_exit(int n, char *message, t_map *map);
+void	print_error(char *message);
 #endif
