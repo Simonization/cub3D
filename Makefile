@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: agoldber <agoldber@student.s19.be>         +#+  +:+       +#+         #
+#    By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/04 13:52:09 by agoldber          #+#    #+#              #
-#    Updated: 2025/05/19 02:02:52 by agoldber         ###   ########.fr        #
+#    Updated: 2025/05/19 17:05:27 by agoldber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,11 +83,11 @@ OBJSF_BONUS		=	.cache_exists_bonus
 all: check
 
 check: ${NAME}
-			@echo "${BGREEN}\nEverything up to date${COLOR_END}";
+			@echo -e "${BGREEN}\nEverything up to date${COLOR_END}";
 
 ${NAME}: ${LIBFT} ${OBJS}
 			@${CC} ${OBJS} ${LIBFT} ${MLX_LIB} -o ${NAME}
-			@echo "\n${BGREEN}Cub3D compiled!${COLOR_END}"
+			@echo -e "\n${BGREEN}Cub3D compiled!${COLOR_END}"
 
 ${LIBFT}:
 			@make -C libft/
@@ -97,7 +97,7 @@ ${LIBFT}:
 ${OBJS_DIR}%.o : ${SRCS_DIR}%.c | ${OBJSF}
 			@mkdir -p $(dir $@)
 			@${CC} ${C_FLAGS} -c $< -o $@
-			@PROGRESS=$$(echo "$$(find ${OBJS_DIR} -type f | wc -l | tr -d ' ') * 100 / ${TOTAL_FILES}" | bc); \
+			@PROGRESS=$$(echo -e "$$(find ${OBJS_DIR} -type f | wc -l | tr -d ' ') * 100 / ${TOTAL_FILES}" | bc); \
 			BAR=$$(seq -s "▇" 0 $$((PROGRESS / 2)) | tr -d '[:digit:]'); \
 			SPACES=$$(seq -s " " 0 $$((50 - PROGRESS / 2)) | tr -d '[:digit:]'); \
 			CURRENT_FILES=$$(find ${OBJS_DIR} -type f | wc -l | tr -d ' '); \
@@ -111,27 +111,27 @@ clean:
 			@${RM} ${OBJSF}
 			@${RM} ${OBJS_BONUS_DIR}
 			@${RM} ${OBJSF_BONUS}
-			@echo "${BCYAN}.o files cleaned!${COLOR_END}"
+			@echo -e "${BCYAN}.o files cleaned!${COLOR_END}"
 
 fclean:	clean
 			@${RM} ${NAME}
 			@${RM} ${NAME_BONUS}
 			@${RM} ${LIBFT}
-			@echo "${BBLUE}.a files cleaned!${COLOR_END}"
+			@echo -e "${BBLUE}.a files cleaned!${COLOR_END}"
 
 re:		fclean all
 
 bonus: ${NAME_BONUS}
-			@echo "${BGREEN}\nEverything up to date${COLOR_END}";
+			@echo -e "${BGREEN}\nEverything up to date${COLOR_END}";
 
 ${NAME_BONUS}: ${LIBFT} ${OBJS_BONUS}
 			@${CC} ${OBJS_BONUS} ${LIBFT} ${MLX_LIB} -o ${NAME_BONUS}
-			@echo "\n${BGREEN}Bonus compiled!${COLOR_END}"
+			@echo -e "\n${BGREEN}Bonus compiled!${COLOR_END}"
 			
 ${OBJS_BONUS_DIR}%.o : ${SRCS_BONUS_DIR}%.c | ${OBJSF_BONUS}
 			@mkdir -p $(dir $@)
 			@${CC} ${C_FLAGS} -c $< -o $@
-			@PROGRESS=$$(echo "$$(find ${OBJS_BONUS_DIR} -type f | wc -l | tr -d ' ') * 100 / ${TOT_FILES_BONUS}" | bc); \
+			@PROGRESS=$$(echo -e "$$(find ${OBJS_BONUS_DIR} -type f | wc -l | tr -d ' ') * 100 / ${TOT_FILES_BONUS}" | bc); \
 			BAR=$$(seq -s "▇" 0 $$((PROGRESS / 2)) | tr -d '[:digit:]'); \
 			SPACES=$$(seq -s " " 0 $$((50 - PROGRESS / 2)) | tr -d '[:digit:]'); \
 			CURRENT_FILES=$$(find ${OBJS_BONUS_DIR} -type f | wc -l | tr -d ' '); \

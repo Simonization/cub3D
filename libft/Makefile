@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: slangero <slangero@student.42.fr>          +#+  +:+       +#+         #
+#    By: agoldber < agoldber@student.s19.be >       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/27 09:39:13 by agoldber          #+#    #+#              #
-#    Updated: 2025/05/06 11:36:50 by slangero         ###   ########.fr        #
+#    Updated: 2025/05/19 17:06:03 by agoldber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,7 +89,7 @@ all:		${NAME}
 
 ${NAME}:	${OBJS}
 			@${AR} ${NAME} ${OBJS}
-			@echo "\n${BGREEN}Libft compiled!${COLOR_END}"
+			@echo -e "\n${BGREEN}Libft compiled!${COLOR_END}"
 
 COMPILED_FILES=0
 
@@ -118,11 +118,11 @@ ${OBJSF}:
 clean:
 			@${RM} ${OBJS_DIR}
 			@${RM} ${OBJSF}
-			@echo "${BCYAN}Libft .o files cleaned!${COLOR_END}"
+			@echo -e "${BCYAN}Libft .o files cleaned!${COLOR_END}"
 
 fclean:		clean
 			@${RM} ${NAME}
-			@echo "${BBLUE}Libft .a files cleaned!${COLOR_END}"
+			@echo -e "${BBLUE}Libft .a files cleaned!${COLOR_END}"
 
 re:			fclean all
 
